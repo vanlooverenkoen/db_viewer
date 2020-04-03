@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+
+class StyledTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hint;
+  final ValueChanged<String> onChanged;
+  final TextAlign textAlign;
+  final TextInputType inputType;
+
+  const StyledTextField({
+    @required this.controller,
+    @required this.onChanged,
+    this.hint,
+    this.textAlign = TextAlign.start,
+    this.inputType = TextInputType.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      cursorColor: Theme.of(context).accentColor,
+      decoration: InputDecoration(
+        filled: true,
+        hintText: hint ?? '',
+      ),
+      keyboardType: inputType,
+      textAlign: textAlign,
+      onChanged: onChanged,
+      controller: controller,
+    );
+  }
+}

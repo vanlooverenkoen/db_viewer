@@ -1,0 +1,19 @@
+name: moor_db_viewer
+description: A package to view your moor database
+version: 0.0.1
+homepage: https://github.com/vanlooverenkoen/moor_db_viewer
+
+environment:
+  sdk: ">=2.2.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  moor_flutter: ^2.1.1
+  provider: ^4.0.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
