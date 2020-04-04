@@ -45,12 +45,14 @@ class MoorTableViewerViewModel with ChangeNotifier {
           'SELECT COUNT(*) FROM ${_table.actualTableName}',
           readsFrom: {_table}).get();
       totalResults = result1.first.data['COUNT(*)'];
-      // todo find a better way to acces the database for no this is fine
 
       final sqlQuery =
           'SELECT * FROM ${_table.actualTableName} ${_filteredData.getWhere()} ${_filteredData.getLimit()}';
 //      print(sqlQuery);
+
       final result =
+      // todo find a better way to acces the database for no this is fine
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           await _db.customSelectQuery(sqlQuery, readsFrom: {_table}).get();
       final _newData = result.map((item) => item.data).toList();
       final _correctDisplayData = _filteredData.removeColumns(_newData);

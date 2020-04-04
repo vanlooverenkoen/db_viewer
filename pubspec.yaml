@@ -1,5 +1,5 @@
 name: moor_db_viewer
-description: A package to view your moor database
+description: A package to view your moor database in your own app with filtering and without the need of exporting your db file.
 version: 0.0.2
 homepage: https://github.com/vanlooverenkoen/moor_db_viewer
 
