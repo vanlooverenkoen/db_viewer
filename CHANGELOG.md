@@ -1,3 +1,8 @@
+## [0.0.3] - 04-04-2020
+### Fixed
+- Description is now longer
+- Fixed some pub.dev scoring issues.
+
 ## [0.0.2] - 04-04-2020
 #Added:
 - A refresh button on the table viewer
