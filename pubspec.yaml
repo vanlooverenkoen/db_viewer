@@ -1,6 +1,6 @@
 name: moor_db_viewer
 description: A package to view your moor database
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/vanlooverenkoen/moor_db_viewer
 
 environment:

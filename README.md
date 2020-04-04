@@ -1,14 +1,43 @@
-# moordbviewer
+# moor_db_viewer
 
-A package to view your moor database
+[![pub package](https://img.shields.io/pub/v/moor_db_viewer.svg)](https://pub.dartlang.org/packages/moor_db_viewer)
 
-## Getting Started
+## Example
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+<img src="https://github.com/vanlooverenkoen/moor_db_viewer/blob/master/assets/example.gif?raw=true" alt="Example" width="300"/>
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Setup
+
+### Add dependency to pubspec
+
+[![pub package](https://img.shields.io/pub/v/moor_db_viewer.svg)](https://pub.dartlang.org/packages/moor_db_viewer)
+```
+dependencies:
+  moor_db_viewer: <latest-version>
+```
+
+### Use it
+
+Push a new route. The child will be the `MoorDbViewer` and pass your database to this screen.
+```
+final db = MyDatabase(); //This should be a singleton
+Navigator.of(context).push(MaterialPageRoute(builder: (context) => MoorDbViewer(db)));
+```
+
+## Moor Config
+
+### Using named columns
+
+When using named columns you should add a @JsonKey to the column otherwise we won't be able to hide this table
+```
+class Todos extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get title => text().withLength(min: 6, max: 32)();
+
+  @JsonKey('body') //This is required for the moor_db_viewer. 
+  TextColumn get content => text().named('body')();
+
+  IntColumn get category => integer().nullable()();
+}```
+
