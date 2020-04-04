@@ -16,16 +16,21 @@ class MoorTableListViewerWidget extends StatefulWidget {
   MoorTableListViewerWidget(this.db, this.canPop);
 
   @override
-  _MoorTableListViewerWidgetState createState() => _MoorTableListViewerWidgetState();
+  _MoorTableListViewerWidgetState createState() =>
+      _MoorTableListViewerWidgetState();
 }
 
-class _MoorTableListViewerWidgetState extends State<MoorTableListViewerWidget> implements MoorTableListViewerNavigator {
+class _MoorTableListViewerWidgetState extends State<MoorTableListViewerWidget>
+    implements MoorTableListViewerNavigator {
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<MoorTableListViewerViewModel>(
       consumer: (context, viewModel, child) => Scaffold(
         appBar: AppBar(
-          leading: widget.canPop ? StyledBackButton(onBackClicked: DbViewerNavigator.of(context).goBack) : Container(),
+          leading: widget.canPop
+              ? StyledBackButton(
+                  onBackClicked: DbViewerNavigator.of(context).goBack)
+              : Container(),
           title: Text('Tables'),
         ),
         body: ListView.builder(
@@ -45,5 +50,6 @@ class _MoorTableListViewerWidgetState extends State<MoorTableListViewerWidget> i
   }
 
   @override
-  void goToTableDetail(TableInfo<moor.Table, DataClass> table) => DbViewerNavigator.of(context).goToTableDetail(table);
+  void goToTableDetail(TableInfo<moor.Table, DataClass> table) =>
+      DbViewerNavigator.of(context).goToTableDetail(table);
 }

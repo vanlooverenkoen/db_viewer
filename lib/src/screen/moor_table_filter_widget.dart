@@ -22,7 +22,8 @@ class MoorTableFilterWidget extends StatefulWidget {
   _MoorTableFilterWidgetState createState() => _MoorTableFilterWidgetState();
 }
 
-class _MoorTableFilterWidgetState extends State<MoorTableFilterWidget> implements MoorTableFilterNavigator {
+class _MoorTableFilterWidgetState extends State<MoorTableFilterWidget>
+    implements MoorTableFilterNavigator {
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<MoorTableFilterViewModel>(
@@ -45,17 +46,20 @@ class _MoorTableFilterWidgetState extends State<MoorTableFilterWidget> implement
                 key: ValueKey(filterItem),
                 filterItem: filterItem,
                 onRemove: () => viewModel.onRemove(filterItem),
-                onEnableFilterChanged: (value) => viewModel.onEnableFilterChanged(filterItem, value),
+                onEnableFilterChanged: (value) =>
+                    viewModel.onEnableFilterChanged(filterItem, value),
               )
           ],
         ),
       ),
-      create: () => MoorTableFilterViewModel(this, widget.db, widget.table, widget.filterData),
+      create: () => MoorTableFilterViewModel(
+          this, widget.db, widget.table, widget.filterData),
     );
   }
 
   @override
-  void goBack(FilterData filterData) => DbViewerNavigator.of(context).goBack(result: filterData);
+  void goBack(FilterData filterData) =>
+      DbViewerNavigator.of(context).goBack(result: filterData);
 
   @override
   void goToFilterSelector() {

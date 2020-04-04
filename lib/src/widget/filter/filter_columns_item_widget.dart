@@ -23,13 +23,15 @@ class FilterColumnsItemWidget extends StatelessWidget {
             height: 350,
             child: ListView.builder(
               itemCount: viewModel.columns.length,
-              itemBuilder: (context, index) => getItem(context, viewModel, viewModel.columns[index]),
+              itemBuilder: (context, index) =>
+                  getItem(context, viewModel, viewModel.columns[index]),
             ),
           );
         }
         return flutter.Column(
           children: [
-            for (final column in viewModel.columns) getItem(context, viewModel, column),
+            for (final column in viewModel.columns)
+              getItem(context, viewModel, column),
           ],
         );
       },
@@ -42,7 +44,8 @@ class FilterColumnsItemWidget extends StatelessWidget {
   }
 }
 
-Widget getItem(BuildContext context, FilterColumnsViewModel viewModel, GeneratedColumn column) {
+Widget getItem(BuildContext context, FilterColumnsViewModel viewModel,
+    GeneratedColumn column) {
   return SingleSelectableFilterItem.checkbox(
     value: viewModel.isColumnSelected(column),
     title: Text(column.$name),

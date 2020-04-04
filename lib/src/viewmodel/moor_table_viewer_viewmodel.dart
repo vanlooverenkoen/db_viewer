@@ -21,11 +21,13 @@ class MoorTableViewerViewModel with ChangeNotifier {
 
   bool get hasColumns => hasData && _filteredDataList[0].keys.isNotEmpty;
 
-  String get title => '${_table.entityName} ($totalResults-${_filteredDataList.length})';
+  String get title =>
+      '${_table.entityName} ($totalResults-${_filteredDataList.length})';
 
   String get tableName => _table.entityName;
 
-  Future<void> init(MoorTableViewerNavigator navigator, GeneratedDatabase db, TableInfo<moor.Table, DataClass> table) async {
+  Future<void> init(MoorTableViewerNavigator navigator, GeneratedDatabase db,
+      TableInfo<moor.Table, DataClass> table) async {
     _navigator = navigator;
     _db = db;
     _table = table;
@@ -35,7 +37,9 @@ class MoorTableViewerViewModel with ChangeNotifier {
   Future<void> _getData() async {
     // todo find a better way to acces the database for no this is fine
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    final result1 = await _db.customSelectQuery('SELECT COUNT(*) FROM ${_table.actualTableName}', readsFrom: {_table}).get();
+    final result1 = await _db.customSelectQuery(
+        'SELECT COUNT(*) FROM ${_table.actualTableName}',
+        readsFrom: {_table}).get();
     totalResults = result1.first.data['COUNT(*)'];
     // todo find a better way to acces the database for no this is fine
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
@@ -68,5 +72,6 @@ class MoorTableViewerViewModel with ChangeNotifier {
 }
 
 abstract class MoorTableViewerNavigator {
-  void goToFilter(TableInfo<moor.Table, DataClass> table, FilterData _filteredData);
+  void goToFilter(
+      TableInfo<moor.Table, DataClass> table, FilterData _filteredData);
 }

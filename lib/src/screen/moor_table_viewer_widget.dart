@@ -19,7 +19,8 @@ class MoorTableViewerWidget extends StatefulWidget {
   _MoorTableViewerWidgetState createState() => _MoorTableViewerWidgetState();
 }
 
-class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget> implements MoorTableViewerNavigator {
+class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget>
+    implements MoorTableViewerNavigator {
   final _key = GlobalKey();
 
   @override
@@ -38,8 +39,14 @@ class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget> implement
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {
-            if (!viewModel.hasColumns && viewModel.hasData) return Center(child: Text('No columns selected for the`${viewModel.tableName}` table'));
-            if (!viewModel.hasData) return Center(child: Text('No data added to the `${viewModel.tableName}` table'));
+            if (!viewModel.hasColumns && viewModel.hasData)
+              return Center(
+                  child: Text(
+                      'No columns selected for the`${viewModel.tableName}` table'));
+            if (!viewModel.hasData)
+              return Center(
+                  child: Text(
+                      'No data added to the `${viewModel.tableName}` table'));
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SingleChildScrollView(
@@ -68,14 +75,18 @@ class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget> implement
           },
         ),
       ),
-      create: () => MoorTableViewerViewModel()..init(this, Provider.of<GlobalViewModel>(context).db, widget.table),
+      create: () => MoorTableViewerViewModel()
+        ..init(this, Provider.of<GlobalViewModel>(context).db, widget.table),
     );
   }
 
   @override
-  Future<void> goToFilter(TableInfo<moor.Table, DataClass> table, FilterData filteredData) async {
-    final newFilterData = await DbViewerNavigator.of(context).goToTableFilter(table, filteredData);
+  Future<void> goToFilter(
+      TableInfo<moor.Table, DataClass> table, FilterData filteredData) async {
+    final newFilterData = await DbViewerNavigator.of(context)
+        .goToTableFilter(table, filteredData);
     if (newFilterData == null) return;
-    Provider.of<MoorTableViewerViewModel>(_key.currentContext, listen: false).updateFilter(newFilterData);
+    Provider.of<MoorTableViewerViewModel>(_key.currentContext, listen: false)
+        .updateFilter(newFilterData);
   }
 }

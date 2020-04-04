@@ -18,12 +18,13 @@ class FilterData {
     filters.remove(filterItem);
   }
 
-  bool containsFilters() => filters.where((filter) => filter.isEnabled).isNotEmpty;
+  bool containsFilters() =>
+      filters.where((filter) => filter.isEnabled).isNotEmpty;
 
   List<Map<String, dynamic>> applyFilter(List<Map<String, dynamic>> newData) {
     var data = newData;
-    for(final filter in filters){
-      if(filter.isEnabled){
+    for (final filter in filters) {
+      if (filter.isEnabled) {
         data = filter.applyFilter(data);
       }
     }

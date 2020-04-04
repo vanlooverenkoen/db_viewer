@@ -8,7 +8,8 @@ class MoorTableListViewerViewModel with ChangeNotifier {
 
   List<TableInfo<moor.Table, DataClass>> tables;
 
-  Future<void> init(MoorTableListViewerNavigator navigator, GeneratedDatabase databaseAccessor) async {
+  Future<void> init(MoorTableListViewerNavigator navigator,
+      GeneratedDatabase databaseAccessor) async {
     _navigator = navigator;
     _databaseAccessor = databaseAccessor;
     _getTables();

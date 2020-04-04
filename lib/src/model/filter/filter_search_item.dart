@@ -13,7 +13,10 @@ class FilterSearchItem extends FilterItem {
 
   @override
   List<Map<String, dynamic>> applyFilter(List<Map<String, dynamic>> data) {
-    if (_column == null || _searchQuery == null || _column.isEmpty || _searchQuery.isEmpty) return data;
+    if (_column == null ||
+        _searchQuery == null ||
+        _column.isEmpty ||
+        _searchQuery.isEmpty) return data;
 
     data.removeWhere((item) {
       if (!item.containsKey(_column)) return true;

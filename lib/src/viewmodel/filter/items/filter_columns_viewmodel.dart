@@ -22,7 +22,8 @@ class FilterColumnsViewModel with ChangeNotifier {
 
   List<GeneratedColumn> get columns => _table.$columns;
 
-  bool isColumnSelected(GeneratedColumn column) => _filterItem.isColumnShown(column);
+  bool isColumnSelected(GeneratedColumn column) =>
+      _filterItem.isColumnShown(column);
 
   void onColumnSelectionChanged(GeneratedColumn column, bool value) {
     _filterItem.setColumnShown(column, value);

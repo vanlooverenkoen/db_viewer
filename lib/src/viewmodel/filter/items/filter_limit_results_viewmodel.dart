@@ -34,7 +34,8 @@ class FilterLimitResultsViewModel with ChangeNotifier {
       final parsedInt = int.parse(stringIntValue);
       _filterItem.setLimit(parsedInt);
       controller.text = parsedInt.toString();
-      controller.selection = TextSelection.fromPosition(TextPosition(offset: parsedInt.toString().length));
+      controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: parsedInt.toString().length));
       notifyListeners();
     } catch (e) {
       print(e);

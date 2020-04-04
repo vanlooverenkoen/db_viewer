@@ -43,7 +43,8 @@ class FilterItemWidget extends StatelessWidget {
                   filterItem: filterItem,
                 );
               }
-              throw ArgumentError('invalid filteritem ${filterItem.runtimeType}');
+              throw ArgumentError(
+                  'invalid filteritem ${filterItem.runtimeType}');
             },
           ),
         ),
@@ -53,5 +54,6 @@ class FilterItemWidget extends StatelessWidget {
 
   void _onDismissed(DismissDirection direction) => onRemove();
 
-  Future<bool> confirmDismiss(DismissDirection direction) async => filterItem.canBeDismissed;
+  Future<bool> confirmDismiss(DismissDirection direction) async =>
+      filterItem.canBeDismissed;
 }

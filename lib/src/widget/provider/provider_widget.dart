@@ -4,9 +4,11 @@ import 'package:provider/provider.dart';
 class ProviderWidget<T extends ChangeNotifier> extends StatelessWidget {
   final T Function() create;
   final Widget child;
-  final Widget Function(BuildContext context, T viewModel) childBuilderWithViewModel;
+  final Widget Function(BuildContext context, T viewModel)
+      childBuilderWithViewModel;
   final Widget consumerChild;
-  final Widget Function(BuildContext context, T viewModel, Widget child) consumer;
+  final Widget Function(BuildContext context, T viewModel, Widget child)
+      consumer;
   final bool lazy;
 
   const ProviderWidget({
@@ -34,7 +36,8 @@ class ProviderWidget<T extends ChangeNotifier> extends StatelessWidget {
           } else if (childBuilderWithViewModel != null) {
             return childBuilderWithViewModel(context, Provider.of<T>(context));
           }
-          throw ArgumentError('childBuilder, childBuilderWithViewModel or consumer should be passed');
+          throw ArgumentError(
+              'childBuilder, childBuilderWithViewModel or consumer should be passed');
         },
       ),
       create: (context) => create(),

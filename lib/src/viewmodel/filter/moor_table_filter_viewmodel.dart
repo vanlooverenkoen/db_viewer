@@ -64,7 +64,8 @@ class MoorTableFilterViewModel with ChangeNotifier {
   void changePositionOfFilters(int oldIndex, int newIndex) {
     final oldItem = filterData.filters[oldIndex];
     final newItem = filterData.filters[newIndex];
-    if (oldItem is FilterLimitResultsItem || newItem is FilterLimitResultsItem) {
+    if (oldItem is FilterLimitResultsItem ||
+        newItem is FilterLimitResultsItem) {
       //does nothing;
     } else if (oldItem is FilterColumnsItem || newItem is FilterColumnsItem) {
       //does nothing;

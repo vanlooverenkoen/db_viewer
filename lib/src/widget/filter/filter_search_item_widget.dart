@@ -25,7 +25,10 @@ class FilterSearchItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            StyledTextField(controller: viewModel.controller, hint: 'Enter search query', onChanged: viewModel.onSearchQueryChanged),
+            StyledTextField(
+                controller: viewModel.controller,
+                hint: 'Enter search query',
+                onChanged: viewModel.onSearchQueryChanged),
             Container(height: ThemeDimens.padding8),
             Text('Select Column:'),
             getColumns(context, viewModel),
@@ -58,12 +61,14 @@ class FilterSearchItemWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        for (final column in viewModel.columns) getItem(context, viewModel, column),
+        for (final column in viewModel.columns)
+          getItem(context, viewModel, column),
       ],
     );
   }
 
-  Widget getItem(BuildContext context, FilterSearchViewModel viewModel, GeneratedColumn column) {
+  Widget getItem(BuildContext context, FilterSearchViewModel viewModel,
+      GeneratedColumn column) {
     return SingleSelectableFilterItem.checkmark(
       value: viewModel.isColumnSelected(column),
       title: Text(column.$name),
