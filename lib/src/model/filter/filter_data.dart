@@ -21,7 +21,8 @@ class FilterData {
     filters.remove(filterItem);
   }
 
-  bool containsFilters() => filters.where((filter) => filter.isEnabled).isNotEmpty;
+  bool containsFilters() =>
+      filters.where((filter) => filter.isEnabled).isNotEmpty;
 
   List<Map<String, dynamic>> removeColumns(List<Map<String, dynamic>> newData) {
     var data = newData;
@@ -35,20 +36,25 @@ class FilterData {
 
   String getWhere() {
     var where = '';
-    final searchItems = filters.where((filter) => filter.isEnabled && filter is FilterSearchItem && filter.hasFilter).map((filter) => filter as FilterSearchItem).toList();
+    final searchItems = filters
+        .where((filter) =>
+            filter.isEnabled && filter is FilterSearchItem && filter.hasFilter)
+        .map((filter) => filter as FilterSearchItem)
+        .toList();
     for (var i = 0; i < searchItems.length; ++i) {
       final filter = searchItems[i];
       where += filter.getWhereClause();
       if (i != searchItems.length - 1) where += ' AND ';
     }
-    if(where.isNotEmpty){
+    if (where.isNotEmpty) {
       where = 'WHERE $where';
     }
     return where;
   }
 
   String getLimit() {
-    final filterItem = filters.firstWhere((filter) => filter.isEnabled && filter is FilterLimitResultsItem);
+    final filterItem = filters.firstWhere(
+        (filter) => filter.isEnabled && filter is FilterLimitResultsItem);
     if (filterItem is FilterLimitResultsItem) {
       return 'LIMIT ${filterItem.limit}';
     }

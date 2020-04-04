@@ -11,7 +11,11 @@ class FilterSearchItem extends FilterItem {
 
   String get columnName => _columnName;
 
-  bool get hasFilter => _columnName != null && _searchQuery != null && _columnName.isNotEmpty && _searchQuery.isNotEmpty;
+  bool get hasFilter =>
+      _columnName != null &&
+      _searchQuery != null &&
+      _columnName.isNotEmpty &&
+      _searchQuery.isNotEmpty;
 
   void onUpdateSearchQuery(String searchQuery) {
     _searchQuery = searchQuery;
