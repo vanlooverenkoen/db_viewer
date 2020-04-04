@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   MyDatabase get db => DbUtil.db;
   var _dbViewerOpen = false;
+  var text = '';
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('clear db'),
                     onPressed: _clearDb,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: TextField(
+                      onChanged: _onTextFieldChanged,
+                    ),
+                  )
                 ],
               ),
             ],
@@ -103,46 +110,68 @@ class _HomeScreenState extends State<HomeScreen> {
     await (db.delete(db.categories)..where((item) => item.id.equals(first.id))).go();
   }
 
-  Future<void> _addCategory() async {
-    await addCategory();
-  }
-
   void _onFabClicked() {
     setState(() {
       _dbViewerOpen = !_dbViewerOpen;
     });
   }
 
+  Future<void> _addCategory() async {
+    await addCategory([createCategory()]);
+  }
+
+  Future<void> _addTodo() async {
+    _addTodos([createTodo()]);
+  }
+
   Future<void> _add100Todos() async {
+    final list = List<TodosCompanion>();
     for (var i = 0; i < 100; i++) {
-      await _addTodo();
+      list.add(createTodo());
     }
+    _addTodos(list);
   }
 
   Future<void> _add10000Todos() async {
     print('STARTED');
+    final list = List<TodosCompanion>();
     for (var i = 0; i < 10000; i++) {
-      await _addTodo();
+      list.add(createTodo());
     }
+    _addTodos(list);
     print('SAVED');
   }
 
   Future<void> _add1000000Todos() async {
     print('STARTED');
+    final list = List<TodosCompanion>();
     for (var i = 0; i < 1000000; i++) {
-      await _addTodo();
+      list.add(createTodo());
     }
+    _addTodos(list);
     print('SAVED');
   }
 
-  Future<void> _addTodo() async {
-    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-    await db.into(db.todos).insert(TodosCompanion.insert(title: 'TODO: ${DateTime.now().microsecondsSinceEpoch.toString()}', content: 'COntent'));
+  TodosCompanion createTodo() {
+    return TodosCompanion.insert(title: '$text - TODO: ${DateTime.now().microsecondsSinceEpoch.toString()}', content: text);
   }
 
-  Future<void> addCategory() async {
+  CategoriesCompanion createCategory() {
+    return CategoriesCompanion.insert(description: '$text - Category: ${DateTime.now().microsecondsSinceEpoch.toString()}');
+  }
+
+  Future<void> _addTodos(List<TodosCompanion> list) async {
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-    await db.into(db.categories).insert(CategoriesCompanion.insert(description: 'Category: ${DateTime.now().microsecondsSinceEpoch.toString()}'));
+    await db.batch((batch) {
+      batch.insertAll(db.todos, list);
+    });
+  }
+
+  Future<void> addCategory(List<CategoriesCompanion> list) async {
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+    await db.batch((batch) {
+      batch.insertAll(db.categories, list);
+    });
   }
 
   Future<void> _clearDb() async {
@@ -150,5 +179,9 @@ class _HomeScreenState extends State<HomeScreen> {
     await db.delete(db.todos).go();
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     await db.delete(db.categories).go();
+  }
+
+  void _onTextFieldChanged(String value) {
+    text = value;
   }
 }

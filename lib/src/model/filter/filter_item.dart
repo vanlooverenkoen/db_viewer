@@ -1,3 +1,5 @@
+import 'package:moor_flutter/moor_flutter.dart';
+
 abstract class FilterItem {
   String get name;
 
@@ -8,6 +10,4 @@ abstract class FilterItem {
   bool get isEnabled => _isEnabled;
 
   void setEnabled(bool value) => _isEnabled = value;
-
-  List<Map<String, dynamic>> applyFilter(List<Map<String, dynamic>> data);
 }

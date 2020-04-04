@@ -1,4 +1,5 @@
 import 'package:moor_db_viewer/src/model/filter/filter_item.dart';
+import 'package:moor_flutter/moor_flutter.dart';
 
 class FilterLimitResultsItem extends FilterItem {
   var _limit = 20;
@@ -10,12 +11,6 @@ class FilterLimitResultsItem extends FilterItem {
 
   @override
   bool get canBeDismissed => false;
-
-  @override
-  List<Map<String, dynamic>> applyFilter(List<Map<String, dynamic>> data) {
-    if (data.length < _limit) return data;
-    return data.sublist(0, _limit);
-  }
 
   void setLimit(int limit) => _limit = limit;
 }

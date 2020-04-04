@@ -41,7 +41,7 @@ class FilterSearchViewModel with ChangeNotifier {
   }
 
   bool isColumnSelected(GeneratedColumn column) =>
-      _filterItem.column == column.$name;
+      _filterItem.columnName == column.$name;
 
   @override
   void dispose() {
