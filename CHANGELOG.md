@@ -1,15 +1,20 @@
+## [1.0.0] - 04-04-2020
+### Fixed
+- Updated the Changelog with better formatting
+- Updated gif
+
 ## [0.0.3] - 04-04-2020
 ### Fixed
 - Description is now longer
 - Fixed some pub.dev scoring issues.
 
 ## [0.0.2] - 04-04-2020
-#Added:
+### Added:
 - A refresh button on the table viewer
 - Gif to indicate what the packages does.
 - Added readme instructions
 
-#Fixed: 
+### Fixed: 
 - Filtering is now done at database level
 - Fixed a bug where the wrong screen was used as entry point
 - Renamed the example folder
@@ -17,7 +22,7 @@
 - Updated the description (for pub.dev scoring)
 
 ## [0.0.1] - 04-04-2020 
-Initial release
+### Initial release
 
 features:
 - select table

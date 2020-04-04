@@ -153,11 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   TodosCompanion createTodo() {
-    return TodosCompanion.insert(title: '$text - TODO: ${DateTime.now().microsecondsSinceEpoch.toString()}', content: text);
+    return TodosCompanion.insert(title: '$text title', content: '$text content');
   }
 
   CategoriesCompanion createCategory() {
-    return CategoriesCompanion.insert(description: '$text - Category: ${DateTime.now().microsecondsSinceEpoch.toString()}');
+    return CategoriesCompanion.insert(description: '$text - description');
   }
 
   Future<void> _addTodos(List<TodosCompanion> list) async {
