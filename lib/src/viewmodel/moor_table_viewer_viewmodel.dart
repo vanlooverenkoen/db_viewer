@@ -49,7 +49,7 @@ class MoorTableViewerViewModel with ChangeNotifier {
 
       final sqlQuery =
           'SELECT * FROM ${_table.actualTableName} ${_filteredData.getWhere()} ${_filteredData.getLimit()}';
-      print(sqlQuery);
+//      print(sqlQuery);
       final result =
           await _db.customSelectQuery(sqlQuery, readsFrom: {_table}).get();
       final _newData = result.map((item) => item.data).toList();
