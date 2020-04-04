@@ -39,5 +39,6 @@ class Todos extends Table {
   TextColumn get content => text().named('body')();
 
   IntColumn get category => integer().nullable()();
-}```
+}
+```
 
