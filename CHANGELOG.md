@@ -1,4 +1,4 @@
-## [0.0.1] - 04-04-2020
+## [0.0.2] - 04-04-2020
 #Added:
 - A refresh button on the table viewer
 - Gif to indicate what the packages does.
