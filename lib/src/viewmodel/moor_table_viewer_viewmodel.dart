@@ -51,8 +51,8 @@ class MoorTableViewerViewModel with ChangeNotifier {
 //      print(sqlQuery);
 
       final result =
-      // todo find a better way to acces the database for no this is fine
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+          // todo find a better way to acces the database for no this is fine
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           await _db.customSelectQuery(sqlQuery, readsFrom: {_table}).get();
       final _newData = result.map((item) => item.data).toList();
       final _correctDisplayData = _filteredData.removeColumns(_newData);
