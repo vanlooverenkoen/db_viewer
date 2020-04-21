@@ -3,30 +3,32 @@ import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
-import 'package:moor_db_viewer/src/viewmodel/moor_table_viewer_viewmodel.dart';
+import 'package:moor_db_viewer/src/viewmodel/moor_table_content_list_viewer_viewmodel.dart';
 import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 import 'package:provider/provider.dart';
 
-class MoorTableViewerWidget extends StatefulWidget {
-  static const routeName = 'moor-table-detail';
+class MoorTableContentListViewerWidget extends StatefulWidget {
+  static const routeName = 'moor-table-content-list';
 
   final TableInfo<moor.Table, DataClass> table;
 
-  MoorTableViewerWidget(this.table);
+  MoorTableContentListViewerWidget(this.table);
 
   @override
-  _MoorTableViewerWidgetState createState() => _MoorTableViewerWidgetState();
+  _MoorTableContentListViewerWidgetState createState() =>
+      _MoorTableContentListViewerWidgetState();
 }
 
-class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget>
+class _MoorTableContentListViewerWidgetState
+    extends State<MoorTableContentListViewerWidget>
     implements MoorTableViewerNavigator {
-  final _key = GlobalKey();
+  final _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<MoorTableViewerViewModel>(
+    return ProviderWidget<MoorTableContentListViewerViewModel>(
       consumer: (context, viewModel, child) => Scaffold(
         key: _key,
         appBar: AppBar(
@@ -84,6 +86,7 @@ class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget>
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
+                  columnSpacing: 0,
                   columns: [
                     for (final item in viewModel.data[0].keys)
                       DataColumn(
@@ -91,15 +94,31 @@ class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget>
                       ),
                   ],
                   rows: [
-                    ...viewModel.data.map((item) => DataRow(
-                          cells: [
-                            ...item.keys.map(
-                              (key) => DataCell(
-                                Text(item[key].toString()),
+                    ...viewModel.data.map(
+                      (item) => DataRow(
+                        cells: [
+                          ...item.keys.map(
+                            (key) => DataCell(
+                              GestureDetector(
+                                child: Container(
+                                  color: Colors.transparent,
+                                  height: ThemeDimens.padding48,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: ThemeDimens.padding32),
+                                    child: Center(
+                                        child: Text(item[key].toString())),
+                                  ),
+                                ),
+                                onLongPress: () =>
+                                    viewModel.onLongPressValue(item[key]),
+                                onTap: () => viewModel.onItemClicked(item),
                               ),
                             ),
-                          ],
-                        )),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -107,7 +126,7 @@ class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget>
           },
         ),
       ),
-      create: () => MoorTableViewerViewModel()
+      create: () => MoorTableContentListViewerViewModel()
         ..init(this, Provider.of<GlobalViewModel>(context).db, widget.table),
     );
   }
@@ -118,7 +137,22 @@ class _MoorTableViewerWidgetState extends State<MoorTableViewerWidget>
     final newFilterData = await DbViewerNavigator.of(context)
         .goToTableFilter(table, filteredData);
     if (newFilterData == null) return;
-    Provider.of<MoorTableViewerViewModel>(_key.currentContext, listen: false)
+    Provider.of<MoorTableContentListViewerViewModel>(_key.currentContext,
+            listen: false)
         .updateFilter(newFilterData);
+  }
+
+  @override
+  void goToItemDetail(
+          TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data) =>
+      DbViewerNavigator.of(context).goToTableItemDetail(table, data);
+
+  @override
+  void showToast(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      behavior: SnackBarBehavior.floating,
+    );
+    _key.currentState.showSnackBar(snackBar);
   }
 }

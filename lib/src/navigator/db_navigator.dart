@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/model/tuple.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_filter_widget.dart';
+import 'package:moor_db_viewer/src/screen/moor_table_item_detail_viewer_widget.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_list_viewer_widget.dart';
-import 'package:moor_db_viewer/src/screen/moor_table_viewer_widget.dart';
+import 'package:moor_db_viewer/src/screen/moor_table_content_list_viewer_widget.dart';
 import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
@@ -58,10 +59,15 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
         return MaterialPageRoute(
             builder: (context) => MoorTableListViewerWidget(db, canPop),
             settings: settings);
-      case MoorTableViewerWidget.routeName:
+      case MoorTableContentListViewerWidget.routeName:
         final table = settings.arguments as TableInfo<moor.Table, DataClass>;
         return MaterialPageRoute(
-            builder: (context) => MoorTableViewerWidget(table),
+            builder: (context) => MoorTableContentListViewerWidget(table),
+            settings: settings);
+      case MoorTableItemDetailViewerWidget.routeName:
+        final table = settings.arguments as ItemDetailArgument;
+        return MaterialPageRoute(
+            builder: (context) => MoorTableItemDetailViewerWidget(table),
             settings: settings);
       case MoorTableFilterWidget.routeName:
         final tuple = settings.arguments
@@ -81,9 +87,16 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
   void goToTableList() => _navigationKey.currentState
       .pushNamed(MoorTableListViewerWidget.routeName);
 
-  void goToTableDetail(TableInfo<moor.Table, DataClass> table) =>
-      _navigationKey.currentState
-          .pushNamed(MoorTableViewerWidget.routeName, arguments: table);
+  void goToTableContentList(TableInfo<moor.Table, DataClass> table) =>
+      _navigationKey.currentState.pushNamed(
+          MoorTableContentListViewerWidget.routeName,
+          arguments: table);
+
+  void goToTableItemDetail(
+          TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data) =>
+      _navigationKey.currentState.pushNamed(
+          MoorTableItemDetailViewerWidget.routeName,
+          arguments: ItemDetailArgument(table, data));
 
   Future<FilterData> goToTableFilter(
           TableInfo<moor.Table, DataClass> table, FilterData filterData) =>

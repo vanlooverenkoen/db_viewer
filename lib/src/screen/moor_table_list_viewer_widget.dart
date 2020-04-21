@@ -51,5 +51,5 @@ class _MoorTableListViewerWidgetState extends State<MoorTableListViewerWidget>
 
   @override
   void goToTableDetail(TableInfo<moor.Table, DataClass> table) =>
-      DbViewerNavigator.of(context).goToTableDetail(table);
+      DbViewerNavigator.of(context).goToTableContentList(table);
 }

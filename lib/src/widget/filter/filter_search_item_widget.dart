@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
+import 'package:moor_db_viewer/src/app_constants.dart';
 import 'package:moor_db_viewer/src/model/filter/filter_search_item.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/items/filter_search_viewmodel.dart';
@@ -45,9 +46,9 @@ class FilterSearchItemWidget extends StatelessWidget {
   }
 
   Widget getColumns(BuildContext context, FilterSearchViewModel viewModel) {
-    if (viewModel.columns.length > 20) {
+    if (viewModel.columns.length > AppConstants.MAX_ITEMS) {
       return Container(
-        height: 350,
+        height: MediaQuery.of(context).size.height,
         child: ListView.builder(
           itemCount: viewModel.columns.length,
           itemBuilder: (context, index) {
