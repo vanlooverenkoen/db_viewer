@@ -1,3 +1,13 @@
+## [1.1.0] - 21-04-2020
+### Added
+- Caching support:
+    - Only for 1 session
+    - In memory caching
+- Deselect all columns
+- Select all columns
+- Copy to clipboard on Long Clicks
+- Simple detail screen
+
 ## [1.0.0] - 04-04-2020
 ### Fixed
 - Updated the Changelog with better formatting

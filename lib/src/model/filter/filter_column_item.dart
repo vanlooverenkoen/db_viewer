@@ -29,4 +29,8 @@ class FilterColumnsItem extends FilterItem {
     });
     return data;
   }
+
+  selectAll() => columns.keys.forEach((column) => columns[column] = true);
+
+  deselectAll() => columns.keys.forEach((column) => columns[column] = false);
 }

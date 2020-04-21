@@ -17,7 +17,7 @@ class ExpandableFilterItem extends StatefulWidget {
     @required this.title,
     @required this.onEnabledChanged,
     @required this.enabled,
-    this.backgroundColor = ThemeColors.backgroundGrey,
+    this.backgroundColor = ThemeColors.white,
     Key key,
   }) : super(key: key);
 

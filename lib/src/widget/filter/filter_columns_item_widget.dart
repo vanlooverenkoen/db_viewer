@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
+import 'package:moor_db_viewer/src/app_constants.dart';
 import 'package:moor_db_viewer/src/model/filter/filter_column_item.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/items/filter_columns_viewmodel.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
@@ -18,20 +19,45 @@ class FilterColumnsItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderWidget<FilterColumnsViewModel>(
       consumer: (context, viewModel, child) {
-        if (viewModel.columns.length > 20) {
-          return Container(
-            height: 350,
-            child: ListView.builder(
-              itemCount: viewModel.columns.length,
-              itemBuilder: (context, index) =>
-                  getItem(context, viewModel, viewModel.columns[index]),
-            ),
-          );
-        }
         return flutter.Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            for (final column in viewModel.columns)
-              getItem(context, viewModel, column),
+            Row(
+              children: [
+                Expanded(
+                  child: FlatButton(
+                    child: Text('select all'),
+                    onPressed: viewModel.selectAll,
+                  ),
+                ),
+                Expanded(
+                  child: FlatButton(
+                    child: Text('deselect all'),
+                    onPressed: viewModel.deselectAll,
+                  ),
+                ),
+              ],
+            ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                if (viewModel.columns.length > AppConstants.MAX_ITEMS) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                      itemCount: viewModel.columns.length,
+                      itemBuilder: (context, index) =>
+                          getItem(context, viewModel, viewModel.columns[index]),
+                    ),
+                  );
+                }
+                return flutter.Column(
+                  children: [
+                    for (final column in viewModel.columns)
+                      getItem(context, viewModel, column),
+                  ],
+                );
+              },
+            ),
           ],
         );
       },

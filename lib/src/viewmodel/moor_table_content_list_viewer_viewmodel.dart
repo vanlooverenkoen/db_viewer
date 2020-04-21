@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
+import 'package:moor_db_viewer/src/repo/caching/caching_repository.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 
-class MoorTableViewerViewModel with ChangeNotifier {
+class MoorTableContentListViewerViewModel with ChangeNotifier {
   GeneratedDatabase _db;
   MoorTableViewerNavigator _navigator;
   TableInfo<moor.Table, DataClass> _table;
+  final cachingRepo = CachingRepository.instance();
 
   final _data = List<Map<String, dynamic>>();
   var _filteredData = FilterData();
@@ -32,6 +35,7 @@ class MoorTableViewerViewModel with ChangeNotifier {
     _navigator = navigator;
     _db = db;
     _table = table;
+    _filteredData = cachingRepo.getFilterDataForTable(_table.entityName);
     _getData();
   }
 
@@ -73,12 +77,28 @@ class MoorTableViewerViewModel with ChangeNotifier {
   void updateFilter(FilterData filterData) {
     _data.clear();
     _filteredData = filterData;
+    cachingRepo.updateFilterData(_table.entityName, filterData);
     notifyListeners();
     _getData();
+  }
+
+  void onLongPressValue(item) {
+    final clipboardData = ClipboardData(text: item.toString());
+    Clipboard.setData(clipboardData);
+    _navigator.showToast('Copied `${item.toString()}` to your clipboard');
+  }
+
+  void onItemClicked(Map<String, dynamic> data) {
+    _navigator.goToItemDetail(_table, data);
   }
 }
 
 abstract class MoorTableViewerNavigator {
   void goToFilter(
       TableInfo<moor.Table, DataClass> table, FilterData _filteredData);
+
+  void goToItemDetail(
+      TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data);
+
+  void showToast(String message);
 }

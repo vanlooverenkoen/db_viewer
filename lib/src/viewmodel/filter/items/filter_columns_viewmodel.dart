@@ -29,4 +29,14 @@ class FilterColumnsViewModel with ChangeNotifier {
     _filterItem.setColumnShown(column, value);
     notifyListeners();
   }
+
+  void selectAll() {
+    _filterItem.selectAll();
+    notifyListeners();
+  }
+
+  void deselectAll() {
+    _filterItem.deselectAll();
+    notifyListeners();
+  }
 }
