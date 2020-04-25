@@ -1,3 +1,7 @@
+## [1.3.0] - 25-04-2020
+### Fixed
+- example Gif
+
 ## [1.2.0] - 25-04-2020
 ### Added
 - Better date support
