@@ -10,10 +10,12 @@ class MoorTableFilterEditSqlScreen extends StatefulWidget {
   MoorTableFilterEditSqlScreen(this.query);
 
   @override
-  _MoorTableFilterEditSqlScreenState createState() => _MoorTableFilterEditSqlScreenState();
+  _MoorTableFilterEditSqlScreenState createState() =>
+      _MoorTableFilterEditSqlScreenState();
 }
 
-class _MoorTableFilterEditSqlScreenState extends State<MoorTableFilterEditSqlScreen> {
+class _MoorTableFilterEditSqlScreenState
+    extends State<MoorTableFilterEditSqlScreen> {
   TextEditingController _controller;
 
   @override
@@ -47,5 +49,6 @@ class _MoorTableFilterEditSqlScreenState extends State<MoorTableFilterEditSqlScr
     );
   }
 
-  void _onSaveClicked() => DbViewerNavigator.of(context).goBack(result: _controller.text);
+  void _onSaveClicked() =>
+      DbViewerNavigator.of(context).goBack(result: _controller.text);
 }

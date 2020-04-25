@@ -20,8 +20,10 @@ class ExpandableWhereItem extends StatelessWidget {
       key: ValueKey(whereClause.id),
       direction: DismissDirection.horizontal,
       onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart || direction == DismissDirection.startToEnd) {
-          Provider.of<MoorTableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause);
+        if (direction == DismissDirection.endToStart ||
+            direction == DismissDirection.startToEnd) {
+          Provider.of<MoorTableFilterViewModel>(context, listen: false)
+              .onDismissWhereClause(whereClause);
         }
       },
       child: Card(

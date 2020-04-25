@@ -42,11 +42,13 @@ class WhereStringWidget extends StatelessWidget {
 
   void _onChange(BuildContext context, String value) {
     whereClause.updateQuery(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<MoorTableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 
   void _onChangedType(BuildContext context, StringWhereType value) {
     whereClause.onSelectedType(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<MoorTableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 }

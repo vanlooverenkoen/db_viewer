@@ -30,7 +30,8 @@ class MoorTableItemDetailViewerViewModel with ChangeNotifier {
 
   int get amountOfColumns => _data.keys.length;
 
-  Future<void> init(MoorTableItemDetailViewerNavigator navigator, ItemDetailArgument arguments) async {
+  Future<void> init(MoorTableItemDetailViewerNavigator navigator,
+      ItemDetailArgument arguments) async {
     _navigator = navigator;
     _data = arguments.data;
     _table = arguments.table;

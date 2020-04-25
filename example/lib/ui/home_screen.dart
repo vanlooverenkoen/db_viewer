@@ -92,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onGoToDbViewerClicked() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MoorDbViewer(db)));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => MoorDbViewer(db)));
   }
 
   Future<void> _removeTodo() async {

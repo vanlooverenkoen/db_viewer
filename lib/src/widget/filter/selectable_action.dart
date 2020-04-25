@@ -46,7 +46,9 @@ class SelectableAction extends StatelessWidget {
                 child: Text(text),
               ),
               duration: ThemeDurations.shortAnimationDuration(),
-              style: selected ? TextStyle(color: textColor) : TextStyle(color: accentColor),
+              style: selected
+                  ? TextStyle(color: textColor)
+                  : TextStyle(color: accentColor),
             ),
           ),
         ),

@@ -20,8 +20,7 @@ class MoorTableItemDetailScreen extends StatefulWidget {
       _MoorTableItemDetailScreenState();
 }
 
-class _MoorTableItemDetailScreenState
-    extends State<MoorTableItemDetailScreen>
+class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
     implements MoorTableItemDetailViewerNavigator {
   final _key = GlobalKey<ScaffoldState>();
 

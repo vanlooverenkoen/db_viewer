@@ -29,7 +29,8 @@ class DateWhereClause extends WhereClause {
 
   @override
   String getSqlWhereClause() {
-    final sqlDate = DateTime(date.year,date.month, date.day, time.hour, time.minute);
+    final sqlDate =
+        DateTime(date.year, date.month, date.day, time.hour, time.minute);
     final dateTimeParser = DateTimeType();
     final sqlValue = dateTimeParser.mapToSqlVariable(sqlDate);
     if (dateWhereType == DateWhereType.BEFORE) {

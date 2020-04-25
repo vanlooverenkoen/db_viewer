@@ -53,7 +53,8 @@ class WhereDateWidget extends StatelessWidget {
 
   void _onChangedType(BuildContext context, DateWhereType value) {
     whereClause.onSelectedType(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<MoorTableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 
   Future<void> _onTapDate(BuildContext context) async {
@@ -65,7 +66,8 @@ class WhereDateWidget extends StatelessWidget {
     );
     if (picked != null && picked != whereClause.date) {
       whereClause.updateSelectedDate(picked);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+      Provider.of<MoorTableFilterViewModel>(context, listen: false)
+          .onUpdatedWhereClause();
     }
   }
 
@@ -76,7 +78,8 @@ class WhereDateWidget extends StatelessWidget {
     );
     if (picked != null && picked != whereClause.time) {
       whereClause.updateSelectedTime(picked);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+      Provider.of<MoorTableFilterViewModel>(context, listen: false)
+          .onUpdatedWhereClause();
     }
   }
 }

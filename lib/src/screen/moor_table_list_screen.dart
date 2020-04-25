@@ -16,8 +16,7 @@ class MoorTableListScreen extends StatefulWidget {
   MoorTableListScreen(this.db, this.canPop);
 
   @override
-  _MoorTableListScreenState createState() =>
-      _MoorTableListScreenState();
+  _MoorTableListScreenState createState() => _MoorTableListScreenState();
 }
 
 class _MoorTableListScreenState extends State<MoorTableListScreen>

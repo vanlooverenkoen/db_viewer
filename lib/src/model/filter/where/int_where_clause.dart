@@ -21,10 +21,13 @@ class IntWhereClause extends WhereClause {
   @override
   String getSqlWhereClause() {
     if (_query.isEmpty) return '';
-    if (_intWhereType == IntWhereType.CONTAINS) return ' $columnName LIKE \'%$_query%\'';
+    if (_intWhereType == IntWhereType.CONTAINS)
+      return ' $columnName LIKE \'%$_query%\'';
     if (_intWhereType == IntWhereType.EQUALS) return ' $columnName = $_query';
-    if (_intWhereType == IntWhereType.GREATER_THAN) return ' $columnName > $_query';
-    if (_intWhereType == IntWhereType.LESS_THAN) return ' $columnName < $_query';
+    if (_intWhereType == IntWhereType.GREATER_THAN)
+      return ' $columnName > $_query';
+    if (_intWhereType == IntWhereType.LESS_THAN)
+      return ' $columnName < $_query';
     return '';
   }
 

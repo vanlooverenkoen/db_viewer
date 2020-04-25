@@ -20,8 +20,10 @@ class StringWhereClause extends WhereClause {
   @override
   String getSqlWhereClause() {
     if (_query.isEmpty) return '';
-    if (_stringWhereType == StringWhereType.CONTAINS) return ' $columnName LIKE \'%$_query%\'';
-    if (_stringWhereType == StringWhereType.EQUALS) return ' $columnName = \'$_query\'';
+    if (_stringWhereType == StringWhereType.CONTAINS)
+      return ' $columnName LIKE \'%$_query%\'';
+    if (_stringWhereType == StringWhereType.EQUALS)
+      return ' $columnName = \'$_query\'';
     return '';
   }
 

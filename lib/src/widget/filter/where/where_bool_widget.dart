@@ -34,6 +34,7 @@ class WhereBoolWidget extends StatelessWidget {
 
   void _onChanged(BuildContext context, bool value) {
     whereClause.onSelectedChanged(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<MoorTableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 }

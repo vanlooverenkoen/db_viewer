@@ -24,7 +24,8 @@ class FilterData {
 
   bool get asc => _asc;
 
-  bool get hasCustomQuery => _selectQuery != 'SELECT * FROM $tableName LIMIT 20';
+  bool get hasCustomQuery =>
+      _selectQuery != 'SELECT * FROM $tableName LIMIT 20';
 
   bool get isEditedQuery => _customSqlQuery != null;
 
@@ -85,7 +86,10 @@ class FilterData {
 
     sb.write(' FROM $tableName');
 
-    final sqlWhereClauses = whereClauses.map((item) => item.getSqlWhereClause()).where((item) => item.isNotEmpty).toList();
+    final sqlWhereClauses = whereClauses
+        .map((item) => item.getSqlWhereClause())
+        .where((item) => item.isNotEmpty)
+        .toList();
 
     if (sqlWhereClauses.isNotEmpty) {
       sb.write(' WHERE');
@@ -164,7 +168,8 @@ class FilterData {
 
   void onWhereColumnSelected(String columnName) {
     if (!_tableInfo.columnsByName.containsKey(columnName)) return;
-    final detail = _tableInfo.$columns.where((item) => item.$name == columnName).first;
+    final detail =
+        _tableInfo.$columns.where((item) => item.$name == columnName).first;
     if (detail is GeneratedTextColumn) {
       _whereClauses.add(StringWhereClause(columnName));
     } else if (detail is GeneratedIntColumn) {

@@ -35,7 +35,8 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 
   String get tableName => _table.entityName;
 
-  Future<void> init(MoorTableViewerNavigator navigator, GeneratedDatabase db, TableInfo<moor.Table, DataClass> table) async {
+  Future<void> init(MoorTableViewerNavigator navigator, GeneratedDatabase db,
+      TableInfo<moor.Table, DataClass> table) async {
     _navigator = navigator;
     _db = db;
     _table = table;
@@ -49,7 +50,9 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
       notifyListeners();
       // todo find a better way to acces the database for no this is fine
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      final countStream = _db.customSelectQuery('SELECT COUNT(*) FROM ${_table.actualTableName}', readsFrom: {_table}).watch();
+      final countStream = _db.customSelectQuery(
+          'SELECT COUNT(*) FROM ${_table.actualTableName}',
+          readsFrom: {_table}).watch();
       _subscriptionCount?.cancel();
       _subscriptionCount = countStream.listen((data) {
         totalResults = data.first.data['COUNT(*)'];
@@ -72,7 +75,8 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
         newData.forEach((item) {
           final map = Map<String, dynamic>();
           item.keys.forEach((key) {
-            final columns = _table.$columns.where((column) => column.$name == key);
+            final columns =
+                _table.$columns.where((column) => column.$name == key);
             final column = columns.isEmpty ? null : columns.first;
             if (column is GeneratedDateTimeColumn) {
               final value = item[key];
@@ -132,9 +136,11 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 }
 
 abstract class MoorTableViewerNavigator {
-  void goToFilter(TableInfo<moor.Table, DataClass> table, FilterData _filteredData);
+  void goToFilter(
+      TableInfo<moor.Table, DataClass> table, FilterData _filteredData);
 
-  void goToItemDetail(TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data);
+  void goToItemDetail(
+      TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data);
 
   void showToast(String message);
 }

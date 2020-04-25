@@ -21,10 +21,14 @@ class DoubleWhereClause extends WhereClause {
   @override
   String getSqlWhereClause() {
     if (_query.isEmpty) return '';
-    if (_intWhereType == DoubleWhereType.CONTAINS) return ' $columnName LIKE \'%$_query%\'';
-    if (_intWhereType == DoubleWhereType.EQUALS) return ' $columnName = $_query';
-    if (_intWhereType == DoubleWhereType.GREATER_THAN) return ' $columnName > $_query';
-    if (_intWhereType == DoubleWhereType.LESS_THAN) return ' $columnName < $_query';
+    if (_intWhereType == DoubleWhereType.CONTAINS)
+      return ' $columnName LIKE \'%$_query%\'';
+    if (_intWhereType == DoubleWhereType.EQUALS)
+      return ' $columnName = $_query';
+    if (_intWhereType == DoubleWhereType.GREATER_THAN)
+      return ' $columnName > $_query';
+    if (_intWhereType == DoubleWhereType.LESS_THAN)
+      return ' $columnName < $_query';
     return '';
   }
 

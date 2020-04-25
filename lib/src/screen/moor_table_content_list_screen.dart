@@ -17,10 +17,12 @@ class MoorTableContentListScreen extends StatefulWidget {
   MoorTableContentListScreen(this.table);
 
   @override
-  _MoorTableContentListScreenState createState() => _MoorTableContentListScreenState();
+  _MoorTableContentListScreenState createState() =>
+      _MoorTableContentListScreenState();
 }
 
-class _MoorTableContentListScreenState extends State<MoorTableContentListScreen> implements MoorTableViewerNavigator {
+class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
+    implements MoorTableViewerNavigator {
   final _key = GlobalKey<ScaffoldState>();
 
   @override
@@ -48,7 +50,9 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
                     width: ThemeDimens.padding8,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: viewModel.hasCustomQuery ? Theme.of(context).accentColor : Colors.transparent,
+                      color: viewModel.hasCustomQuery
+                          ? Theme.of(context).accentColor
+                          : Colors.transparent,
                     ),
                   ),
                 )
@@ -58,10 +62,20 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {
-            if (viewModel.error != null) return Center(child: Text(viewModel.error));
-            if (!viewModel.hasColumns && viewModel.hasData) return Center(child: Text('No columns selected for the`${viewModel.tableName}` table'));
-            if (!viewModel.hasData && viewModel.hasCustomQuery) return Center(child: Text('No data found for your current filter on the `${viewModel.tableName}` table'));
-            if (!viewModel.hasData) return Center(child: Text('No data added to the `${viewModel.tableName}` table'));
+            if (viewModel.error != null)
+              return Center(child: Text(viewModel.error));
+            if (!viewModel.hasColumns && viewModel.hasData)
+              return Center(
+                  child: Text(
+                      'No columns selected for the`${viewModel.tableName}` table'));
+            if (!viewModel.hasData && viewModel.hasCustomQuery)
+              return Center(
+                  child: Text(
+                      'No data found for your current filter on the `${viewModel.tableName}` table'));
+            if (!viewModel.hasData)
+              return Center(
+                  child: Text(
+                      'No data added to the `${viewModel.tableName}` table'));
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SingleChildScrollView(
@@ -85,7 +99,8 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
                                   color: Colors.transparent,
                                   height: ThemeDimens.padding48,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(right: ThemeDimens.padding32),
+                                    padding: const EdgeInsets.only(
+                                        right: ThemeDimens.padding32),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
@@ -94,7 +109,8 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
                                     ),
                                   ),
                                 ),
-                                onLongPress: () => viewModel.onLongPressValue(item[key]),
+                                onLongPress: () =>
+                                    viewModel.onLongPressValue(item[key]),
                                 onTap: () => viewModel.onItemClicked(item),
                               ),
                             ),
@@ -109,19 +125,26 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
           },
         ),
       ),
-      create: () => MoorTableContentListViewerViewModel()..init(this, Provider.of<GlobalViewModel>(context).db, widget.table),
+      create: () => MoorTableContentListViewerViewModel()
+        ..init(this, Provider.of<GlobalViewModel>(context).db, widget.table),
     );
   }
 
   @override
-  Future<void> goToFilter(TableInfo<moor.Table, DataClass> table, FilterData filteredData) async {
-    final newFilterData = await DbViewerNavigator.of(context).goToTableFilter(table, filteredData);
+  Future<void> goToFilter(
+      TableInfo<moor.Table, DataClass> table, FilterData filteredData) async {
+    final newFilterData = await DbViewerNavigator.of(context)
+        .goToTableFilter(table, filteredData);
     if (newFilterData == null) return;
-    Provider.of<MoorTableContentListViewerViewModel>(_key.currentContext, listen: false).updateFilter(newFilterData);
+    Provider.of<MoorTableContentListViewerViewModel>(_key.currentContext,
+            listen: false)
+        .updateFilter(newFilterData);
   }
 
   @override
-  void goToItemDetail(TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data) => DbViewerNavigator.of(context).goToTableItemDetail(table, data);
+  void goToItemDetail(
+          TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data) =>
+      DbViewerNavigator.of(context).goToTableItemDetail(table, data);
 
   @override
   void showToast(String message) {
