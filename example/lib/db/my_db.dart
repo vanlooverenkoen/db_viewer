@@ -58,7 +58,7 @@ LazyDatabase _openConnection() => LazyDatabase(() async {
 //      if (file.existsSync()) {
 //        file.deleteSync();
 //      }
-      return VmDatabase(file);
+      return VmDatabase(file, logStatements: true);
     });
 
 @UseMoor(tables: [Todos, Users])

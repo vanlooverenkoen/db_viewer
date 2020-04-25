@@ -1,7 +1,7 @@
-## [1.2.0] - 21-04-2020
+## [1.2.0] - 25-04-2020
 ### Added
 - Better date support
-- Reworked the filtering screen completely with a more user friendly UI
+- Reworked the filtering screen completely with better UX
 
 ## [1.1.0] - 21-04-2020
 ### Added
