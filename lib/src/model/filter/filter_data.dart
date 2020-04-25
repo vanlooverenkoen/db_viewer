@@ -18,11 +18,15 @@ class FilterData {
   Map<String, bool> _selectColumns;
   List<WhereClause> _whereClauses = List<WhereClause>();
 
+  String _customSqlQuery;
+
   int get limit => _limit;
 
   bool get asc => _asc;
 
   bool get hasCustomQuery => _selectQuery != 'SELECT * FROM $tableName LIMIT 20';
+
+  bool get isEditedQuery => _customSqlQuery != null;
 
   String get tableName => _tableInfo.entityName;
 
@@ -57,6 +61,10 @@ class FilterData {
   }
 
   void createSqlQuery() {
+    if (isEditedQuery) {
+      _selectQuery = _customSqlQuery;
+      return;
+    }
     final sb = StringBuffer('SELECT');
     if (areAllColumnsSelected) {
       sb.write(' *');
@@ -127,6 +135,7 @@ class FilterData {
     final map = Map<String, bool>();
     _selectColumns.forEach((key, value) => map[key] = value);
     filterData._selectColumns = map;
+    filterData._customSqlQuery = _customSqlQuery;
     filterData._asc = _asc;
     filterData._orderingColumn = _orderingColumn;
     final whereClauses = _whereClauses.map((clause) => clause.copy()).toList();
@@ -180,6 +189,16 @@ class FilterData {
 
   void remove(WhereClause whereClause) {
     _whereClauses.remove(whereClause);
+    createSqlQuery();
+  }
+
+  void updateCustomSqlQuery(String query) {
+    _customSqlQuery = query;
+    createSqlQuery();
+  }
+
+  void clearCustomSqlQuery() {
+    _customSqlQuery = null;
     createSqlQuery();
   }
 }

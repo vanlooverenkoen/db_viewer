@@ -15,6 +15,8 @@ class MoorTableFilterViewModel with ChangeNotifier {
 
   String get selectQuery => _filterData.selectQuery;
 
+  bool get isEditedQuery => _filterData.isEditedQuery;
+
   String get tableName => _table.entityName;
 
   bool get areAllColumnsSelected => _filterData.areAllColumnsSelected;
@@ -89,10 +91,24 @@ class MoorTableFilterViewModel with ChangeNotifier {
     _filterData.remove(whereClause);
     notifyListeners();
   }
+
+  void onEditClicked() => _navigator.showEdit(selectQuery);
+
+  void onUpdateCustomSqlQuery(String query) {
+    _filterData.updateCustomSqlQuery(query);
+    notifyListeners();
+  }
+
+  void oClearCustomSqlQueryClicked() {
+    _filterData.clearCustomSqlQuery();
+    notifyListeners();
+  }
 }
 
 abstract class MoorTableFilterNavigator {
   void goBack(FilterData filterData);
 
   void showAddWhereClause(TableInfo<moor.Table, DataClass> table) {}
+
+  void showEdit(String selectQuery);
 }

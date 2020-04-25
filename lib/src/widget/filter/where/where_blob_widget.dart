@@ -14,7 +14,7 @@ class WhereBlobWidget extends StatelessWidget {
     return ExpandableWhereItem(
       whereClause: whereClause,
       children: [
-        Text('Filtering on a blob will be added later'),
+        Text('Filtering on a blob is not supported'),
       ],
     );
   }

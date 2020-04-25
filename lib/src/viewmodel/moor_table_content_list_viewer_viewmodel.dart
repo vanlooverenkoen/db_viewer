@@ -72,7 +72,8 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
         newData.forEach((item) {
           final map = Map<String, dynamic>();
           item.keys.forEach((key) {
-            final column = _table.$columns.firstWhere((column) => column.$name == key);
+            final columns = _table.$columns.where((column) => column.$name == key);
+            final column = columns.isEmpty? null : columns.first;
             if (column is DateTimeColumn) {
               final value = item[key];
               final dateTime = dateTimeType.mapFromDatabaseResponse(value);

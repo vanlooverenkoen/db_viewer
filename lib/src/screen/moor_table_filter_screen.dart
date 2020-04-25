@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as flutter;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/style/theme_colors.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
+import 'package:moor_db_viewer/src/style/theme_durations.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
 import 'package:moor_db_viewer/src/widget/filter/asc_desc_widget.dart';
 import 'package:moor_db_viewer/src/widget/filter/from_widget.dart';
@@ -51,28 +52,48 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implement
         ),
         body: ListView(
           children: [
-            SelectQueryWidget(query: viewModel.selectQuery),
-            SelectWidget(
-              areAllColumnsSelected: viewModel.areAllColumnsSelected,
-              columns: viewModel.selectColumns,
-              onSelectAll: viewModel.onSelectAllColumns,
-              onToggleColumn: viewModel.onToggleColumn,
+            SelectQueryWidget(
+              query: viewModel.selectQuery,
+              onEditClicked: viewModel.onEditClicked,
             ),
-            FromWidget(tableName: viewModel.tableName),
-            WhereTitleWidget(
-              onAddClicked: viewModel.onAddClicked,
-              whereClauses: viewModel.whereClauses,
+            if (viewModel.isEditedQuery)
+              FlatButton(
+                child: Text('Clear custom sql statement'),
+                onPressed: viewModel.oClearCustomSqlQueryClicked,
+              ),
+            AnimatedOpacity(
+              opacity: viewModel.isEditedQuery ? 0.2 : 1,
+              child: IgnorePointer(
+                ignoring: viewModel.isEditedQuery,
+                child: flutter.Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SelectWidget(
+                      areAllColumnsSelected: viewModel.areAllColumnsSelected,
+                      columns: viewModel.selectColumns,
+                      onSelectAll: viewModel.onSelectAllColumns,
+                      onToggleColumn: viewModel.onToggleColumn,
+                    ),
+                    FromWidget(tableName: viewModel.tableName),
+                    WhereTitleWidget(
+                      onAddClicked: viewModel.onAddClicked,
+                      whereClauses: viewModel.whereClauses,
+                    ),
+                    OrderByWidget(
+                      columns: viewModel.orderByColumns,
+                      onToggleColumn: viewModel.onToggleOrderByColumn,
+                    ),
+                    AscDescWidget(
+                      asc: viewModel.asc,
+                      onAscClicked: viewModel.onAscClicked,
+                      onDescClicked: viewModel.onDescClicked,
+                    ),
+                    LimitWidget(limit: viewModel.limit),
+                  ],
+                ),
+              ),
+              duration: ThemeDurations.shortAnimationDuration(),
             ),
-            OrderByWidget(
-              columns: viewModel.orderByColumns,
-              onToggleColumn: viewModel.onToggleOrderByColumn,
-            ),
-            AscDescWidget(
-              asc: viewModel.asc,
-              onAscClicked: viewModel.onAscClicked,
-              onDescClicked: viewModel.onDescClicked,
-            ),
-            LimitWidget(limit: viewModel.limit),
           ],
         ),
       ),
@@ -138,5 +159,11 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implement
       return 'INTEGER';
     }
     return 'UNSUPPORTED TYPE';
+  }
+
+  @override
+  Future<void> showEdit(String selectQuery) async {
+    final result = await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
+    if (result != null) Provider.of<MoorTableFilterViewModel>(_scaffoldKey.currentContext, listen: false).onUpdateCustomSqlQuery(result);
   }
 }
