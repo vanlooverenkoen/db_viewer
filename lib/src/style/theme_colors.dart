@@ -12,4 +12,5 @@ class ThemeColors {
   static const lightGrey = Color(0x33000000); //black 20%
   static const backgroundGrey = Color(0xFFF1F2F3);
   static const disabledGrey = Color(0xFFE6E6E6);
+  static const filledGrey = Color(0xFFEEEEEE);
 }

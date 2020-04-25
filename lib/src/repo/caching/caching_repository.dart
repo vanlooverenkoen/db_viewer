@@ -1,5 +1,7 @@
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/repo/caching/caching_repo.dart';
+import 'package:moor_flutter/moor_flutter.dart';
+import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class CachingRepository extends CachingRepo {
   static CachingRepository _instance;
@@ -9,9 +11,10 @@ class CachingRepository extends CachingRepo {
 
   factory CachingRepository.instance() => _instance ??= CachingRepository._();
 
-  FilterData getFilterDataForTable(String entityName) {
+  FilterData getFilterDataForTable(TableInfo<moor.Table, DataClass> table) {
+    final entityName = table.entityName;
     if (!_filterData.containsKey(entityName)) {
-      _filterData[entityName] = FilterData();
+      _filterData[entityName] = FilterData(table);
     }
     return _filterData[entityName];
   }

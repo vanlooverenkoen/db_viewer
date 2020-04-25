@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Colors.blueGrey,
-        accentColor: Colors.blue,
+        accentColor: Colors.green,
       ),
       home: HomeScreen(),
     );

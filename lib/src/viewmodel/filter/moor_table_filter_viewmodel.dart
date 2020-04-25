@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_column_item.dart';
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_item.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_limit_results_item.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_search_item.dart';
+import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 
@@ -11,21 +8,26 @@ class MoorTableFilterViewModel with ChangeNotifier {
   // ignore: unused_field
   final GeneratedDatabase _db;
   final MoorTableFilterNavigator _navigator;
-  final TableInfo<moor.Table, DataClass> _table;
+  FilterData _filterData;
+  TableInfo<moor.Table, DataClass> _table;
 
-  final data = List<Map<String, dynamic>>();
+  String get title => '$tableName Filter';
 
-  bool get hasData => data.isNotEmpty;
-
-  String get title => '${_table.entityName} Filter';
+  String get selectQuery => _filterData.selectQuery;
 
   String get tableName => _table.entityName;
 
-  var filterData = FilterData();
+  bool get areAllColumnsSelected => _filterData.areAllColumnsSelected;
 
-  List<GeneratedColumn> get columns => _table.$columns;
+  Map<String, bool> get selectColumns => _filterData.selectColumns;
 
-  TableInfo<moor.Table, DataClass> get table => _table;
+  Map<String, bool> get orderByColumns => _filterData.orderByColumns;
+
+  List<WhereClause> get whereClauses => _filterData.whereClauses;
+
+  bool get asc => _filterData.asc;
+
+  int get limit => _filterData.limit;
 
   MoorTableFilterViewModel(
     this._navigator,
@@ -34,45 +36,57 @@ class MoorTableFilterViewModel with ChangeNotifier {
     FilterData filterData,
   ) {
     if (filterData == null) {
-      this.filterData = filterData;
+      this._filterData = FilterData(_table);
     }
-    this.filterData = filterData;
-    _getData();
-  }
-
-  Future<void> _getData() async {}
-
-  void onBackClicked() {
-    _navigator.goBack(filterData);
-  }
-
-  void onAddFilterClicked() {
-    filterData.addFilter(FilterSearchItem());
+    _filterData = filterData;
     notifyListeners();
   }
 
-  void onRemove(FilterItem filterItem) {
-    filterData.remove(filterItem);
+  void onSelectAllColumns() {
+    _filterData.selectAllColumns();
     notifyListeners();
   }
 
-  void onEnableFilterChanged(FilterItem filterItem, bool value) {
-    filterItem.setEnabled(value);
+  void onToggleColumn(String value) {
+    _filterData.onToggleColumn(value);
     notifyListeners();
   }
 
-  void changePositionOfFilters(int oldIndex, int newIndex) {
-    final oldItem = filterData.filters[oldIndex];
-    final newItem = filterData.filters[newIndex];
-    if (oldItem is FilterLimitResultsItem ||
-        newItem is FilterLimitResultsItem) {
-      //does nothing;
-    } else if (oldItem is FilterColumnsItem || newItem is FilterColumnsItem) {
-      //does nothing;
-    } else {
-      filterData.filters.removeAt(oldIndex);
-      filterData.filters.insert(newIndex, oldItem);
-    }
+  void onBackClicked() => _navigator.goBack(null);
+
+  void onSaveClicked() => _navigator.goBack(_filterData);
+
+  void onAscClicked() {
+    _filterData.onAscClicked();
+    notifyListeners();
+  }
+
+  void onDescClicked() {
+    _filterData.onDescClicked();
+    notifyListeners();
+  }
+
+  void onToggleOrderByColumn(String value) {
+    _filterData.onToggleOrderByColumn(value);
+    notifyListeners();
+  }
+
+  void onAddClicked() {
+    _navigator.showAddWhereClause(_table);
+  }
+
+  void onWhereColumnSelected(result) {
+    _filterData.onWhereColumnSelected(result);
+    notifyListeners();
+  }
+
+  void onUpdatedWhereClause() {
+    _filterData.onUpdatedWhereClause();
+    notifyListeners();
+  }
+
+  void onDismissWhereClause(WhereClause whereClause) {
+    _filterData.remove(whereClause);
     notifyListeners();
   }
 }
@@ -80,5 +94,5 @@ class MoorTableFilterViewModel with ChangeNotifier {
 abstract class MoorTableFilterNavigator {
   void goBack(FilterData filterData);
 
-  void goToFilterSelector();
+  void showAddWhereClause(TableInfo<moor.Table, DataClass> table) {}
 }

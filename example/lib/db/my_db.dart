@@ -16,22 +16,51 @@ class Todos extends Table {
   TextColumn get content => text().named('body')();
 
   IntColumn get category => integer().nullable()();
+
+  DateTimeColumn get date => dateTime()();
+
+  BoolColumn get completed => boolean()();
+
+  RealColumn get realColumn => real()();
+
+  BlobColumn get blobColumn => blob()();
 }
 
-@DataClassName("Category")
-class Categories extends Table {
+@DataClassName("User")
+class Users extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get description => text()();
+  TextColumn get firstName => text()();
+
+  TextColumn get lastName => text()();
+
+  IntColumn get age => integer()();
+
+  TextColumn get zipcode => text()();
+
+  TextColumn get city => text()();
+
+  TextColumn get adress1 => text()();
+
+  TextColumn get adress2 => text()();
+
+  TextColumn get country => text()();
+
+  TextColumn get phone => text()();
+
+  TextColumn get email => text()();
 }
 
 LazyDatabase _openConnection() => LazyDatabase(() async {
       final dbFolder = await getApplicationDocumentsDirectory();
       final file = File(join(dbFolder.path, 'db.sqlite'));
+//      if (file.existsSync()) {
+//        file.deleteSync();
+//      }
       return VmDatabase(file);
     });
 
-@UseMoor(tables: [Todos, Categories])
+@UseMoor(tables: [Todos, Users])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 

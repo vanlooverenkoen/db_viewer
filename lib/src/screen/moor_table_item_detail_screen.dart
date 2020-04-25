@@ -8,20 +8,20 @@ import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 
-class MoorTableItemDetailViewerWidget extends StatefulWidget {
+class MoorTableItemDetailScreen extends StatefulWidget {
   static const routeName = 'moor-table-item-detail';
 
   final ItemDetailArgument arguments;
 
-  MoorTableItemDetailViewerWidget(this.arguments);
+  MoorTableItemDetailScreen(this.arguments);
 
   @override
-  _MoorTableItemDetailViewerWidgetState createState() =>
-      _MoorTableItemDetailViewerWidgetState();
+  _MoorTableItemDetailScreenState createState() =>
+      _MoorTableItemDetailScreenState();
 }
 
-class _MoorTableItemDetailViewerWidgetState
-    extends State<MoorTableItemDetailViewerWidget>
+class _MoorTableItemDetailScreenState
+    extends State<MoorTableItemDetailScreen>
     implements MoorTableItemDetailViewerNavigator {
   final _key = GlobalKey<ScaffoldState>();
 

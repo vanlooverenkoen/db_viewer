@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/model/tuple.dart';
-import 'package:moor_db_viewer/src/screen/moor_table_filter_widget.dart';
-import 'package:moor_db_viewer/src/screen/moor_table_item_detail_viewer_widget.dart';
-import 'package:moor_db_viewer/src/screen/moor_table_list_viewer_widget.dart';
-import 'package:moor_db_viewer/src/screen/moor_table_content_list_viewer_widget.dart';
+import 'package:moor_db_viewer/src/screen/moor_table_filter_screen.dart';
+import 'package:moor_db_viewer/src/screen/moor_table_item_detail_screen.dart';
+import 'package:moor_db_viewer/src/screen/moor_table_list_screen.dart';
+import 'package:moor_db_viewer/src/screen/moor_table_content_list_screen.dart';
 import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
@@ -43,7 +43,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
       onWillPop: _willPop,
       child: Navigator(
         key: _navigationKey,
-        initialRoute: MoorTableListViewerWidget.routeName,
+        initialRoute: MoorTableListScreen.routeName,
         onGenerateRoute: onGenerateRoute,
       ),
     );
@@ -55,26 +55,26 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
         Provider.of<GlobalViewModel>(context, listen: false);
     final db = globalViewModel.db;
     switch (settings.name) {
-      case MoorTableListViewerWidget.routeName:
+      case MoorTableListScreen.routeName:
         return MaterialPageRoute(
-            builder: (context) => MoorTableListViewerWidget(db, canPop),
+            builder: (context) => MoorTableListScreen(db, canPop),
             settings: settings);
-      case MoorTableContentListViewerWidget.routeName:
+      case MoorTableContentListScreen.routeName:
         final table = settings.arguments as TableInfo<moor.Table, DataClass>;
         return MaterialPageRoute(
-            builder: (context) => MoorTableContentListViewerWidget(table),
+            builder: (context) => MoorTableContentListScreen(table),
             settings: settings);
-      case MoorTableItemDetailViewerWidget.routeName:
+      case MoorTableItemDetailScreen.routeName:
         final table = settings.arguments as ItemDetailArgument;
         return MaterialPageRoute(
-            builder: (context) => MoorTableItemDetailViewerWidget(table),
+            builder: (context) => MoorTableItemDetailScreen(table),
             settings: settings);
-      case MoorTableFilterWidget.routeName:
+      case MoorTableFilterScreen.routeName:
         final tuple = settings.arguments
             as Tuple<TableInfo<moor.Table, DataClass>, FilterData>;
         return MaterialPageRoute<FilterData>(
             builder: (context) =>
-                MoorTableFilterWidget(db, tuple.first, tuple.second),
+                MoorTableFilterScreen(db, tuple.first, tuple.second),
             settings: settings);
       default:
         return null;
@@ -85,22 +85,22 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
       !await _navigationKey.currentState.maybePop();
 
   void goToTableList() => _navigationKey.currentState
-      .pushNamed(MoorTableListViewerWidget.routeName);
+      .pushNamed(MoorTableListScreen.routeName);
 
   void goToTableContentList(TableInfo<moor.Table, DataClass> table) =>
       _navigationKey.currentState.pushNamed(
-          MoorTableContentListViewerWidget.routeName,
+          MoorTableContentListScreen.routeName,
           arguments: table);
 
   void goToTableItemDetail(
           TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data) =>
       _navigationKey.currentState.pushNamed(
-          MoorTableItemDetailViewerWidget.routeName,
+          MoorTableItemDetailScreen.routeName,
           arguments: ItemDetailArgument(table, data));
 
   Future<FilterData> goToTableFilter(
           TableInfo<moor.Table, DataClass> table, FilterData filterData) =>
-      _navigationKey.currentState.pushNamed(MoorTableFilterWidget.routeName,
+      _navigationKey.currentState.pushNamed(MoorTableFilterScreen.routeName,
           arguments: Tuple(table, filterData));
 
   void goBack<T>({result}) {

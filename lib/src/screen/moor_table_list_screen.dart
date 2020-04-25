@@ -7,20 +7,20 @@ import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 
-class MoorTableListViewerWidget extends StatefulWidget {
+class MoorTableListScreen extends StatefulWidget {
   static const routeName = 'moor-table-list';
 
   final GeneratedDatabase db;
   final bool canPop;
 
-  MoorTableListViewerWidget(this.db, this.canPop);
+  MoorTableListScreen(this.db, this.canPop);
 
   @override
-  _MoorTableListViewerWidgetState createState() =>
-      _MoorTableListViewerWidgetState();
+  _MoorTableListScreenState createState() =>
+      _MoorTableListScreenState();
 }
 
-class _MoorTableListViewerWidgetState extends State<MoorTableListViewerWidget>
+class _MoorTableListScreenState extends State<MoorTableListScreen>
     implements MoorTableListViewerNavigator {
   @override
   Widget build(BuildContext context) {

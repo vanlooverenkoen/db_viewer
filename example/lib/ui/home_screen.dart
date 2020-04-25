@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/moor_db_viewer.dart';
 import 'package:moor_db_viewer_example/db/db_util.dart';
@@ -30,12 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: _onGoToDbViewerClicked,
                   ),
                   MaterialButton(
-                    child: Text('Add Category'),
-                    onPressed: _addCategory,
+                    child: Text('Add User'),
+                    onPressed: _addUser,
                   ),
                   MaterialButton(
-                    child: Text('Remove first Category'),
-                    onPressed: _removeCategory,
+                    child: Text('Remove first User'),
+                    onPressed: _removeUser,
                   ),
                   MaterialButton(
                     child: Text('Add TODO'),
@@ -101,13 +104,13 @@ class _HomeScreenState extends State<HomeScreen> {
     await (db.delete(db.todos)..where((item) => item.id.equals(first.id))).go();
   }
 
-  Future<void> _removeCategory() async {
+  Future<void> _removeUser() async {
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-    final result = await db.select(db.categories).get();
+    final result = await db.select(db.users).get();
     if (result.isEmpty) return;
     final first = result.first;
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-    await (db.delete(db.categories)..where((item) => item.id.equals(first.id))).go();
+    await (db.delete(db.users)..where((item) => item.id.equals(first.id))).go();
   }
 
   void _onFabClicked() {
@@ -116,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> _addCategory() async {
+  Future<void> _addUser() async {
     await addCategory([createCategory()]);
   }
 
@@ -153,11 +156,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   TodosCompanion createTodo() {
-    return TodosCompanion.insert(title: '$text title', content: '$text content');
+    return TodosCompanion.insert(
+      title: '$text title',
+      content: '$text content',
+      date: DateTime.now(),
+      completed: Random().nextBool(),
+      blobColumn: Uint8List(0),
+      realColumn: Random().nextInt(2983892) + 0.5,
+    );
   }
 
-  CategoriesCompanion createCategory() {
-    return CategoriesCompanion.insert(description: '$text - description');
+  UsersCompanion createCategory() {
+    return UsersCompanion.insert(
+      firstName: 'Koen',
+      zipcode: '2000',
+      age: Random().nextInt(100) + 5,
+      adress1: 'Street 1',
+      adress2: '/',
+      phone: '0483993849',
+      country: 'Belgium',
+      city: 'Antwerp',
+      email: 'my-email@email.com',
+      lastName: 'Van Looveren',
+    );
   }
 
   Future<void> _addTodos(List<TodosCompanion> list) async {
@@ -167,10 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> addCategory(List<CategoriesCompanion> list) async {
+  Future<void> addCategory(List<UsersCompanion> list) async {
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     await db.batch((batch) {
-      batch.insertAll(db.categories, list);
+      batch.insertAll(db.users, list);
     });
   }
 
@@ -178,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     await db.delete(db.todos).go();
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-    await db.delete(db.categories).go();
+    await db.delete(db.users).go();
   }
 
   void _onTextFieldChanged(String value) {
