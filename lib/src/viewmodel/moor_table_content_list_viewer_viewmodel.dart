@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
@@ -12,13 +14,16 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
   final cachingRepo = CachingRepository.instance();
 
   final _data = List<Map<String, dynamic>>();
-  var _filteredData = FilterData();
+  FilterData _filteredData;
 
   int totalResults = 0;
 
   String error;
 
-  bool get hasFilter => _filteredData.hasFilters;
+  StreamSubscription<List<QueryRow>> _subscriptionList;
+  StreamSubscription<List<QueryRow>> _subscriptionCount;
+
+  bool get hasCustomQuery => _filteredData.hasCustomQuery;
 
   List<Map<String, dynamic>> get data => _data;
 
@@ -35,7 +40,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
     _navigator = navigator;
     _db = db;
     _table = table;
-    _filteredData = cachingRepo.getFilterDataForTable(_table.entityName);
+    _filteredData = cachingRepo.getFilterDataForTable(table);
     _getData();
   }
 
@@ -45,34 +50,62 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
       notifyListeners();
       // todo find a better way to acces the database for no this is fine
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      final result1 = await _db.customSelectQuery(
+      final countStream = _db.customSelectQuery(
           'SELECT COUNT(*) FROM ${_table.actualTableName}',
-          readsFrom: {_table}).get();
-      totalResults = result1.first.data['COUNT(*)'];
+          readsFrom: {_table}).watch();
+      _subscriptionCount?.cancel();
+      _subscriptionCount = countStream.listen((data) {
+        totalResults = data.first.data['COUNT(*)'];
+        notifyListeners();
+      });
 
-      final sqlQuery =
-          'SELECT * FROM ${_table.actualTableName} ${_filteredData.getWhere()} ${_filteredData.getLimit()}';
-//      print(sqlQuery);
-
-      final result =
+      final sqlQuery = _filteredData.selectQuery;
+      final stream =
           // todo find a better way to acces the database for no this is fine
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          await _db.customSelectQuery(sqlQuery, readsFrom: {_table}).get();
-      final _newData = result.map((item) => item.data).toList();
-      final _correctDisplayData = _filteredData.removeColumns(_newData);
-      _data
-        ..clear()
-        ..addAll(_correctDisplayData);
+          _db.customSelectQuery(sqlQuery, readsFrom: {_table}).watch();
+      _subscriptionList?.cancel();
+      _subscriptionList = stream.listen((data) {
+        final newData = data.map((item) => item.data).toList();
+
+        final dateTimeType = DateTimeType();
+        final boolType = BoolType();
+
+        final correctData = List<Map<String, dynamic>>();
+        newData.forEach((item) {
+          final map = Map<String, dynamic>();
+          item.keys.forEach((key) {
+            final columns =
+                _table.$columns.where((column) => column.$name == key);
+            final column = columns.isEmpty ? null : columns.first;
+            if (column is GeneratedDateTimeColumn) {
+              final value = item[key];
+              final dateTime = dateTimeType.mapFromDatabaseResponse(value);
+              map[key] = dateTime.toIso8601String();
+            } else if (column is GeneratedBoolColumn) {
+              final value = item[key];
+              map[key] = boolType.mapFromDatabaseResponse(value).toString();
+            } else {
+              map[key] = item[key];
+            }
+          });
+          correctData.add(map);
+        });
+        _data
+          ..clear()
+          ..addAll(correctData);
+        notifyListeners();
+      });
     } catch (e) {
       error = e.toString();
-    } finally {
       notifyListeners();
     }
   }
 
-  void onRefreshClicked() => _getData();
-
-  void onFilterClicked() => _navigator.goToFilter(_table, _filteredData);
+  void onFilterClicked() {
+    final newFilterData = _filteredData.copy();
+    _navigator.goToFilter(_table, newFilterData);
+  }
 
   void updateFilter(FilterData filterData) {
     _data.clear();
@@ -90,6 +123,15 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 
   void onItemClicked(Map<String, dynamic> data) {
     _navigator.goToItemDetail(_table, data);
+  }
+
+  @override
+  void dispose() {
+    _subscriptionCount?.cancel();
+    _subscriptionCount = null;
+    _subscriptionList?.cancel();
+    _subscriptionList = null;
+    super.dispose();
   }
 }
 

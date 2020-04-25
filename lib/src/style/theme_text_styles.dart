@@ -28,4 +28,7 @@ class ThemeTextStyles {
       color: ThemeColors.mediumGrey, fontSize: 14, fontWeight: FontWeight.bold);
   static const expandedFilterIndicatorClose = TextStyle(
       color: ThemeColors.mediumGrey, fontSize: 14, fontWeight: FontWeight.w300);
+
+  static const dateSelectorItem =
+      TextStyle(color: ThemeColors.black, fontSize: 15);
 }

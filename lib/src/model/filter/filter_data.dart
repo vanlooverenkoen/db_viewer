@@ -1,63 +1,209 @@
-import 'package:moor_db_viewer/src/model/filter/filter_column_item.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_item.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_limit_results_item.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_search_item.dart';
+import 'package:moor_db_viewer/src/model/filter/where/blob_where_clause.dart';
+import 'package:moor_db_viewer/src/model/filter/where/bool_where_clause.dart';
+import 'package:moor_db_viewer/src/model/filter/where/date_where_clause.dart';
+import 'package:moor_db_viewer/src/model/filter/where/double_where_clause.dart';
+import 'package:moor_db_viewer/src/model/filter/where/int_where_clause.dart';
+import 'package:moor_db_viewer/src/model/filter/where/string_where_clause.dart';
+import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:moor_flutter/moor_flutter.dart';
+import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class FilterData {
-  final filters = List<FilterItem>();
+  final TableInfo<moor.Table, DataClass> _tableInfo;
 
-  bool get hasFilters => filters.length > 2;
+  int _limit = 20;
+  bool _asc = true;
+  String _orderingColumn;
+  String _selectQuery;
+  Map<String, bool> _selectColumns;
+  List<WhereClause> _whereClauses = List<WhereClause>();
 
-  FilterData() {
-    filters.add(FilterLimitResultsItem());
-    filters.add(FilterColumnsItem());
+  String _customSqlQuery;
+
+  int get limit => _limit;
+
+  bool get asc => _asc;
+
+  bool get hasCustomQuery =>
+      _selectQuery != 'SELECT * FROM $tableName LIMIT 20';
+
+  bool get isEditedQuery => _customSqlQuery != null;
+
+  String get tableName => _tableInfo.entityName;
+
+  Map<String, bool> get selectColumns => _selectColumns;
+
+  List<WhereClause> get whereClauses => _whereClauses;
+
+  Map<String, bool> get orderByColumns {
+    final map = Map<String, bool>();
+    _selectColumns.forEach((key, value) {
+      if (key == _orderingColumn) {
+        map[key] = true;
+      } else {
+        map[key] = false;
+      }
+    });
+    return map;
   }
 
-  void addFilter(FilterItem filterItem) {
-    filters.add(filterItem);
+  bool get areAllColumnsSelected => !_selectColumns.values.contains(true);
+
+  String get selectQuery {
+    if (_selectQuery == null) {
+      createSqlQuery();
+    }
+    return _selectQuery;
   }
 
-  void remove(FilterItem filterItem) {
-    filters.remove(filterItem);
+  FilterData(this._tableInfo) {
+    selectAllColumns();
+    createSqlQuery();
   }
 
-  bool containsFilters() =>
-      filters.where((filter) => filter.isEnabled).isNotEmpty;
-
-  List<Map<String, dynamic>> removeColumns(List<Map<String, dynamic>> newData) {
-    var data = newData;
-    for (final filter in filters) {
-      if (filter.isEnabled && filter is FilterColumnsItem) {
-        data = filter.removeColumns(data);
+  void createSqlQuery() {
+    if (isEditedQuery) {
+      _selectQuery = _customSqlQuery;
+      return;
+    }
+    final sb = StringBuffer('SELECT');
+    if (areAllColumnsSelected) {
+      sb.write(' *');
+    } else {
+      final list = List<String>();
+      for (var i = 0; i < selectColumns.keys.length; ++i) {
+        if (selectColumns.values.toList()[i]) {
+          list.add(selectColumns.keys.toList()[i]);
+        }
+      }
+      for (var i = 0; i < list.length; ++i) {
+        sb.write(' ${list[i]}');
+        if (i < list.length - 1) {
+          sb.write(',');
+        }
       }
     }
-    return data;
-  }
 
-  String getWhere() {
-    var where = '';
-    final searchItems = filters
-        .where((filter) =>
-            filter.isEnabled && filter is FilterSearchItem && filter.hasFilter)
-        .map((filter) => filter as FilterSearchItem)
+    sb.write(' FROM $tableName');
+
+    final sqlWhereClauses = whereClauses
+        .map((item) => item.getSqlWhereClause())
+        .where((item) => item.isNotEmpty)
         .toList();
-    for (var i = 0; i < searchItems.length; ++i) {
-      final filter = searchItems[i];
-      where += filter.getWhereClause();
-      if (i != searchItems.length - 1) where += ' AND ';
+
+    if (sqlWhereClauses.isNotEmpty) {
+      sb.write(' WHERE');
+
+      for (var i = 0; i < sqlWhereClauses.length; ++i) {
+        final clause = sqlWhereClauses[i];
+        sb.write(clause);
+        if (i != sqlWhereClauses.length - 1) {
+          sb.write(' AND');
+        }
+      }
     }
-    if (where.isNotEmpty) {
-      where = 'WHERE $where';
+
+    if (_orderingColumn != null && _orderingColumn.isNotEmpty) {
+      sb.write(' ORDER BY $_orderingColumn');
+      if (_asc) {
+        sb.write(' ASC');
+      } else {
+        sb.write(' DESC');
+      }
     }
-    return where;
+    sb.write(' LIMIT $_limit');
+    _selectQuery = sb.toString();
   }
 
-  String getLimit() {
-    final filterItem = filters.firstWhere(
-        (filter) => filter.isEnabled && filter is FilterLimitResultsItem);
-    if (filterItem is FilterLimitResultsItem) {
-      return 'LIMIT ${filterItem.limit}';
+  void selectAllColumns() {
+    _selectColumns = Map();
+    _tableInfo.columnsByName.keys.forEach((item) {
+      _selectColumns[item] = false;
+    });
+    createSqlQuery();
+  }
+
+  void onToggleColumn(String value) {
+    final oldValue = _selectColumns[value];
+    _selectColumns[value] = !oldValue;
+    if (!selectColumns.values.contains(false)) {
+      selectAllColumns();
     }
-    return '';
+    createSqlQuery();
+  }
+
+  FilterData copy() {
+    final filterData = FilterData(_tableInfo);
+    filterData._selectQuery = _selectQuery;
+    filterData._limit = _limit;
+    final map = Map<String, bool>();
+    _selectColumns.forEach((key, value) => map[key] = value);
+    filterData._selectColumns = map;
+    filterData._customSqlQuery = _customSqlQuery;
+    filterData._asc = _asc;
+    filterData._orderingColumn = _orderingColumn;
+    final whereClauses = _whereClauses.map((clause) => clause.copy()).toList();
+    filterData._whereClauses = whereClauses;
+    return filterData;
+  }
+
+  void onAscClicked() {
+    _asc = true;
+    createSqlQuery();
+  }
+
+  void onDescClicked() {
+    _asc = false;
+    createSqlQuery();
+  }
+
+  void onToggleOrderByColumn(String value) {
+    if (_orderingColumn == value) {
+      _orderingColumn = null;
+    } else {
+      _orderingColumn = value;
+    }
+    createSqlQuery();
+  }
+
+  void onWhereColumnSelected(String columnName) {
+    if (!_tableInfo.columnsByName.containsKey(columnName)) return;
+    final detail =
+        _tableInfo.$columns.where((item) => item.$name == columnName).first;
+    if (detail is GeneratedTextColumn) {
+      _whereClauses.add(StringWhereClause(columnName));
+    } else if (detail is GeneratedIntColumn) {
+      _whereClauses.add(IntWhereClause(columnName));
+    } else if (detail is GeneratedDateTimeColumn) {
+      _whereClauses.add(DateWhereClause(columnName));
+    } else if (detail is GeneratedBoolColumn) {
+      _whereClauses.add(BoolWhereClause(columnName));
+    } else if (detail is GeneratedRealColumn) {
+      _whereClauses.add(DoubleWhereClause(columnName));
+    } else if (detail is GeneratedBlobColumn) {
+      _whereClauses.add(BlobWhereClause(columnName));
+    } else {
+      print('$detail is not yet supported');
+    }
+    createSqlQuery();
+  }
+
+  void onUpdatedWhereClause() {
+    createSqlQuery();
+  }
+
+  void remove(WhereClause whereClause) {
+    _whereClauses.remove(whereClause);
+    createSqlQuery();
+  }
+
+  void updateCustomSqlQuery(String query) {
+    _customSqlQuery = query;
+    createSqlQuery();
+  }
+
+  void clearCustomSqlQuery() {
+    _customSqlQuery = null;
+    createSqlQuery();
   }
 }

@@ -1,3 +1,15 @@
+## [1.3.0] - 25-04-2020
+### Fixed
+- example Gif
+
+## [1.2.0] - 25-04-2020
+### Added
+- Better date support
+- Reworked the filtering screen completely with better UX
+
+### Updated
+- Updated the example project with all possible columns
+
 ## [1.1.0] - 21-04-2020
 ### Added
 - Caching support:
