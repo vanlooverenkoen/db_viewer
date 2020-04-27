@@ -1,3 +1,7 @@
+## [1.3.2] - 27-04-2020
+### Fixed
+- Unused imports
+
 ## [1.3.1] - 27-04-2020
 ### Added
 - not_equals on string

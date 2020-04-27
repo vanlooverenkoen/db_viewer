@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/int_where_clause.dart';
-import 'package:moor_db_viewer/src/style/theme_colors.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
 import 'package:moor_db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';

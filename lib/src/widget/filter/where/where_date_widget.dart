@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/date_where_clause.dart';
-import 'package:moor_db_viewer/src/style/theme_colors.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
-import 'package:moor_db_viewer/src/style/theme_text_styles.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
 import 'package:moor_db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
 import 'package:moor_db_viewer/src/widget/general/styled/input_like_text_field.dart';
