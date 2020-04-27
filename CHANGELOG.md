@@ -1,3 +1,8 @@
+## [1.3.1] - 27-04-2020
+### Added
+- not_equals on string
+- not_contains on string
+
 ## [1.3.0] - 25-04-2020
 ### Fixed
 - example Gif

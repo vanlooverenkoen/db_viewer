@@ -24,6 +24,10 @@ class StringWhereClause extends WhereClause {
       return ' $columnName LIKE \'%$_query%\'';
     if (_stringWhereType == StringWhereType.EQUALS)
       return ' $columnName = \'$_query\'';
+    if (_stringWhereType == StringWhereType.NOT_CONTAINS)
+      return ' NOT $columnName LIKE \'%$_query%\'';
+    if (_stringWhereType == StringWhereType.NOT_EQUALS)
+      return ' NOT $columnName = \'$_query\'';
     return '';
   }
 
@@ -40,4 +44,6 @@ class StringWhereClause extends WhereClause {
 enum StringWhereType {
   CONTAINS,
   EQUALS,
+  NOT_CONTAINS,
+  NOT_EQUALS,
 }

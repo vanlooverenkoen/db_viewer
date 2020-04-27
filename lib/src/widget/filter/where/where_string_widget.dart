@@ -30,6 +30,18 @@ class WhereStringWidget extends StatelessWidget {
           value: StringWhereType.EQUALS,
           title: Text('Equals'),
         ),
+        RadioListTile<StringWhereType>(
+          onChanged: (value) => _onChangedType(context, value),
+          groupValue: whereClause.stringWhereType,
+          value: StringWhereType.NOT_CONTAINS,
+          title: Text('Not contains'),
+        ),
+        RadioListTile<StringWhereType>(
+          onChanged: (value) => _onChangedType(context, value),
+          groupValue: whereClause.stringWhereType,
+          value: StringWhereType.NOT_EQUALS,
+          title: Text('Not equals'),
+        ),
         Container(height: ThemeDimens.padding4),
         StyledTextField(
           hint: 'Enter your search query',
