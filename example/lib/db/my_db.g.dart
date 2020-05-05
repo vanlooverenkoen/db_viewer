@@ -52,6 +52,36 @@ class Todo extends DataClass implements Insertable<Todo> {
           .mapFromDatabaseResponse(data['${effectivePrefix}blob_column']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || title != null) {
+      map['title'] = Variable<String>(title);
+    }
+    if (!nullToAbsent || content != null) {
+      map['body'] = Variable<String>(content);
+    }
+    if (!nullToAbsent || category != null) {
+      map['category'] = Variable<int>(category);
+    }
+    if (!nullToAbsent || date != null) {
+      map['date'] = Variable<DateTime>(date);
+    }
+    if (!nullToAbsent || completed != null) {
+      map['completed'] = Variable<bool>(completed);
+    }
+    if (!nullToAbsent || realColumn != null) {
+      map['real_column'] = Variable<double>(realColumn);
+    }
+    if (!nullToAbsent || blobColumn != null) {
+      map['blob_column'] = Variable<Uint8List>(blobColumn);
+    }
+    return map;
+  }
+
   factory Todo.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -79,31 +109,6 @@ class Todo extends DataClass implements Insertable<Todo> {
       'realColumn': serializer.toJson<double>(realColumn),
       'blobColumn': serializer.toJson<Uint8List>(blobColumn),
     };
-  }
-
-  @override
-  TodosCompanion createCompanion(bool nullToAbsent) {
-    return TodosCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      title:
-          title == null && nullToAbsent ? const Value.absent() : Value(title),
-      content: content == null && nullToAbsent
-          ? const Value.absent()
-          : Value(content),
-      category: category == null && nullToAbsent
-          ? const Value.absent()
-          : Value(category),
-      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
-      completed: completed == null && nullToAbsent
-          ? const Value.absent()
-          : Value(completed),
-      realColumn: realColumn == null && nullToAbsent
-          ? const Value.absent()
-          : Value(realColumn),
-      blobColumn: blobColumn == null && nullToAbsent
-          ? const Value.absent()
-          : Value(blobColumn),
-    );
   }
 
   Todo copyWith(
@@ -203,6 +208,28 @@ class TodosCompanion extends UpdateCompanion<Todo> {
         completed = Value(completed),
         realColumn = Value(realColumn),
         blobColumn = Value(blobColumn);
+  static Insertable<Todo> custom({
+    Expression<int> id,
+    Expression<String> title,
+    Expression<String> content,
+    Expression<int> category,
+    Expression<DateTime> date,
+    Expression<bool> completed,
+    Expression<double> realColumn,
+    Expression<Uint8List> blobColumn,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (content != null) 'body': content,
+      if (category != null) 'category': category,
+      if (date != null) 'date': date,
+      if (completed != null) 'completed': completed,
+      if (realColumn != null) 'real_column': realColumn,
+      if (blobColumn != null) 'blob_column': blobColumn,
+    });
+  }
+
   TodosCompanion copyWith(
       {Value<int> id,
       Value<String> title,
@@ -222,6 +249,36 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       realColumn: realColumn ?? this.realColumn,
       blobColumn: blobColumn ?? this.blobColumn,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (content.present) {
+      map['body'] = Variable<String>(content.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<int>(category.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<DateTime>(date.value);
+    }
+    if (completed.present) {
+      map['completed'] = Variable<bool>(completed.value);
+    }
+    if (realColumn.present) {
+      map['real_column'] = Variable<double>(realColumn.value);
+    }
+    if (blobColumn.present) {
+      map['blob_column'] = Variable<Uint8List>(blobColumn.value);
+    }
+    return map;
   }
 }
 
@@ -329,49 +386,54 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   @override
   final String actualTableName = 'todos';
   @override
-  VerificationContext validateIntegrity(TodosCompanion d,
+  VerificationContext validateIntegrity(Insertable<Todo> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.title.present) {
+    if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableValue(d.title.value, _titleMeta));
+          _titleMeta, title.isAcceptableOrUnknown(data['title'], _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (d.content.present) {
+    if (data.containsKey('body')) {
       context.handle(_contentMeta,
-          content.isAcceptableValue(d.content.value, _contentMeta));
+          content.isAcceptableOrUnknown(data['body'], _contentMeta));
     } else if (isInserting) {
       context.missing(_contentMeta);
     }
-    if (d.category.present) {
+    if (data.containsKey('category')) {
       context.handle(_categoryMeta,
-          category.isAcceptableValue(d.category.value, _categoryMeta));
+          category.isAcceptableOrUnknown(data['category'], _categoryMeta));
     }
-    if (d.date.present) {
+    if (data.containsKey('date')) {
       context.handle(
-          _dateMeta, date.isAcceptableValue(d.date.value, _dateMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date'], _dateMeta));
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
-    if (d.completed.present) {
+    if (data.containsKey('completed')) {
       context.handle(_completedMeta,
-          completed.isAcceptableValue(d.completed.value, _completedMeta));
+          completed.isAcceptableOrUnknown(data['completed'], _completedMeta));
     } else if (isInserting) {
       context.missing(_completedMeta);
     }
-    if (d.realColumn.present) {
-      context.handle(_realColumnMeta,
-          realColumn.isAcceptableValue(d.realColumn.value, _realColumnMeta));
+    if (data.containsKey('real_column')) {
+      context.handle(
+          _realColumnMeta,
+          realColumn.isAcceptableOrUnknown(
+              data['real_column'], _realColumnMeta));
     } else if (isInserting) {
       context.missing(_realColumnMeta);
     }
-    if (d.blobColumn.present) {
-      context.handle(_blobColumnMeta,
-          blobColumn.isAcceptableValue(d.blobColumn.value, _blobColumnMeta));
+    if (data.containsKey('blob_column')) {
+      context.handle(
+          _blobColumnMeta,
+          blobColumn.isAcceptableOrUnknown(
+              data['blob_column'], _blobColumnMeta));
     } else if (isInserting) {
       context.missing(_blobColumnMeta);
     }
@@ -384,36 +446,6 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   Todo map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Todo.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(TodosCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.title.present) {
-      map['title'] = Variable<String, StringType>(d.title.value);
-    }
-    if (d.content.present) {
-      map['body'] = Variable<String, StringType>(d.content.value);
-    }
-    if (d.category.present) {
-      map['category'] = Variable<int, IntType>(d.category.value);
-    }
-    if (d.date.present) {
-      map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
-    }
-    if (d.completed.present) {
-      map['completed'] = Variable<bool, BoolType>(d.completed.value);
-    }
-    if (d.realColumn.present) {
-      map['real_column'] = Variable<double, RealType>(d.realColumn.value);
-    }
-    if (d.blobColumn.present) {
-      map['blob_column'] = Variable<Uint8List, BlobType>(d.blobColumn.value);
-    }
-    return map;
   }
 
   @override
@@ -473,6 +505,45 @@ class User extends DataClass implements Insertable<User> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}email']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || firstName != null) {
+      map['first_name'] = Variable<String>(firstName);
+    }
+    if (!nullToAbsent || lastName != null) {
+      map['last_name'] = Variable<String>(lastName);
+    }
+    if (!nullToAbsent || age != null) {
+      map['age'] = Variable<int>(age);
+    }
+    if (!nullToAbsent || zipcode != null) {
+      map['zipcode'] = Variable<String>(zipcode);
+    }
+    if (!nullToAbsent || city != null) {
+      map['city'] = Variable<String>(city);
+    }
+    if (!nullToAbsent || adress1 != null) {
+      map['adress1'] = Variable<String>(adress1);
+    }
+    if (!nullToAbsent || adress2 != null) {
+      map['adress2'] = Variable<String>(adress2);
+    }
+    if (!nullToAbsent || country != null) {
+      map['country'] = Variable<String>(country);
+    }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    return map;
+  }
+
   factory User.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -506,37 +577,6 @@ class User extends DataClass implements Insertable<User> {
       'phone': serializer.toJson<String>(phone),
       'email': serializer.toJson<String>(email),
     };
-  }
-
-  @override
-  UsersCompanion createCompanion(bool nullToAbsent) {
-    return UsersCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      firstName: firstName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(firstName),
-      lastName: lastName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastName),
-      age: age == null && nullToAbsent ? const Value.absent() : Value(age),
-      zipcode: zipcode == null && nullToAbsent
-          ? const Value.absent()
-          : Value(zipcode),
-      city: city == null && nullToAbsent ? const Value.absent() : Value(city),
-      adress1: adress1 == null && nullToAbsent
-          ? const Value.absent()
-          : Value(adress1),
-      adress2: adress2 == null && nullToAbsent
-          ? const Value.absent()
-          : Value(adress2),
-      country: country == null && nullToAbsent
-          ? const Value.absent()
-          : Value(country),
-      phone:
-          phone == null && nullToAbsent ? const Value.absent() : Value(phone),
-      email:
-          email == null && nullToAbsent ? const Value.absent() : Value(email),
-    );
   }
 
   User copyWith(
@@ -667,6 +707,34 @@ class UsersCompanion extends UpdateCompanion<User> {
         country = Value(country),
         phone = Value(phone),
         email = Value(email);
+  static Insertable<User> custom({
+    Expression<int> id,
+    Expression<String> firstName,
+    Expression<String> lastName,
+    Expression<int> age,
+    Expression<String> zipcode,
+    Expression<String> city,
+    Expression<String> adress1,
+    Expression<String> adress2,
+    Expression<String> country,
+    Expression<String> phone,
+    Expression<String> email,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (firstName != null) 'first_name': firstName,
+      if (lastName != null) 'last_name': lastName,
+      if (age != null) 'age': age,
+      if (zipcode != null) 'zipcode': zipcode,
+      if (city != null) 'city': city,
+      if (adress1 != null) 'adress1': adress1,
+      if (adress2 != null) 'adress2': adress2,
+      if (country != null) 'country': country,
+      if (phone != null) 'phone': phone,
+      if (email != null) 'email': email,
+    });
+  }
+
   UsersCompanion copyWith(
       {Value<int> id,
       Value<String> firstName,
@@ -692,6 +760,45 @@ class UsersCompanion extends UpdateCompanion<User> {
       phone: phone ?? this.phone,
       email: email ?? this.email,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (firstName.present) {
+      map['first_name'] = Variable<String>(firstName.value);
+    }
+    if (lastName.present) {
+      map['last_name'] = Variable<String>(lastName.value);
+    }
+    if (age.present) {
+      map['age'] = Variable<int>(age.value);
+    }
+    if (zipcode.present) {
+      map['zipcode'] = Variable<String>(zipcode.value);
+    }
+    if (city.present) {
+      map['city'] = Variable<String>(city.value);
+    }
+    if (adress1.present) {
+      map['adress1'] = Variable<String>(adress1.value);
+    }
+    if (adress2.present) {
+      map['adress2'] = Variable<String>(adress2.value);
+    }
+    if (country.present) {
+      map['country'] = Variable<String>(country.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    return map;
   }
 }
 
@@ -849,68 +956,70 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   @override
   final String actualTableName = 'users';
   @override
-  VerificationContext validateIntegrity(UsersCompanion d,
+  VerificationContext validateIntegrity(Insertable<User> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.firstName.present) {
+    if (data.containsKey('first_name')) {
       context.handle(_firstNameMeta,
-          firstName.isAcceptableValue(d.firstName.value, _firstNameMeta));
+          firstName.isAcceptableOrUnknown(data['first_name'], _firstNameMeta));
     } else if (isInserting) {
       context.missing(_firstNameMeta);
     }
-    if (d.lastName.present) {
+    if (data.containsKey('last_name')) {
       context.handle(_lastNameMeta,
-          lastName.isAcceptableValue(d.lastName.value, _lastNameMeta));
+          lastName.isAcceptableOrUnknown(data['last_name'], _lastNameMeta));
     } else if (isInserting) {
       context.missing(_lastNameMeta);
     }
-    if (d.age.present) {
-      context.handle(_ageMeta, age.isAcceptableValue(d.age.value, _ageMeta));
+    if (data.containsKey('age')) {
+      context.handle(
+          _ageMeta, age.isAcceptableOrUnknown(data['age'], _ageMeta));
     } else if (isInserting) {
       context.missing(_ageMeta);
     }
-    if (d.zipcode.present) {
+    if (data.containsKey('zipcode')) {
       context.handle(_zipcodeMeta,
-          zipcode.isAcceptableValue(d.zipcode.value, _zipcodeMeta));
+          zipcode.isAcceptableOrUnknown(data['zipcode'], _zipcodeMeta));
     } else if (isInserting) {
       context.missing(_zipcodeMeta);
     }
-    if (d.city.present) {
+    if (data.containsKey('city')) {
       context.handle(
-          _cityMeta, city.isAcceptableValue(d.city.value, _cityMeta));
+          _cityMeta, city.isAcceptableOrUnknown(data['city'], _cityMeta));
     } else if (isInserting) {
       context.missing(_cityMeta);
     }
-    if (d.adress1.present) {
+    if (data.containsKey('adress1')) {
       context.handle(_adress1Meta,
-          adress1.isAcceptableValue(d.adress1.value, _adress1Meta));
+          adress1.isAcceptableOrUnknown(data['adress1'], _adress1Meta));
     } else if (isInserting) {
       context.missing(_adress1Meta);
     }
-    if (d.adress2.present) {
+    if (data.containsKey('adress2')) {
       context.handle(_adress2Meta,
-          adress2.isAcceptableValue(d.adress2.value, _adress2Meta));
+          adress2.isAcceptableOrUnknown(data['adress2'], _adress2Meta));
     } else if (isInserting) {
       context.missing(_adress2Meta);
     }
-    if (d.country.present) {
+    if (data.containsKey('country')) {
       context.handle(_countryMeta,
-          country.isAcceptableValue(d.country.value, _countryMeta));
+          country.isAcceptableOrUnknown(data['country'], _countryMeta));
     } else if (isInserting) {
       context.missing(_countryMeta);
     }
-    if (d.phone.present) {
+    if (data.containsKey('phone')) {
       context.handle(
-          _phoneMeta, phone.isAcceptableValue(d.phone.value, _phoneMeta));
+          _phoneMeta, phone.isAcceptableOrUnknown(data['phone'], _phoneMeta));
     } else if (isInserting) {
       context.missing(_phoneMeta);
     }
-    if (d.email.present) {
+    if (data.containsKey('email')) {
       context.handle(
-          _emailMeta, email.isAcceptableValue(d.email.value, _emailMeta));
+          _emailMeta, email.isAcceptableOrUnknown(data['email'], _emailMeta));
     } else if (isInserting) {
       context.missing(_emailMeta);
     }
@@ -923,45 +1032,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   User map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return User.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(UsersCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.firstName.present) {
-      map['first_name'] = Variable<String, StringType>(d.firstName.value);
-    }
-    if (d.lastName.present) {
-      map['last_name'] = Variable<String, StringType>(d.lastName.value);
-    }
-    if (d.age.present) {
-      map['age'] = Variable<int, IntType>(d.age.value);
-    }
-    if (d.zipcode.present) {
-      map['zipcode'] = Variable<String, StringType>(d.zipcode.value);
-    }
-    if (d.city.present) {
-      map['city'] = Variable<String, StringType>(d.city.value);
-    }
-    if (d.adress1.present) {
-      map['adress1'] = Variable<String, StringType>(d.adress1.value);
-    }
-    if (d.adress2.present) {
-      map['adress2'] = Variable<String, StringType>(d.adress2.value);
-    }
-    if (d.country.present) {
-      map['country'] = Variable<String, StringType>(d.country.value);
-    }
-    if (d.phone.present) {
-      map['phone'] = Variable<String, StringType>(d.phone.value);
-    }
-    if (d.email.present) {
-      map['email'] = Variable<String, StringType>(d.email.value);
-    }
-    return map;
   }
 
   @override

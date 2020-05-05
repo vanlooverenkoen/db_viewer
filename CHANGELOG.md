@@ -1,3 +1,7 @@
+## [3.0.0] - 05-05-2020
+### BREAKING
+- Upgraded moor to 3.0.0
+
 ## [1.3.2] - 27-04-2020
 ### Fixed
 - Unused imports
