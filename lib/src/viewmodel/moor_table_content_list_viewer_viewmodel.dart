@@ -50,7 +50,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
       notifyListeners();
       // todo find a better way to acces the database for no this is fine
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      final countStream = _db.customSelectQuery(
+      final countStream = _db.customSelect(
           'SELECT COUNT(*) FROM ${_table.actualTableName}',
           readsFrom: {_table}).watch();
       _subscriptionCount?.cancel();
@@ -63,7 +63,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
       final stream =
           // todo find a better way to acces the database for no this is fine
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          _db.customSelectQuery(sqlQuery, readsFrom: {_table}).watch();
+          _db.customSelect(sqlQuery, readsFrom: {_table}).watch();
       _subscriptionList?.cancel();
       _subscriptionList = stream.listen((data) {
         final newData = data.map((item) => item.data).toList();

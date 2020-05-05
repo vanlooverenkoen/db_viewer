@@ -1,3 +1,7 @@
+## [2.0.1] - 05-05-2020
+### Fixed
+- Some deprecated api calls
+
 ## [2.0.0] - 05-05-2020
 ### BREAKING
 - Upgraded moor to 3.0.0
