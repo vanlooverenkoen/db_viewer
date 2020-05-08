@@ -81,7 +81,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
             if (column is GeneratedDateTimeColumn) {
               final value = item[key];
               final dateTime = dateTimeType.mapFromDatabaseResponse(value);
-              map[key] = dateTime.toIso8601String();
+              map[key] = dateTime?.toIso8601String();
             } else if (column is GeneratedBoolColumn) {
               final value = item[key];
               map[key] = boolType.mapFromDatabaseResponse(value).toString();

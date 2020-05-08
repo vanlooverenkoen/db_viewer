@@ -1,3 +1,7 @@
+## [2.0.2] - 08-05-2020
+### Fixed
+- #19 null pointer exception when formatting a date to a pretty date
+
 ## [2.0.1] - 05-05-2020
 ### Fixed
 - Some deprecated api calls
