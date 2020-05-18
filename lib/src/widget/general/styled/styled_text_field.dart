@@ -19,7 +19,6 @@ class StyledTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      cursorColor: Theme.of(context).accentColor,
       decoration: InputDecoration(
         filled: true,
         fillColor: ThemeColors.filledGrey,

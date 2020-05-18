@@ -12,8 +12,7 @@ class Todos extends Table {
 
   TextColumn get title => text().withLength(min: 6, max: 32)();
 
-  @JsonKey(
-      'body') //This is required for the moor_db_viewer. otherwise we won't be able to hide this table
+  @JsonKey('body') //This is required for the moor_db_viewer. otherwise we won't be able to hide this table
   TextColumn get content => text().named('body')();
 
   IntColumn get category => integer().nullable()();

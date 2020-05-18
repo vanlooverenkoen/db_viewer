@@ -13,7 +13,7 @@ class DateWhereClause extends WhereClause {
 
   String get dateString => '${_date.day}/${_date.month}/${_date.year}';
 
-  String get timeString => '${_time.hour} : ${_time.minute}';
+  String get timeString => '${_time.hour.toString().padLeft(2, '0')} : ${_time.minute.toString().padLeft(2, '0')}';
 
   DateTime get date => _date;
 
@@ -29,8 +29,7 @@ class DateWhereClause extends WhereClause {
 
   @override
   String getSqlWhereClause() {
-    final sqlDate =
-        DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    final sqlDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
     final dateTimeParser = DateTimeType();
     final sqlValue = dateTimeParser.mapToSqlVariable(sqlDate);
     if (dateWhereType == DateWhereType.BEFORE) {
