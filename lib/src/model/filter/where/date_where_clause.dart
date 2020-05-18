@@ -13,7 +13,8 @@ class DateWhereClause extends WhereClause {
 
   String get dateString => '${_date.day}/${_date.month}/${_date.year}';
 
-  String get timeString => '${_time.hour} : ${_time.minute}';
+  String get timeString =>
+      '${_time.hour.toString().padLeft(2, '0')} : ${_time.minute.toString().padLeft(2, '0')}';
 
   DateTime get date => _date;
 

@@ -19,9 +19,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  moor: ^3.0.1
+  moor: ^3.0.2
   moor_ffi: ^0.5.0
-  path_provider: ^1.6.7
+  path_provider: ^1.6.8
   path: ^1.7.0
   moor_db_viewer:
     path: ../../moor_db_viewer
@@ -31,7 +31,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   moor_generator: ^3.0.0
-  build_runner: ^1.9.0
+  build_runner: ^1.10.0
 
 flutter:
   uses-material-design: true

@@ -135,11 +135,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
         ),
         actions: [
           FlatButton(
-            splashColor: Theme.of(context).accentColor.withOpacity(0.2),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: Theme.of(context).accentColor),
-            ),
+            child: const Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],

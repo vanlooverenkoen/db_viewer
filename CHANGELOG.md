@@ -1,3 +1,9 @@
+
+## [2.0.3] - 18-05-2020
+### Fixed
+- #23 bugfix with the date formatting in a where clause of a date field
+- Code improvements
+
 ## [2.0.2] - 08-05-2020
 ### Fixed
 - #19 null pointer exception when formatting a date to a pretty date
