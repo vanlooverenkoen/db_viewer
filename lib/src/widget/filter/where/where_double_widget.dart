@@ -60,10 +60,9 @@ class WhereDoubleWidget extends StatelessWidget {
   }
 
   void _onChangedType(BuildContext context, DoubleWhereType? value) {
-    if (value != null) {
-      whereClause.onSelectedType(value);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false)
-          .onUpdatedWhereClause();
-    }
+    if (value == null) return;
+    whereClause.onSelectedType(value);
+    Provider.of<MoorTableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 }

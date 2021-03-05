@@ -59,10 +59,9 @@ class WhereStringWidget extends StatelessWidget {
   }
 
   void _onChangedType(BuildContext context, StringWhereType? value) {
-    if (value != null) {
-      whereClause.onSelectedType(value);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false)
-          .onUpdatedWhereClause();
-    }
+    if (value == null) return;
+    whereClause.onSelectedType(value);
+    Provider.of<MoorTableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 }

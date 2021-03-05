@@ -89,8 +89,9 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
       behavior: SnackBarBehavior.floating,
     );
 
-    if (_key.currentContext != null) {
-      ScaffoldMessenger.of(_key.currentContext!).showSnackBar(snackBar);
+    final scaffoldContext = _key.currentContext;
+    if (scaffoldContext != null) {
+      ScaffoldMessenger.of(scaffoldContext).showSnackBar(snackBar);
     }
   }
 }

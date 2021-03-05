@@ -137,9 +137,10 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
   ) async {
     final newFilterData = await DbViewerNavigator.of(context)
         .goToTableFilter(table, filteredData);
-    if (newFilterData != null && _key.currentContext != null) {
+    final scaffoldContext = _key.currentContext;
+    if (newFilterData != null && scaffoldContext != null) {
       Provider.of<MoorTableContentListViewerViewModel>(
-        _key.currentContext!,
+        scaffoldContext,
         listen: false,
       ).updateFilter(newFilterData);
     }
@@ -159,8 +160,9 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
       behavior: SnackBarBehavior.floating,
     );
 
-    if (_key.currentContext != null) {
-      ScaffoldMessenger.of(_key.currentContext!).showSnackBar(snackBar);
+    final scaffoldContext = _key.currentContext;
+    if (scaffoldContext != null) {
+      ScaffoldMessenger.of(scaffoldContext).showSnackBar(snackBar);
     }
   }
 }

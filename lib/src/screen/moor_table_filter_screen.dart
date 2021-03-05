@@ -141,9 +141,10 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
         ],
       ),
     );
-    if (result != null && _scaffoldKey.currentContext != null) {
+    final scaffoldContext = _scaffoldKey.currentContext;
+    if (result != null && scaffoldContext != null) {
       Provider.of<MoorTableFilterViewModel>(
-        _scaffoldKey.currentContext!,
+        scaffoldContext,
         listen: false,
       ).onWhereColumnSelected(result);
     }
@@ -170,9 +171,10 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
   Future<void> showEdit(String selectQuery) async {
     final result =
         await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
-    if (result != null && _scaffoldKey.currentContext != null) {
-      Provider.of<MoorTableFilterViewModel>(_scaffoldKey.currentContext!,
-              listen: false)
+
+    final scaffoldContext = _scaffoldKey.currentContext;
+    if (result != null && scaffoldContext != null) {
+      Provider.of<MoorTableFilterViewModel>(scaffoldContext, listen: false)
           .onUpdateCustomSqlQuery(result);
     }
   }
