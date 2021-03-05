@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
 import 'package:moor_db_viewer/src/viewmodel/moor_table_content_list_viewer_viewmodel.dart';
 import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 import 'package:provider/provider.dart';
 
 class MoorTableContentListScreen extends StatefulWidget {
@@ -63,7 +63,7 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
         body: LayoutBuilder(
           builder: (context, constraints) {
             if (viewModel.error != null)
-              return Center(child: Text(viewModel.error));
+              return Center(child: Text(viewModel.error!));
             if (!viewModel.hasColumns && viewModel.hasData)
               return Center(
                   child: Text(
@@ -132,18 +132,24 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
 
   @override
   Future<void> goToFilter(
-      TableInfo<moor.Table, DataClass> table, FilterData filteredData) async {
+    TableInfo<moor.Table, DataClass> table,
+    FilterData filteredData,
+  ) async {
     final newFilterData = await DbViewerNavigator.of(context)
         .goToTableFilter(table, filteredData);
-    if (newFilterData == null) return;
-    Provider.of<MoorTableContentListViewerViewModel>(_key.currentContext,
-            listen: false)
-        .updateFilter(newFilterData);
+    if (newFilterData != null && _key.currentContext != null) {
+      Provider.of<MoorTableContentListViewerViewModel>(
+        _key.currentContext!,
+        listen: false,
+      ).updateFilter(newFilterData);
+    }
   }
 
   @override
   void goToItemDetail(
-          TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data) =>
+    TableInfo<moor.Table, DataClass> table,
+    Map<String, dynamic> data,
+  ) =>
       DbViewerNavigator.of(context).goToTableItemDetail(table, data);
 
   @override
@@ -152,6 +158,9 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
       content: Text(message),
       behavior: SnackBarBehavior.floating,
     );
-    _key.currentState.showSnackBar(snackBar);
+
+    if (_key.currentContext != null) {
+      ScaffoldMessenger.of(_key.currentContext!).showSnackBar(snackBar);
+    }
   }
 }

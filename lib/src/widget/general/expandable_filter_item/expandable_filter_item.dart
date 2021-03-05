@@ -13,11 +13,11 @@ class ExpandableFilterItem extends StatefulWidget {
   final String subtitle;
 
   const ExpandableFilterItem({
-    @required this.child,
-    @required this.title,
-    @required this.subtitle,
+    required this.child,
+    required this.title,
+    required this.subtitle,
     this.backgroundColor = ThemeColors.white,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,10 +37,10 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
   final ColorTween _iconColorTween = ColorTween();
   final ColorTween _backgroundColorTween = ColorTween();
 
-  AnimationController _controller;
-  Animation<double> _iconTurns;
-  Animation<double> _heightFactor;
-  Animation<Color> _backgroundColor;
+  late AnimationController _controller;
+  late Animation<double> _iconTurns;
+  late Animation<double> _heightFactor;
+  late Animation<Color?> _backgroundColor;
 
   bool _isExpanded = false;
 
@@ -68,7 +68,7 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
   void didChangeDependencies() {
     final theme = Theme.of(context);
     _headerColorTween
-      ..begin = theme.textTheme.subhead.color
+      ..begin = theme.textTheme.subtitle1?.color
       ..end = theme.accentColor;
     _iconColorTween
       ..begin = theme.unselectedWidgetColor
@@ -86,7 +86,7 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
     );
   }
 
-  Widget _buildChildren(BuildContext context, Widget child) {
+  Widget _buildChildren(BuildContext context, Widget? child) {
     return Container(
       decoration: BoxDecoration(
         color: _backgroundColor.value ?? Colors.transparent,

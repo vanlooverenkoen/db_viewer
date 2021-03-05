@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:moor/ffi.dart';
 import 'package:moor/moor.dart';
-import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -12,7 +12,8 @@ class Todos extends Table {
 
   TextColumn get title => text().withLength(min: 6, max: 32)();
 
-  @JsonKey('body') //This is required for the moor_db_viewer. otherwise we won't be able to hide this table
+  //This is required for the moor_db_viewer. otherwise we won't be able to hide this table
+  @JsonKey('body')
   TextColumn get content => text().named('body')();
 
   IntColumn get category => integer().nullable()();

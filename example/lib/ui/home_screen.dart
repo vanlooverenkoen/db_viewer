@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _addUser() async {
-    await addCategory([createCategory()]);
+    await addUser([createUser()]);
   }
 
   Future<void> _addTodo() async {
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _add100Todos() async {
-    final list = List<TodosCompanion>();
+    final list = <TodosCompanion>[];
     for (var i = 0; i < 100; i++) {
       list.add(createTodo());
     }
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _add10000Todos() async {
     print('STARTED');
-    final list = List<TodosCompanion>();
+    final list = <TodosCompanion>[];
     for (var i = 0; i < 10000; i++) {
       list.add(createTodo());
     }
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _add1000000Todos() async {
     print('STARTED');
-    final list = List<TodosCompanion>();
+    final list = <TodosCompanion>[];
     for (var i = 0; i < 1000000; i++) {
       list.add(createTodo());
     }
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  UsersCompanion createCategory() {
+  UsersCompanion createUser() {
     return UsersCompanion.insert(
       firstName: 'Koen',
       zipcode: '2000',
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> addCategory(List<UsersCompanion> list) async {
+  Future<void> addUser(List<UsersCompanion> list) async {
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     await db.batch((batch) {
       batch.insertAll(db.users, list);

@@ -3,13 +3,13 @@ import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 
 class DbViewerListTile extends StatelessWidget {
   final Widget child;
-  final Widget leading;
-  final Widget trailing;
+  final Widget? leading;
+  final Widget? trailing;
   final VoidCallback onClick;
 
   const DbViewerListTile({
-    @required this.child,
-    @required this.onClick,
+    required this.child,
+    required this.onClick,
     this.leading,
     this.trailing,
   });
@@ -24,13 +24,13 @@ class DbViewerListTile extends StatelessWidget {
           child: Row(
             children: [
               if (leading != null) ...[
-                leading,
+                leading!,
                 Container(width: ThemeDimens.padding32),
               ],
               Expanded(child: child),
               if (trailing != null) ...[
                 Container(width: ThemeDimens.padding16),
-                trailing,
+                trailing!,
               ],
             ],
           ),

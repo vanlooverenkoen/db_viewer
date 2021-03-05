@@ -5,11 +5,11 @@ import 'package:moor_db_viewer/src/style/theme_durations.dart';
 class SelectableAction extends StatelessWidget {
   final String text;
   final bool selected;
-  final VoidCallback onClick;
+  final VoidCallback? onClick;
 
   const SelectableAction({
-    @required this.text,
-    @required this.selected,
+    required this.text,
+    required this.selected,
     this.onClick,
   });
 
@@ -17,7 +17,7 @@ class SelectableAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accentColor = theme.accentColor;
-    final textColor = theme.accentTextTheme.title.color;
+    final textColor = theme.accentTextTheme.headline6?.color;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: ThemeDimens.padding4,

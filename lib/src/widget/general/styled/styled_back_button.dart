@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 class StyledBackButton extends StatelessWidget {
   final VoidCallback onBackClicked;
 
-  const StyledBackButton({@required this.onBackClicked});
+  const StyledBackButton({required this.onBackClicked});
 
   @override
   Widget build(BuildContext context) {

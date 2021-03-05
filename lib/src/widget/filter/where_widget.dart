@@ -19,8 +19,8 @@ class WhereTitleWidget extends StatelessWidget {
   final List<WhereClause> whereClauses;
 
   const WhereTitleWidget({
-    @required this.onAddClicked,
-    @required this.whereClauses,
+    required this.onAddClicked,
+    required this.whereClauses,
   });
 
   @override

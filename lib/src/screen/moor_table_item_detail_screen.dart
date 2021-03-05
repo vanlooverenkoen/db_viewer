@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/style/theme_colors.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/style/theme_text_styles.dart';
 import 'package:moor_db_viewer/src/viewmodel/moor_table_item_detail_viewer_viewmodel.dart';
 import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class MoorTableItemDetailScreen extends StatefulWidget {
   static const routeName = 'moor-table-item-detail';
@@ -36,7 +36,7 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
         body: LayoutBuilder(
           builder: (context, constraints) {
             if (viewModel.error != null)
-              return Center(child: Text(viewModel.error));
+              return Center(child: Text(viewModel.error!));
             if (!viewModel.hasData && viewModel.hasFilter)
               return Center(
                   child: Text(
@@ -88,7 +88,10 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
       content: Text(message),
       behavior: SnackBarBehavior.floating,
     );
-    _key.currentState.showSnackBar(snackBar);
+
+    if (_key.currentContext != null) {
+      ScaffoldMessenger.of(_key.currentContext!).showSnackBar(snackBar);
+    }
   }
 }
 

@@ -10,7 +10,7 @@ class WhereDateWidget extends StatelessWidget {
   final DateWhereClause whereClause;
 
   const WhereDateWidget({
-    @required this.whereClause,
+    required this.whereClause,
   });
 
   @override
@@ -49,14 +49,16 @@ class WhereDateWidget extends StatelessWidget {
     );
   }
 
-  void _onChangedType(BuildContext context, DateWhereType value) {
-    whereClause.onSelectedType(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false)
-        .onUpdatedWhereClause();
+  void _onChangedType(BuildContext context, DateWhereType? value) {
+    if (value != null) {
+      whereClause.onSelectedType(value);
+      Provider.of<MoorTableFilterViewModel>(context, listen: false)
+          .onUpdatedWhereClause();
+    }
   }
 
   Future<void> _onTapDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: whereClause.date,
       firstDate: DateTime(1900),
@@ -70,7 +72,7 @@ class WhereDateWidget extends StatelessWidget {
   }
 
   Future<void> _onTapTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: whereClause.time,
     );

@@ -9,10 +9,10 @@ class SelectWidget extends StatelessWidget {
   final ValueChanged<String> onToggleColumn;
 
   const SelectWidget({
-    @required this.areAllColumnsSelected,
-    @required this.columns,
-    @required this.onSelectAll,
-    @required this.onToggleColumn,
+    required this.areAllColumnsSelected,
+    required this.columns,
+    required this.onSelectAll,
+    required this.onToggleColumn,
   });
 
   @override

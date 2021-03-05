@@ -8,8 +8,8 @@ class InputLikeText extends StatelessWidget {
   final String text;
 
   const InputLikeText({
-    @required this.onClick,
-    @required this.text,
+    required this.onClick,
+    required this.text,
   });
 
   @override

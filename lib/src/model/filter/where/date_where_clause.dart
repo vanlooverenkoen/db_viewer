@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:moor/moor.dart';
 import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
-import 'package:moor_flutter/moor_flutter.dart';
 
 class DateWhereClause extends WhereClause {
   DateWhereType _dateWhereType = DateWhereType.EQUALS;
 
-  DateTime _date;
-  TimeOfDay _time;
+  late DateTime _date;
+  late TimeOfDay _time;
 
   @override
   String get typeName => 'DATE';

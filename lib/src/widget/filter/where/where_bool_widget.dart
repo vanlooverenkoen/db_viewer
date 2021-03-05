@@ -8,7 +8,7 @@ class WhereBoolWidget extends StatelessWidget {
   final BoolWhereClause whereClause;
 
   const WhereBoolWidget({
-    @required this.whereClause,
+    required this.whereClause,
   });
 
   @override
@@ -32,9 +32,11 @@ class WhereBoolWidget extends StatelessWidget {
     );
   }
 
-  void _onChanged(BuildContext context, bool value) {
-    whereClause.onSelectedChanged(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false)
-        .onUpdatedWhereClause();
+  void _onChanged(BuildContext context, bool? value) {
+    if (value != null) {
+      whereClause.onSelectedChanged(value);
+      Provider.of<MoorTableFilterViewModel>(context, listen: false)
+          .onUpdatedWhereClause();
+    }
   }
 }

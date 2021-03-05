@@ -6,7 +6,7 @@ class FromWidget extends StatelessWidget {
   final String tableName;
 
   const FromWidget({
-    @required this.tableName,
+    required this.tableName,
   });
 
   @override

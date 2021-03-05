@@ -3,16 +3,16 @@ import 'package:provider/provider.dart';
 
 class ProviderWidget<T extends ChangeNotifier> extends StatelessWidget {
   final T Function() create;
-  final Widget child;
-  final Widget Function(BuildContext context, T viewModel)
+  final Widget? child;
+  final Widget Function(BuildContext context, T viewModel)?
       childBuilderWithViewModel;
-  final Widget consumerChild;
-  final Widget Function(BuildContext context, T viewModel, Widget child)
+  final Widget? consumerChild;
+  final Widget Function(BuildContext context, T viewModel, Widget? child)?
       consumer;
   final bool lazy;
 
   const ProviderWidget({
-    @required this.create,
+    required this.create,
     this.child,
     this.consumer,
     this.consumerChild,
@@ -29,12 +29,12 @@ class ProviderWidget<T extends ChangeNotifier> extends StatelessWidget {
           if (consumer != null) {
             return Consumer<T>(
               child: consumerChild ?? Container(),
-              builder: consumer,
+              builder: consumer!,
             );
           } else if (child != null) {
-            return child;
+            return child!;
           } else if (childBuilderWithViewModel != null) {
-            return childBuilderWithViewModel(context, Provider.of<T>(context));
+            return childBuilderWithViewModel!(context, Provider.of<T>(context));
           }
           throw ArgumentError(
               'childBuilder, childBuilderWithViewModel or consumer should be passed');

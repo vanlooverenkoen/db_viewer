@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/model/tuple.dart';
+import 'package:moor_db_viewer/src/screen/moor_table_content_list_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_filter_edit_sql_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_filter_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_item_detail_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_list_screen.dart';
-import 'package:moor_db_viewer/src/screen/moor_table_content_list_screen.dart';
 import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 import 'package:provider/provider.dart';
 
 class DbViewerNavigator extends StatefulWidget {
-  const DbViewerNavigator({Key key}) : super(key: key);
+  const DbViewerNavigator({Key? key}) : super(key: key);
 
   @override
   DbViewerNavigatorState createState() => DbViewerNavigatorState();
 
-  static DbViewerNavigatorState of(context,
-      {rootNavigator = false, nullOk = false}) {
-    final DbViewerNavigatorState navigator = rootNavigator
+  static DbViewerNavigatorState of(
+    BuildContext context, {
+    rootNavigator = false,
+  }) {
+    final DbViewerNavigatorState? navigator = rootNavigator
         ? context.findRootAncestorStateOfType<DbViewerNavigatorState>()
         : context.findAncestorStateOfType<DbViewerNavigatorState>();
+
     assert(() {
-      if (navigator == null && !nullOk) {
+      if (navigator == null) {
         throw FlutterError(
             'DbViewerNavigator operation requested with a context that does not include a DbViewerNavigator.\n'
             'The context used to push or pop routes from the DbViewerNavigator must be that of a '
@@ -31,7 +34,8 @@ class DbViewerNavigator extends StatefulWidget {
       }
       return true;
     }());
-    return navigator;
+
+    return navigator!;
   }
 }
 
@@ -50,7 +54,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
     );
   }
 
-  Route onGenerateRoute(RouteSettings settings) {
+  Route? onGenerateRoute(RouteSettings settings) {
     final canPop = Navigator.of(context).canPop();
     final globalViewModel =
         Provider.of<GlobalViewModel>(context, listen: false);
@@ -88,32 +92,48 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
   }
 
   Future<bool> _willPop() async =>
-      !await _navigationKey.currentState.maybePop();
+      !await _navigationKey.currentState!.maybePop();
 
   void goToTableList() =>
-      _navigationKey.currentState.pushNamed(MoorTableListScreen.routeName);
+      _navigationKey.currentState!.pushNamed(MoorTableListScreen.routeName);
 
-  void goToTableContentList(TableInfo<moor.Table, DataClass> table) =>
-      _navigationKey.currentState
-          .pushNamed(MoorTableContentListScreen.routeName, arguments: table);
+  void goToTableContentList(TableInfo<moor.Table, DataClass> table) {
+    _navigationKey.currentState!.pushNamed(
+      MoorTableContentListScreen.routeName,
+      arguments: table,
+    );
+  }
 
   void goToTableItemDetail(
-          TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data) =>
-      _navigationKey.currentState.pushNamed(MoorTableItemDetailScreen.routeName,
-          arguments: ItemDetailArgument(table, data));
+    TableInfo<moor.Table, DataClass> table,
+    Map<String, dynamic> data,
+  ) {
+    _navigationKey.currentState!.pushNamed(
+      MoorTableItemDetailScreen.routeName,
+      arguments: ItemDetailArgument(table, data),
+    );
+  }
 
-  Future<FilterData> goToTableFilter(
-          TableInfo<moor.Table, DataClass> table, FilterData filterData) =>
-      _navigationKey.currentState.pushNamed(MoorTableFilterScreen.routeName,
-          arguments: Tuple(table, filterData));
+  Future<FilterData?>? goToTableFilter(
+    TableInfo<moor.Table, DataClass> table,
+    FilterData filterData,
+  ) {
+    return _navigationKey.currentState!.pushNamed<FilterData>(
+      MoorTableFilterScreen.routeName,
+      arguments: Tuple(table, filterData),
+    );
+  }
 
-  Future<String> goToTableFilterEditSql(String query) =>
-      _navigationKey.currentState
-          .pushNamed(MoorTableFilterEditSqlScreen.routeName, arguments: query);
+  Future<String?>? goToTableFilterEditSql(String query) {
+    return _navigationKey.currentState!.pushNamed(
+      MoorTableFilterEditSqlScreen.routeName,
+      arguments: query,
+    );
+  }
 
   void goBack<T>({result}) {
-    if (_navigationKey.currentState.canPop()) {
-      _navigationKey.currentState.pop(result);
+    if (_navigationKey.currentState!.canPop()) {
+      _navigationKey.currentState!.pop(result);
     } else {
       _goBackToTheApp();
     }

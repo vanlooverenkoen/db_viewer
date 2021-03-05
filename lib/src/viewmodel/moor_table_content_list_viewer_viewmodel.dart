@@ -2,26 +2,27 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/repo/caching/caching_repository.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class MoorTableContentListViewerViewModel with ChangeNotifier {
-  GeneratedDatabase _db;
-  MoorTableViewerNavigator _navigator;
-  TableInfo<moor.Table, DataClass> _table;
+  late GeneratedDatabase _db;
+  late MoorTableViewerNavigator _navigator;
+  late TableInfo<moor.Table, DataClass> _table;
   final cachingRepo = CachingRepository.instance();
 
-  final _data = List<Map<String, dynamic>>();
-  FilterData _filteredData;
+  final _data = <Map<String, dynamic>>[];
+
+  late FilterData _filteredData;
 
   int totalResults = 0;
 
-  String error;
+  String? error;
 
-  StreamSubscription<List<QueryRow>> _subscriptionList;
-  StreamSubscription<List<QueryRow>> _subscriptionCount;
+  StreamSubscription<List<QueryRow>>? _subscriptionList;
+  StreamSubscription<List<QueryRow>>? _subscriptionCount;
 
   bool get hasCustomQuery => _filteredData.hasCustomQuery;
 
@@ -71,7 +72,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
         final dateTimeType = DateTimeType();
         final boolType = BoolType();
 
-        final correctData = List<Map<String, dynamic>>();
+        final correctData = <Map<String, dynamic>>[];
         newData.forEach((item) {
           final map = Map<String, dynamic>();
           item.keys.forEach((key) {

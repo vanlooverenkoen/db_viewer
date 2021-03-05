@@ -1,3 +1,5 @@
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/where/blob_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/bool_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/date_where_clause.dart';
@@ -5,20 +7,18 @@ import 'package:moor_db_viewer/src/model/filter/where/double_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/int_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/string_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class FilterData {
   final TableInfo<moor.Table, DataClass> _tableInfo;
 
   int _limit = 20;
   bool _asc = true;
-  String _orderingColumn;
-  String _selectQuery;
-  Map<String, bool> _selectColumns;
-  List<WhereClause> _whereClauses = List<WhereClause>();
+  String? _orderingColumn;
+  String? _selectQuery;
+  late Map<String, bool> _selectColumns;
+  List<WhereClause> _whereClauses = <WhereClause>[];
 
-  String _customSqlQuery;
+  String? _customSqlQuery;
 
   int get limit => _limit;
 
@@ -53,7 +53,7 @@ class FilterData {
     if (_selectQuery == null) {
       createSqlQuery();
     }
-    return _selectQuery;
+    return _selectQuery!;
   }
 
   FilterData(this._tableInfo) {
@@ -70,7 +70,7 @@ class FilterData {
     if (areAllColumnsSelected) {
       sb.write(' *');
     } else {
-      final list = List<String>();
+      final list = <String>[];
       for (var i = 0; i < selectColumns.keys.length; ++i) {
         if (selectColumns.values.toList()[i]) {
           list.add(selectColumns.keys.toList()[i]);
@@ -103,7 +103,7 @@ class FilterData {
       }
     }
 
-    if (_orderingColumn != null && _orderingColumn.isNotEmpty) {
+    if (_orderingColumn != null && _orderingColumn!.isNotEmpty) {
       sb.write(' ORDER BY $_orderingColumn');
       if (_asc) {
         sb.write(' ASC');
@@ -125,11 +125,13 @@ class FilterData {
 
   void onToggleColumn(String value) {
     final oldValue = _selectColumns[value];
-    _selectColumns[value] = !oldValue;
-    if (!selectColumns.values.contains(false)) {
-      selectAllColumns();
+    if (oldValue != null) {
+      _selectColumns[value] = !oldValue;
+      if (!selectColumns.values.contains(false)) {
+        selectAllColumns();
+      }
+      createSqlQuery();
     }
-    createSqlQuery();
   }
 
   FilterData copy() {
