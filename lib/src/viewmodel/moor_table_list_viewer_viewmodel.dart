@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 
 class MoorTableListViewerViewModel with ChangeNotifier {
-  MoorTableListViewerNavigator _navigator;
-  GeneratedDatabase _databaseAccessor;
+  late MoorTableListViewerNavigator _navigator;
+  late GeneratedDatabase _databaseAccessor;
 
-  List<TableInfo<moor.Table, DataClass>> tables;
+  late List<TableInfo<moor.Table, DataClass>> tables;
 
   Future<void> init(MoorTableListViewerNavigator navigator,
       GeneratedDatabase databaseAccessor) async {

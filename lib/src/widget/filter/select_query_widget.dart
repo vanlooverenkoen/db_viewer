@@ -7,8 +7,8 @@ class SelectQueryWidget extends StatelessWidget {
   final VoidCallback onEditClicked;
 
   const SelectQueryWidget({
-    @required this.query,
-    @required this.onEditClicked,
+    required this.query,
+    required this.onEditClicked,
   });
 
   @override

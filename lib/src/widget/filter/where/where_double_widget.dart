@@ -10,7 +10,7 @@ class WhereDoubleWidget extends StatelessWidget {
   final DoubleWhereClause whereClause;
 
   const WhereDoubleWidget({
-    @required this.whereClause,
+    required this.whereClause,
   });
 
   @override
@@ -59,7 +59,8 @@ class WhereDoubleWidget extends StatelessWidget {
         .onUpdatedWhereClause();
   }
 
-  void _onChangedType(BuildContext context, DoubleWhereType value) {
+  void _onChangedType(BuildContext context, DoubleWhereType? value) {
+    if (value == null) return;
     whereClause.onSelectedType(value);
     Provider.of<MoorTableFilterViewModel>(context, listen: false)
         .onUpdatedWhereClause();

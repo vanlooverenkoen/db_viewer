@@ -6,7 +6,7 @@ class WhereBlobWidget extends StatelessWidget {
   final BlobWhereClause whereClause;
 
   const WhereBlobWidget({
-    @required this.whereClause,
+    required this.whereClause,
   });
 
   @override

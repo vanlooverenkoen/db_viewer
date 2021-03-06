@@ -7,8 +7,8 @@ class OrderByWidget extends StatelessWidget {
   final ValueChanged<String> onToggleColumn;
 
   const OrderByWidget({
-    @required this.columns,
-    @required this.onToggleColumn,
+    required this.columns,
+    required this.onToggleColumn,
   });
 
   @override

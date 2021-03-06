@@ -6,7 +6,7 @@ class LimitWidget extends StatelessWidget {
   final int limit;
 
   const LimitWidget({
-    @required this.limit,
+    required this.limit,
   });
 
   @override

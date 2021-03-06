@@ -1,16 +1,16 @@
 name: moor_db_viewer
 description: A package to view your moor database in your own app with filtering and without the need of exporting your db file.
-version: 2.0.3
+version: 3.0.0
 homepage: https://github.com/vanlooverenkoen/moor_db_viewer
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  moor_flutter: ^3.0.0
-  provider: ^4.1.2
+  moor: ^4.1.0
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

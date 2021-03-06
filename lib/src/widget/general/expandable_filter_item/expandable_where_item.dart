@@ -10,8 +10,8 @@ class ExpandableWhereItem extends StatelessWidget {
   final WhereClause whereClause;
 
   const ExpandableWhereItem({
-    @required this.children,
-    @required this.whereClause,
+    required this.children,
+    required this.whereClause,
   });
 
   @override

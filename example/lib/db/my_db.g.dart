@@ -11,22 +11,22 @@ class Todo extends DataClass implements Insertable<Todo> {
   final int id;
   final String title;
   final String content;
-  final int category;
+  final int? category;
   final DateTime date;
   final bool completed;
   final double realColumn;
   final Uint8List blobColumn;
   Todo(
-      {@required this.id,
-      @required this.title,
-      @required this.content,
+      {required this.id,
+      required this.title,
+      required this.content,
       this.category,
-      @required this.date,
-      @required this.completed,
-      @required this.realColumn,
-      @required this.blobColumn});
+      required this.date,
+      required this.completed,
+      required this.realColumn,
+      required this.blobColumn});
   factory Todo.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
@@ -35,61 +35,62 @@ class Todo extends DataClass implements Insertable<Todo> {
     final doubleType = db.typeSystem.forDartType<double>();
     final uint8ListType = db.typeSystem.forDartType<Uint8List>();
     return Todo(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       title:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}title']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       content:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}body']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}body'])!,
       category:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}category']),
       date:
-          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
-      completed:
-          boolType.mapFromDatabaseResponse(data['${effectivePrefix}completed']),
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
+      completed: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}completed'])!,
       realColumn: doubleType
-          .mapFromDatabaseResponse(data['${effectivePrefix}real_column']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}real_column'])!,
       blobColumn: uint8ListType
-          .mapFromDatabaseResponse(data['${effectivePrefix}blob_column']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}blob_column'])!,
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
-    }
-    if (!nullToAbsent || title != null) {
-      map['title'] = Variable<String>(title);
-    }
-    if (!nullToAbsent || content != null) {
-      map['body'] = Variable<String>(content);
-    }
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['body'] = Variable<String>(content);
     if (!nullToAbsent || category != null) {
-      map['category'] = Variable<int>(category);
+      map['category'] = Variable<int?>(category);
     }
-    if (!nullToAbsent || date != null) {
-      map['date'] = Variable<DateTime>(date);
-    }
-    if (!nullToAbsent || completed != null) {
-      map['completed'] = Variable<bool>(completed);
-    }
-    if (!nullToAbsent || realColumn != null) {
-      map['real_column'] = Variable<double>(realColumn);
-    }
-    if (!nullToAbsent || blobColumn != null) {
-      map['blob_column'] = Variable<Uint8List>(blobColumn);
-    }
+    map['date'] = Variable<DateTime>(date);
+    map['completed'] = Variable<bool>(completed);
+    map['real_column'] = Variable<double>(realColumn);
+    map['blob_column'] = Variable<Uint8List>(blobColumn);
     return map;
   }
 
+  TodosCompanion toCompanion(bool nullToAbsent) {
+    return TodosCompanion(
+      id: Value(id),
+      title: Value(title),
+      content: Value(content),
+      category: category == null && nullToAbsent
+          ? const Value.absent()
+          : Value(category),
+      date: Value(date),
+      completed: Value(completed),
+      realColumn: Value(realColumn),
+      blobColumn: Value(blobColumn),
+    );
+  }
+
   factory Todo.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Todo(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       content: serializer.fromJson<String>(json['body']),
-      category: serializer.fromJson<int>(json['category']),
+      category: serializer.fromJson<int?>(json['category']),
       date: serializer.fromJson<DateTime>(json['date']),
       completed: serializer.fromJson<bool>(json['completed']),
       realColumn: serializer.fromJson<double>(json['realColumn']),
@@ -97,13 +98,13 @@ class Todo extends DataClass implements Insertable<Todo> {
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'body': serializer.toJson<String>(content),
-      'category': serializer.toJson<int>(category),
+      'category': serializer.toJson<int?>(category),
       'date': serializer.toJson<DateTime>(date),
       'completed': serializer.toJson<bool>(completed),
       'realColumn': serializer.toJson<double>(realColumn),
@@ -112,14 +113,14 @@ class Todo extends DataClass implements Insertable<Todo> {
   }
 
   Todo copyWith(
-          {int id,
-          String title,
-          String content,
-          int category,
-          DateTime date,
-          bool completed,
-          double realColumn,
-          Uint8List blobColumn}) =>
+          {int? id,
+          String? title,
+          String? content,
+          int? category,
+          DateTime? date,
+          bool? completed,
+          double? realColumn,
+          Uint8List? blobColumn}) =>
       Todo(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -178,7 +179,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> content;
-  final Value<int> category;
+  final Value<int?> category;
   final Value<DateTime> date;
   final Value<bool> completed;
   final Value<double> realColumn;
@@ -195,28 +196,28 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   });
   TodosCompanion.insert({
     this.id = const Value.absent(),
-    @required String title,
-    @required String content,
+    required String title,
+    required String content,
     this.category = const Value.absent(),
-    @required DateTime date,
-    @required bool completed,
-    @required double realColumn,
-    @required Uint8List blobColumn,
-  })  : title = Value(title),
+    required DateTime date,
+    required bool completed,
+    required double realColumn,
+    required Uint8List blobColumn,
+  })   : title = Value(title),
         content = Value(content),
         date = Value(date),
         completed = Value(completed),
         realColumn = Value(realColumn),
         blobColumn = Value(blobColumn);
   static Insertable<Todo> custom({
-    Expression<int> id,
-    Expression<String> title,
-    Expression<String> content,
-    Expression<int> category,
-    Expression<DateTime> date,
-    Expression<bool> completed,
-    Expression<double> realColumn,
-    Expression<Uint8List> blobColumn,
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? content,
+    Expression<int?>? category,
+    Expression<DateTime>? date,
+    Expression<bool>? completed,
+    Expression<double>? realColumn,
+    Expression<Uint8List>? blobColumn,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -231,14 +232,14 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   }
 
   TodosCompanion copyWith(
-      {Value<int> id,
-      Value<String> title,
-      Value<String> content,
-      Value<int> category,
-      Value<DateTime> date,
-      Value<bool> completed,
-      Value<double> realColumn,
-      Value<Uint8List> blobColumn}) {
+      {Value<int>? id,
+      Value<String>? title,
+      Value<String>? content,
+      Value<int?>? category,
+      Value<DateTime>? date,
+      Value<bool>? completed,
+      Value<double>? realColumn,
+      Value<Uint8List>? blobColumn}) {
     return TodosCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -264,7 +265,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       map['body'] = Variable<String>(content.value);
     }
     if (category.present) {
-      map['category'] = Variable<int>(category.value);
+      map['category'] = Variable<int?>(category.value);
     }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
@@ -280,34 +281,46 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('TodosCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('content: $content, ')
+          ..write('category: $category, ')
+          ..write('date: $date, ')
+          ..write('completed: $completed, ')
+          ..write('realColumn: $realColumn, ')
+          ..write('blobColumn: $blobColumn')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $TodosTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
+  late final GeneratedIntColumn id = _constructId();
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn('id', $tableName, false,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _titleMeta = const VerificationMeta('title');
-  GeneratedTextColumn _title;
   @override
-  GeneratedTextColumn get title => _title ??= _constructTitle();
+  late final GeneratedTextColumn title = _constructTitle();
   GeneratedTextColumn _constructTitle() {
     return GeneratedTextColumn('title', $tableName, false,
         minTextLength: 6, maxTextLength: 32);
   }
 
   final VerificationMeta _contentMeta = const VerificationMeta('content');
-  GeneratedTextColumn _content;
   @override
-  GeneratedTextColumn get content => _content ??= _constructContent();
+  late final GeneratedTextColumn content = _constructContent();
   GeneratedTextColumn _constructContent() {
     return GeneratedTextColumn(
       'body',
@@ -317,9 +330,8 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 
   final VerificationMeta _categoryMeta = const VerificationMeta('category');
-  GeneratedIntColumn _category;
   @override
-  GeneratedIntColumn get category => _category ??= _constructCategory();
+  late final GeneratedIntColumn category = _constructCategory();
   GeneratedIntColumn _constructCategory() {
     return GeneratedIntColumn(
       'category',
@@ -329,9 +341,8 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 
   final VerificationMeta _dateMeta = const VerificationMeta('date');
-  GeneratedDateTimeColumn _date;
   @override
-  GeneratedDateTimeColumn get date => _date ??= _constructDate();
+  late final GeneratedDateTimeColumn date = _constructDate();
   GeneratedDateTimeColumn _constructDate() {
     return GeneratedDateTimeColumn(
       'date',
@@ -341,9 +352,8 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 
   final VerificationMeta _completedMeta = const VerificationMeta('completed');
-  GeneratedBoolColumn _completed;
   @override
-  GeneratedBoolColumn get completed => _completed ??= _constructCompleted();
+  late final GeneratedBoolColumn completed = _constructCompleted();
   GeneratedBoolColumn _constructCompleted() {
     return GeneratedBoolColumn(
       'completed',
@@ -353,9 +363,8 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 
   final VerificationMeta _realColumnMeta = const VerificationMeta('realColumn');
-  GeneratedRealColumn _realColumn;
   @override
-  GeneratedRealColumn get realColumn => _realColumn ??= _constructRealColumn();
+  late final GeneratedRealColumn realColumn = _constructRealColumn();
   GeneratedRealColumn _constructRealColumn() {
     return GeneratedRealColumn(
       'real_column',
@@ -365,9 +374,8 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 
   final VerificationMeta _blobColumnMeta = const VerificationMeta('blobColumn');
-  GeneratedBlobColumn _blobColumn;
   @override
-  GeneratedBlobColumn get blobColumn => _blobColumn ??= _constructBlobColumn();
+  late final GeneratedBlobColumn blobColumn = _constructBlobColumn();
   GeneratedBlobColumn _constructBlobColumn() {
     return GeneratedBlobColumn(
       'blob_column',
@@ -391,33 +399,33 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title'], _titleMeta));
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('body')) {
       context.handle(_contentMeta,
-          content.isAcceptableOrUnknown(data['body'], _contentMeta));
+          content.isAcceptableOrUnknown(data['body']!, _contentMeta));
     } else if (isInserting) {
       context.missing(_contentMeta);
     }
     if (data.containsKey('category')) {
       context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category'], _categoryMeta));
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
     }
     if (data.containsKey('date')) {
       context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date'], _dateMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
     if (data.containsKey('completed')) {
       context.handle(_completedMeta,
-          completed.isAcceptableOrUnknown(data['completed'], _completedMeta));
+          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
     } else if (isInserting) {
       context.missing(_completedMeta);
     }
@@ -425,7 +433,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       context.handle(
           _realColumnMeta,
           realColumn.isAcceptableOrUnknown(
-              data['real_column'], _realColumnMeta));
+              data['real_column']!, _realColumnMeta));
     } else if (isInserting) {
       context.missing(_realColumnMeta);
     }
@@ -433,7 +441,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
       context.handle(
           _blobColumnMeta,
           blobColumn.isAcceptableOrUnknown(
-              data['blob_column'], _blobColumnMeta));
+              data['blob_column']!, _blobColumnMeta));
     } else if (isInserting) {
       context.missing(_blobColumnMeta);
     }
@@ -443,7 +451,7 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Todo map(Map<String, dynamic> data, {String tablePrefix}) {
+  Todo map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Todo.fromData(data, _db, prefix: effectivePrefix);
   }
@@ -467,85 +475,79 @@ class User extends DataClass implements Insertable<User> {
   final String phone;
   final String email;
   User(
-      {@required this.id,
-      @required this.firstName,
-      @required this.lastName,
-      @required this.age,
-      @required this.zipcode,
-      @required this.city,
-      @required this.adress1,
-      @required this.adress2,
-      @required this.country,
-      @required this.phone,
-      @required this.email});
+      {required this.id,
+      required this.firstName,
+      required this.lastName,
+      required this.age,
+      required this.zipcode,
+      required this.city,
+      required this.adress1,
+      required this.adress2,
+      required this.country,
+      required this.phone,
+      required this.email});
   factory User.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
+      {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     return User(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       firstName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}first_name']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}first_name'])!,
       lastName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}last_name']),
-      age: intType.mapFromDatabaseResponse(data['${effectivePrefix}age']),
-      zipcode:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}zipcode']),
-      city: stringType.mapFromDatabaseResponse(data['${effectivePrefix}city']),
-      adress1:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}adress1']),
-      adress2:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}adress2']),
-      country:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}country']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}last_name'])!,
+      age: intType.mapFromDatabaseResponse(data['${effectivePrefix}age'])!,
+      zipcode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}zipcode'])!,
+      city: stringType.mapFromDatabaseResponse(data['${effectivePrefix}city'])!,
+      adress1: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}adress1'])!,
+      adress2: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}adress2'])!,
+      country: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}country'])!,
       phone:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}phone']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}phone'])!,
       email:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}email']),
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}email'])!,
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
-    }
-    if (!nullToAbsent || firstName != null) {
-      map['first_name'] = Variable<String>(firstName);
-    }
-    if (!nullToAbsent || lastName != null) {
-      map['last_name'] = Variable<String>(lastName);
-    }
-    if (!nullToAbsent || age != null) {
-      map['age'] = Variable<int>(age);
-    }
-    if (!nullToAbsent || zipcode != null) {
-      map['zipcode'] = Variable<String>(zipcode);
-    }
-    if (!nullToAbsent || city != null) {
-      map['city'] = Variable<String>(city);
-    }
-    if (!nullToAbsent || adress1 != null) {
-      map['adress1'] = Variable<String>(adress1);
-    }
-    if (!nullToAbsent || adress2 != null) {
-      map['adress2'] = Variable<String>(adress2);
-    }
-    if (!nullToAbsent || country != null) {
-      map['country'] = Variable<String>(country);
-    }
-    if (!nullToAbsent || phone != null) {
-      map['phone'] = Variable<String>(phone);
-    }
-    if (!nullToAbsent || email != null) {
-      map['email'] = Variable<String>(email);
-    }
+    map['id'] = Variable<int>(id);
+    map['first_name'] = Variable<String>(firstName);
+    map['last_name'] = Variable<String>(lastName);
+    map['age'] = Variable<int>(age);
+    map['zipcode'] = Variable<String>(zipcode);
+    map['city'] = Variable<String>(city);
+    map['adress1'] = Variable<String>(adress1);
+    map['adress2'] = Variable<String>(adress2);
+    map['country'] = Variable<String>(country);
+    map['phone'] = Variable<String>(phone);
+    map['email'] = Variable<String>(email);
     return map;
   }
 
+  UsersCompanion toCompanion(bool nullToAbsent) {
+    return UsersCompanion(
+      id: Value(id),
+      firstName: Value(firstName),
+      lastName: Value(lastName),
+      age: Value(age),
+      zipcode: Value(zipcode),
+      city: Value(city),
+      adress1: Value(adress1),
+      adress2: Value(adress2),
+      country: Value(country),
+      phone: Value(phone),
+      email: Value(email),
+    );
+  }
+
   factory User.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
+      {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return User(
       id: serializer.fromJson<int>(json['id']),
@@ -562,7 +564,7 @@ class User extends DataClass implements Insertable<User> {
     );
   }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
@@ -580,17 +582,17 @@ class User extends DataClass implements Insertable<User> {
   }
 
   User copyWith(
-          {int id,
-          String firstName,
-          String lastName,
-          int age,
-          String zipcode,
-          String city,
-          String adress1,
-          String adress2,
-          String country,
-          String phone,
-          String email}) =>
+          {int? id,
+          String? firstName,
+          String? lastName,
+          int? age,
+          String? zipcode,
+          String? city,
+          String? adress1,
+          String? adress2,
+          String? country,
+          String? phone,
+          String? email}) =>
       User(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -687,17 +689,17 @@ class UsersCompanion extends UpdateCompanion<User> {
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
-    @required String firstName,
-    @required String lastName,
-    @required int age,
-    @required String zipcode,
-    @required String city,
-    @required String adress1,
-    @required String adress2,
-    @required String country,
-    @required String phone,
-    @required String email,
-  })  : firstName = Value(firstName),
+    required String firstName,
+    required String lastName,
+    required int age,
+    required String zipcode,
+    required String city,
+    required String adress1,
+    required String adress2,
+    required String country,
+    required String phone,
+    required String email,
+  })   : firstName = Value(firstName),
         lastName = Value(lastName),
         age = Value(age),
         zipcode = Value(zipcode),
@@ -708,17 +710,17 @@ class UsersCompanion extends UpdateCompanion<User> {
         phone = Value(phone),
         email = Value(email);
   static Insertable<User> custom({
-    Expression<int> id,
-    Expression<String> firstName,
-    Expression<String> lastName,
-    Expression<int> age,
-    Expression<String> zipcode,
-    Expression<String> city,
-    Expression<String> adress1,
-    Expression<String> adress2,
-    Expression<String> country,
-    Expression<String> phone,
-    Expression<String> email,
+    Expression<int>? id,
+    Expression<String>? firstName,
+    Expression<String>? lastName,
+    Expression<int>? age,
+    Expression<String>? zipcode,
+    Expression<String>? city,
+    Expression<String>? adress1,
+    Expression<String>? adress2,
+    Expression<String>? country,
+    Expression<String>? phone,
+    Expression<String>? email,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -736,17 +738,17 @@ class UsersCompanion extends UpdateCompanion<User> {
   }
 
   UsersCompanion copyWith(
-      {Value<int> id,
-      Value<String> firstName,
-      Value<String> lastName,
-      Value<int> age,
-      Value<String> zipcode,
-      Value<String> city,
-      Value<String> adress1,
-      Value<String> adress2,
-      Value<String> country,
-      Value<String> phone,
-      Value<String> email}) {
+      {Value<int>? id,
+      Value<String>? firstName,
+      Value<String>? lastName,
+      Value<int>? age,
+      Value<String>? zipcode,
+      Value<String>? city,
+      Value<String>? adress1,
+      Value<String>? adress2,
+      Value<String>? country,
+      Value<String>? phone,
+      Value<String>? email}) {
     return UsersCompanion(
       id: id ?? this.id,
       firstName: firstName ?? this.firstName,
@@ -800,25 +802,41 @@ class UsersCompanion extends UpdateCompanion<User> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('UsersCompanion(')
+          ..write('id: $id, ')
+          ..write('firstName: $firstName, ')
+          ..write('lastName: $lastName, ')
+          ..write('age: $age, ')
+          ..write('zipcode: $zipcode, ')
+          ..write('city: $city, ')
+          ..write('adress1: $adress1, ')
+          ..write('adress2: $adress2, ')
+          ..write('country: $country, ')
+          ..write('phone: $phone, ')
+          ..write('email: $email')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   final GeneratedDatabase _db;
-  final String _alias;
+  final String? _alias;
   $UsersTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
+  late final GeneratedIntColumn id = _constructId();
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn('id', $tableName, false,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _firstNameMeta = const VerificationMeta('firstName');
-  GeneratedTextColumn _firstName;
   @override
-  GeneratedTextColumn get firstName => _firstName ??= _constructFirstName();
+  late final GeneratedTextColumn firstName = _constructFirstName();
   GeneratedTextColumn _constructFirstName() {
     return GeneratedTextColumn(
       'first_name',
@@ -828,9 +846,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _lastNameMeta = const VerificationMeta('lastName');
-  GeneratedTextColumn _lastName;
   @override
-  GeneratedTextColumn get lastName => _lastName ??= _constructLastName();
+  late final GeneratedTextColumn lastName = _constructLastName();
   GeneratedTextColumn _constructLastName() {
     return GeneratedTextColumn(
       'last_name',
@@ -840,9 +857,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _ageMeta = const VerificationMeta('age');
-  GeneratedIntColumn _age;
   @override
-  GeneratedIntColumn get age => _age ??= _constructAge();
+  late final GeneratedIntColumn age = _constructAge();
   GeneratedIntColumn _constructAge() {
     return GeneratedIntColumn(
       'age',
@@ -852,9 +868,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _zipcodeMeta = const VerificationMeta('zipcode');
-  GeneratedTextColumn _zipcode;
   @override
-  GeneratedTextColumn get zipcode => _zipcode ??= _constructZipcode();
+  late final GeneratedTextColumn zipcode = _constructZipcode();
   GeneratedTextColumn _constructZipcode() {
     return GeneratedTextColumn(
       'zipcode',
@@ -864,9 +879,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _cityMeta = const VerificationMeta('city');
-  GeneratedTextColumn _city;
   @override
-  GeneratedTextColumn get city => _city ??= _constructCity();
+  late final GeneratedTextColumn city = _constructCity();
   GeneratedTextColumn _constructCity() {
     return GeneratedTextColumn(
       'city',
@@ -876,9 +890,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _adress1Meta = const VerificationMeta('adress1');
-  GeneratedTextColumn _adress1;
   @override
-  GeneratedTextColumn get adress1 => _adress1 ??= _constructAdress1();
+  late final GeneratedTextColumn adress1 = _constructAdress1();
   GeneratedTextColumn _constructAdress1() {
     return GeneratedTextColumn(
       'adress1',
@@ -888,9 +901,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _adress2Meta = const VerificationMeta('adress2');
-  GeneratedTextColumn _adress2;
   @override
-  GeneratedTextColumn get adress2 => _adress2 ??= _constructAdress2();
+  late final GeneratedTextColumn adress2 = _constructAdress2();
   GeneratedTextColumn _constructAdress2() {
     return GeneratedTextColumn(
       'adress2',
@@ -900,9 +912,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _countryMeta = const VerificationMeta('country');
-  GeneratedTextColumn _country;
   @override
-  GeneratedTextColumn get country => _country ??= _constructCountry();
+  late final GeneratedTextColumn country = _constructCountry();
   GeneratedTextColumn _constructCountry() {
     return GeneratedTextColumn(
       'country',
@@ -912,9 +923,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _phoneMeta = const VerificationMeta('phone');
-  GeneratedTextColumn _phone;
   @override
-  GeneratedTextColumn get phone => _phone ??= _constructPhone();
+  late final GeneratedTextColumn phone = _constructPhone();
   GeneratedTextColumn _constructPhone() {
     return GeneratedTextColumn(
       'phone',
@@ -924,9 +934,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   final VerificationMeta _emailMeta = const VerificationMeta('email');
-  GeneratedTextColumn _email;
   @override
-  GeneratedTextColumn get email => _email ??= _constructEmail();
+  late final GeneratedTextColumn email = _constructEmail();
   GeneratedTextColumn _constructEmail() {
     return GeneratedTextColumn(
       'email',
@@ -961,65 +970,65 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('first_name')) {
       context.handle(_firstNameMeta,
-          firstName.isAcceptableOrUnknown(data['first_name'], _firstNameMeta));
+          firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta));
     } else if (isInserting) {
       context.missing(_firstNameMeta);
     }
     if (data.containsKey('last_name')) {
       context.handle(_lastNameMeta,
-          lastName.isAcceptableOrUnknown(data['last_name'], _lastNameMeta));
+          lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta));
     } else if (isInserting) {
       context.missing(_lastNameMeta);
     }
     if (data.containsKey('age')) {
       context.handle(
-          _ageMeta, age.isAcceptableOrUnknown(data['age'], _ageMeta));
+          _ageMeta, age.isAcceptableOrUnknown(data['age']!, _ageMeta));
     } else if (isInserting) {
       context.missing(_ageMeta);
     }
     if (data.containsKey('zipcode')) {
       context.handle(_zipcodeMeta,
-          zipcode.isAcceptableOrUnknown(data['zipcode'], _zipcodeMeta));
+          zipcode.isAcceptableOrUnknown(data['zipcode']!, _zipcodeMeta));
     } else if (isInserting) {
       context.missing(_zipcodeMeta);
     }
     if (data.containsKey('city')) {
       context.handle(
-          _cityMeta, city.isAcceptableOrUnknown(data['city'], _cityMeta));
+          _cityMeta, city.isAcceptableOrUnknown(data['city']!, _cityMeta));
     } else if (isInserting) {
       context.missing(_cityMeta);
     }
     if (data.containsKey('adress1')) {
       context.handle(_adress1Meta,
-          adress1.isAcceptableOrUnknown(data['adress1'], _adress1Meta));
+          adress1.isAcceptableOrUnknown(data['adress1']!, _adress1Meta));
     } else if (isInserting) {
       context.missing(_adress1Meta);
     }
     if (data.containsKey('adress2')) {
       context.handle(_adress2Meta,
-          adress2.isAcceptableOrUnknown(data['adress2'], _adress2Meta));
+          adress2.isAcceptableOrUnknown(data['adress2']!, _adress2Meta));
     } else if (isInserting) {
       context.missing(_adress2Meta);
     }
     if (data.containsKey('country')) {
       context.handle(_countryMeta,
-          country.isAcceptableOrUnknown(data['country'], _countryMeta));
+          country.isAcceptableOrUnknown(data['country']!, _countryMeta));
     } else if (isInserting) {
       context.missing(_countryMeta);
     }
     if (data.containsKey('phone')) {
       context.handle(
-          _phoneMeta, phone.isAcceptableOrUnknown(data['phone'], _phoneMeta));
+          _phoneMeta, phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta));
     } else if (isInserting) {
       context.missing(_phoneMeta);
     }
     if (data.containsKey('email')) {
       context.handle(
-          _emailMeta, email.isAcceptableOrUnknown(data['email'], _emailMeta));
+          _emailMeta, email.isAcceptableOrUnknown(data['email']!, _emailMeta));
     } else if (isInserting) {
       context.missing(_emailMeta);
     }
@@ -1029,7 +1038,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  User map(Map<String, dynamic> data, {String tablePrefix}) {
+  User map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return User.fromData(data, _db, prefix: effectivePrefix);
   }
@@ -1042,10 +1051,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
 
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  $TodosTable _todos;
-  $TodosTable get todos => _todos ??= $TodosTable(this);
-  $UsersTable _users;
-  $UsersTable get users => _users ??= $UsersTable(this);
+  late final $TodosTable todos = $TodosTable(this);
+  late final $UsersTable users = $UsersTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override

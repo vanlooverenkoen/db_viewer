@@ -1,5 +1,5 @@
 import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:moor/moor.dart';
 
 class BoolWhereClause extends WhereClause {
   bool _value = true;

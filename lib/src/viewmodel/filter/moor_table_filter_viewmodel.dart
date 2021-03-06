@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class MoorTableFilterViewModel with ChangeNotifier {
   // ignore: unused_field
   final GeneratedDatabase _db;
   final MoorTableFilterNavigator _navigator;
-  FilterData _filterData;
+  late FilterData _filterData;
   TableInfo<moor.Table, DataClass> _table;
 
   String get title => '$tableName Filter';
@@ -35,12 +35,13 @@ class MoorTableFilterViewModel with ChangeNotifier {
     this._navigator,
     this._db,
     this._table,
-    FilterData filterData,
+    FilterData? filterData,
   ) {
     if (filterData == null) {
-      this._filterData = FilterData(_table);
+      _filterData = FilterData(_table);
+    } else {
+      _filterData = filterData;
     }
-    _filterData = filterData;
     notifyListeners();
   }
 
@@ -106,7 +107,7 @@ class MoorTableFilterViewModel with ChangeNotifier {
 }
 
 abstract class MoorTableFilterNavigator {
-  void goBack(FilterData filterData);
+  void goBack(FilterData? filterData);
 
   void showAddWhereClause(TableInfo<moor.Table, DataClass> table) {}
 

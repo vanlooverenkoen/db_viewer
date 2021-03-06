@@ -16,7 +16,7 @@ class MoorTableFilterEditSqlScreen extends StatefulWidget {
 
 class _MoorTableFilterEditSqlScreenState
     extends State<MoorTableFilterEditSqlScreen> {
-  TextEditingController _controller;
+  late TextEditingController _controller;
 
   @override
   void initState() {

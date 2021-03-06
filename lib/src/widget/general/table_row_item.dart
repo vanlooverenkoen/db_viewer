@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 
 class TableRowItem extends StatelessWidget {
   final TableInfo<moor.Table, DataClass> table;
   final VoidCallback onClick;
 
   const TableRowItem({
-    @required this.table,
-    @required this.onClick,
+    required this.table,
+    required this.onClick,
   });
 
   @override

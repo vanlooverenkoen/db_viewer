@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
@@ -14,8 +16,6 @@ import 'package:moor_db_viewer/src/widget/filter/select_widget.dart';
 import 'package:moor_db_viewer/src/widget/filter/where_widget.dart';
 import 'package:moor_db_viewer/src/widget/general/styled/styled_back_button.dart';
 import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 import 'package:provider/provider.dart';
 
 class MoorTableFilterScreen extends StatefulWidget {
@@ -57,7 +57,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
               onEditClicked: viewModel.onEditClicked,
             ),
             if (viewModel.isEditedQuery)
-              FlatButton(
+              TextButton(
                 child: Text('Clear custom sql statement'),
                 onPressed: viewModel.oClearCustomSqlQueryClicked,
               ),
@@ -103,7 +103,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
   }
 
   @override
-  void goBack(FilterData filterData) =>
+  void goBack(FilterData? filterData) =>
       DbViewerNavigator.of(context).goBack(result: filterData);
 
   @override
@@ -134,17 +134,20 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
           ),
         ),
         actions: [
-          FlatButton(
+          TextButton(
             child: const Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
       ),
     );
-    if (result != null)
-      Provider.of<MoorTableFilterViewModel>(_scaffoldKey.currentContext,
-              listen: false)
-          .onWhereColumnSelected(result);
+    final scaffoldContext = _scaffoldKey.currentContext;
+    if (result != null && scaffoldContext != null) {
+      Provider.of<MoorTableFilterViewModel>(
+        scaffoldContext,
+        listen: false,
+      ).onWhereColumnSelected(result);
+    }
   }
 
   String getType(GeneratedColumn column) {
@@ -168,9 +171,11 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
   Future<void> showEdit(String selectQuery) async {
     final result =
         await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
-    if (result != null)
-      Provider.of<MoorTableFilterViewModel>(_scaffoldKey.currentContext,
-              listen: false)
+
+    final scaffoldContext = _scaffoldKey.currentContext;
+    if (result != null && scaffoldContext != null) {
+      Provider.of<MoorTableFilterViewModel>(scaffoldContext, listen: false)
           .onUpdateCustomSqlQuery(result);
+    }
   }
 }

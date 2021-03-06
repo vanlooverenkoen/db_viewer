@@ -8,9 +8,9 @@ class AscDescWidget extends StatelessWidget {
   final VoidCallback onAscClicked;
 
   AscDescWidget({
-    @required this.asc,
-    @required this.onAscClicked,
-    @required this.onDescClicked,
+    required this.asc,
+    required this.onAscClicked,
+    required this.onDescClicked,
   });
 
   @override

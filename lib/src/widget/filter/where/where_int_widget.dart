@@ -10,7 +10,7 @@ class WhereIntWidget extends StatelessWidget {
   final IntWhereClause whereClause;
 
   const WhereIntWidget({
-    @required this.whereClause,
+    required this.whereClause,
   });
 
   @override
@@ -59,7 +59,8 @@ class WhereIntWidget extends StatelessWidget {
         .onUpdatedWhereClause();
   }
 
-  void _onChangedType(BuildContext context, IntWhereType value) {
+  void _onChangedType(BuildContext context, IntWhereType? value) {
+    if (value == null) return;
     whereClause.onSelectedType(value);
     Provider.of<MoorTableFilterViewModel>(context, listen: false)
         .onUpdatedWhereClause();

@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 abstract class WhereClause {
   final _createDate = DateTime.now();
   String columnName;
@@ -8,7 +6,7 @@ abstract class WhereClause {
 
   String get id => _createDate.millisecondsSinceEpoch.toString();
 
-  WhereClause({@required this.columnName});
+  WhereClause({required this.columnName});
 
   String getSqlWhereClause();
 

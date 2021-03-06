@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:moor/moor.dart';
+import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/repo/caching/caching_repository.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_item_detail_screen.dart';
-import 'package:moor_flutter/moor_flutter.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class MoorTableItemDetailViewerViewModel with ChangeNotifier {
-  MoorTableItemDetailViewerNavigator _navigator;
-  TableInfo<moor.Table, DataClass> _table;
+  late MoorTableItemDetailViewerNavigator _navigator;
+  late TableInfo<moor.Table, DataClass> _table;
   final cachingRepo = CachingRepository.instance();
 
   Map<String, dynamic> _data = Map();
-  FilterData _filteredData;
+  late FilterData _filteredData;
 
   int totalResults = 0;
 
-  String error;
+  String? error;
 
   bool get hasFilter => _filteredData.hasCustomQuery;
 
