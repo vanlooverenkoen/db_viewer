@@ -1,3 +1,8 @@
+## [3.0.0] - 05-03-2021
+### Added
+- Added nullsafety support to support flutter 2.0.0 & dart 2.12.0
+### Fixed
+- example path import fixed
 
 ## [2.0.3] - 18-05-2020
 ### Fixed
