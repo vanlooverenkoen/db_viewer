@@ -1,6 +1,8 @@
 ## [3.0.1] - 20-04-2021
 ### Fixed
 - AppBar brightness
+### Updated
+- moor version
 
 ## [3.0.0] - 05-03-2021
 ### Added
