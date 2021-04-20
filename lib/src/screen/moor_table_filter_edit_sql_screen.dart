@@ -28,6 +28,7 @@ class _MoorTableFilterEditSqlScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        brightness: Theme.of(context).primaryColorBrightness,
         title: Text('Edit SQL STATEMENT'),
         actions: [
           IconButton(
