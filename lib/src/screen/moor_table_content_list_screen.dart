@@ -31,6 +31,7 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
       consumer: (context, viewModel, child) => Scaffold(
         key: _key,
         appBar: AppBar(
+          brightness: Theme.of(context).primaryColorBrightness,
           centerTitle: Theme.of(context).platform == TargetPlatform.iOS,
           title: Text(viewModel.title),
           actions: [

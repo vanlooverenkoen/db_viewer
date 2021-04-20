@@ -41,6 +41,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
       consumer: (context, viewModel, child) => Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
+          brightness: Theme.of(context).primaryColorBrightness,
           leading: StyledBackButton(onBackClicked: viewModel.onBackClicked),
           title: Text(viewModel.title),
           actions: [
