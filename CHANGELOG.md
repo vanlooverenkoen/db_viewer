@@ -1,3 +1,7 @@
+## [3.0.1] - 20-04-2021
+### Fixed
+- AppBar brightness
+
 ## [3.0.0] - 05-03-2021
 ### Added
 - Added nullsafety support to support flutter 2.0.0 & dart 2.12.0
