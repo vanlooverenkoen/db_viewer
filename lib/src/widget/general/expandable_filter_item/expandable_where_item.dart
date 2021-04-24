@@ -30,6 +30,7 @@ class ExpandableWhereItem extends StatelessWidget {
         child: ExpandableFilterItem(
           title: whereClause.columnName,
           subtitle: '(${whereClause.typeName})',
+          backgroundColor: Theme.of(context).cardColor,
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.only(
