@@ -9,7 +9,7 @@ import 'package:moor_db_viewer/src/model/filter/where/string_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
 
 class FilterData {
-  final TableInfo<moor.Table, DataClass> _tableInfo;
+  final TableInfo<moor.Table, dynamic> _tableInfo;
 
   int _limit = 20;
   bool _asc = true;

@@ -98,7 +98,7 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
 }
 
 class ItemDetailArgument {
-  TableInfo<moor.Table, DataClass> table;
+  TableInfo<moor.Table, dynamic> table;
   Map<String, dynamic> data;
 
   ItemDetailArgument(this.table, this.data);

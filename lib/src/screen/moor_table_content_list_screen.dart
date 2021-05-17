@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class MoorTableContentListScreen extends StatefulWidget {
   static const routeName = 'moor-table-content-list';
 
-  final TableInfo<moor.Table, DataClass> table;
+  final TableInfo<moor.Table, dynamic> table;
 
   MoorTableContentListScreen(this.table);
 
@@ -133,7 +133,7 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
 
   @override
   Future<void> goToFilter(
-    TableInfo<moor.Table, DataClass> table,
+    TableInfo<moor.Table, dynamic> table,
     FilterData filteredData,
   ) async {
     final newFilterData = await DbViewerNavigator.of(context)
@@ -149,7 +149,7 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
 
   @override
   void goToItemDetail(
-    TableInfo<moor.Table, DataClass> table,
+    TableInfo<moor.Table, dynamic> table,
     Map<String, dynamic> data,
   ) =>
       DbViewerNavigator.of(context).goToTableItemDetail(table, data);

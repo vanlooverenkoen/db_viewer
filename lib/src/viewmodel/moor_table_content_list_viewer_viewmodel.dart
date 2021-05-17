@@ -10,7 +10,7 @@ import 'package:moor_db_viewer/src/repo/caching/caching_repository.dart';
 class MoorTableContentListViewerViewModel with ChangeNotifier {
   late GeneratedDatabase _db;
   late MoorTableViewerNavigator _navigator;
-  late TableInfo<moor.Table, DataClass> _table;
+  late TableInfo<moor.Table, dynamic> _table;
   final cachingRepo = CachingRepository.instance();
 
   final _data = <Map<String, dynamic>>[];
@@ -37,7 +37,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
   String get tableName => _table.entityName;
 
   Future<void> init(MoorTableViewerNavigator navigator, GeneratedDatabase db,
-      TableInfo<moor.Table, DataClass> table) async {
+      TableInfo<moor.Table, dynamic> table) async {
     _navigator = navigator;
     _db = db;
     _table = table;
@@ -138,10 +138,10 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 
 abstract class MoorTableViewerNavigator {
   void goToFilter(
-      TableInfo<moor.Table, DataClass> table, FilterData _filteredData);
+      TableInfo<moor.Table, dynamic> table, FilterData _filteredData);
 
   void goToItemDetail(
-      TableInfo<moor.Table, DataClass> table, Map<String, dynamic> data);
+      TableInfo<moor.Table, dynamic> table, Map<String, dynamic> data);
 
   void showToast(String message);
 }

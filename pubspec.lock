@@ -94,7 +94,7 @@ packages:
       name: moor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.1"
+    version: "4.3.0"
   nested:
     dependency: transitive
     description:
