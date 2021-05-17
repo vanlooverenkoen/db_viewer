@@ -8,7 +8,7 @@ import 'package:moor_db_viewer/src/screen/moor_table_item_detail_screen.dart';
 
 class MoorTableItemDetailViewerViewModel with ChangeNotifier {
   late MoorTableItemDetailViewerNavigator _navigator;
-  late TableInfo<moor.Table, DataClass> _table;
+  late TableInfo<moor.Table, dynamic> _table;
   final cachingRepo = CachingRepository.instance();
 
   Map<String, dynamic> _data = Map();

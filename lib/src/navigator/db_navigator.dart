@@ -97,7 +97,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
   void goToTableList() =>
       _navigationKey.currentState!.pushNamed(MoorTableListScreen.routeName);
 
-  void goToTableContentList(TableInfo<moor.Table, DataClass> table) {
+  void goToTableContentList(TableInfo<moor.Table, dynamic> table) {
     _navigationKey.currentState!.pushNamed(
       MoorTableContentListScreen.routeName,
       arguments: table,
@@ -105,7 +105,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
   }
 
   void goToTableItemDetail(
-    TableInfo<moor.Table, DataClass> table,
+    TableInfo<moor.Table, dynamic> table,
     Map<String, dynamic> data,
   ) {
     _navigationKey.currentState!.pushNamed(
@@ -115,7 +115,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
   }
 
   Future<FilterData?>? goToTableFilter(
-    TableInfo<moor.Table, DataClass> table,
+    TableInfo<moor.Table, dynamic> table,
     FilterData filterData,
   ) {
     return _navigationKey.currentState!.pushNamed<FilterData>(

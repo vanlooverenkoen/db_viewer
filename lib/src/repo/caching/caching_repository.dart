@@ -11,7 +11,7 @@ class CachingRepository extends CachingRepo {
 
   factory CachingRepository.instance() => _instance ??= CachingRepository._();
 
-  FilterData getFilterDataForTable(TableInfo<moor.Table, DataClass> table) {
+  FilterData getFilterDataForTable(TableInfo<moor.Table, dynamic> table) {
     final entityName = table.entityName;
     if (!_filterData.containsKey(entityName)) {
       _filterData[entityName] = FilterData(table);
