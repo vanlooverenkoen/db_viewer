@@ -50,6 +50,6 @@ class _MoorTableListScreenState extends State<MoorTableListScreen>
   }
 
   @override
-  void goToTableDetail(TableInfo<moor.Table, DataClass> table) =>
+  void goToTableDetail(TableInfo<moor.Table, dynamic> table) =>
       DbViewerNavigator.of(context).goToTableContentList(table);
 }

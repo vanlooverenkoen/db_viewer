@@ -3,7 +3,7 @@ import 'package:moor/moor.dart';
 import 'package:moor/moor.dart' as moor;
 
 class TableRowItem extends StatelessWidget {
-  final TableInfo<moor.Table, DataClass> table;
+  final TableInfo<moor.Table, dynamic> table;
   final VoidCallback onClick;
 
   const TableRowItem({

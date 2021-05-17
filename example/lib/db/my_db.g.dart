@@ -28,27 +28,22 @@ class Todo extends DataClass implements Insertable<Todo> {
   factory Todo.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    final stringType = db.typeSystem.forDartType<String>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final boolType = db.typeSystem.forDartType<bool>();
-    final doubleType = db.typeSystem.forDartType<double>();
-    final uint8ListType = db.typeSystem.forDartType<Uint8List>();
     return Todo(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      title:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
-      content:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}body'])!,
-      category:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}category']),
-      date:
-          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
-      completed: boolType
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      title: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
+      content: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}body'])!,
+      category: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}category']),
+      date: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
+      completed: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}completed'])!,
-      realColumn: doubleType
+      realColumn: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}real_column'])!,
-      blobColumn: uint8ListType
+      blobColumn: const BlobType()
           .mapFromDatabaseResponse(data['${effectivePrefix}blob_column'])!,
     );
   }
@@ -162,7 +157,7 @@ class Todo extends DataClass implements Insertable<Todo> {
                           $mrjc(
                               realColumn.hashCode, blobColumn.hashCode))))))));
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Todo &&
           other.id == this.id &&
@@ -489,28 +484,29 @@ class User extends DataClass implements Insertable<User> {
   factory User.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    final stringType = db.typeSystem.forDartType<String>();
     return User(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      firstName: stringType
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      firstName: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}first_name'])!,
-      lastName: stringType
+      lastName: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}last_name'])!,
-      age: intType.mapFromDatabaseResponse(data['${effectivePrefix}age'])!,
-      zipcode: stringType
+      age: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}age'])!,
+      zipcode: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}zipcode'])!,
-      city: stringType.mapFromDatabaseResponse(data['${effectivePrefix}city'])!,
-      adress1: stringType
+      city: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}city'])!,
+      adress1: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}adress1'])!,
-      adress2: stringType
+      adress2: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}adress2'])!,
-      country: stringType
+      country: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}country'])!,
-      phone:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}phone'])!,
-      email:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}email'])!,
+      phone: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}phone'])!,
+      email: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}email'])!,
     );
   }
   @override
@@ -646,7 +642,7 @@ class User extends DataClass implements Insertable<User> {
                                       $mrjc(phone.hashCode,
                                           email.hashCode)))))))))));
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       (other is User &&
           other.id == this.id &&

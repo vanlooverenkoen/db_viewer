@@ -6,7 +6,7 @@ class MoorTableListViewerViewModel with ChangeNotifier {
   late MoorTableListViewerNavigator _navigator;
   late GeneratedDatabase _databaseAccessor;
 
-  late List<TableInfo<moor.Table, DataClass>> tables;
+  late List<TableInfo<moor.Table, dynamic>> tables;
 
   Future<void> init(MoorTableListViewerNavigator navigator,
       GeneratedDatabase databaseAccessor) async {
@@ -20,11 +20,11 @@ class MoorTableListViewerViewModel with ChangeNotifier {
     tables = _databaseAccessor.allTables.map((item) => item).toList();
   }
 
-  void onTableClicked(TableInfo<moor.Table, DataClass> table) {
+  void onTableClicked(TableInfo<moor.Table, dynamic> table) {
     _navigator.goToTableDetail(table);
   }
 }
 
 abstract class MoorTableListViewerNavigator {
-  void goToTableDetail(TableInfo<moor.Table, DataClass> table);
+  void goToTableDetail(TableInfo<moor.Table, dynamic> table);
 }

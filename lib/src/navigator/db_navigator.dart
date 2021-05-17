@@ -97,7 +97,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
   void goToTableList() =>
       _navigationKey.currentState!.pushNamed(MoorTableListScreen.routeName);
 
-  void goToTableContentList(TableInfo<moor.Table, DataClass> table) {
+  void goToTableContentList(TableInfo<moor.Table, dynamic> table) {
     _navigationKey.currentState!.pushNamed(
       MoorTableContentListScreen.routeName,
       arguments: table,
