@@ -1,3 +1,7 @@
+## [4.0.0] - 17-05-2021
+### Fixed breaking change
+- moor 4.3.0 is required
+
 ## [3.0.1] - 20-04-2021
 ### Fixed
 - AppBar brightness
