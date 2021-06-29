@@ -18,6 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
     return Stack(
       children: [
         Scaffold(
@@ -30,47 +32,85 @@ class _HomeScreenState extends State<HomeScreen> {
               ListView(
                 children: [
                   MaterialButton(
-                    child: Text('GO to dbviewer'),
+                    child: Text(
+                      'GO to dbviewer',
+                      style: textTheme.button,
+                    ),
                     onPressed: _onGoToDbViewerClicked,
                   ),
                   MaterialButton(
-                    child: Text('Add User'),
+                    child: Text(
+                      'Add User',
+                      style: textTheme.button,
+                    ),
                     onPressed: _addUser,
                   ),
                   MaterialButton(
-                    child: Text('Remove first User'),
+                    child: Text(
+                      'Remove first User',
+                      style: textTheme.button,
+                    ),
                     onPressed: _removeUser,
                   ),
                   MaterialButton(
-                    child: Text('Add TODO'),
+                    child: Text(
+                      'Add TODO',
+                      style: textTheme.button,
+                    ),
                     onPressed: _addTodo,
                   ),
                   MaterialButton(
-                    child: Text('Remove first TODO'),
+                    child: Text(
+                      'Remove first TODO',
+                      style: textTheme.button,
+                    ),
                     onPressed: _removeTodo,
                   ),
                   MaterialButton(
-                    child: Text('Add 100 TODO'),
+                    child: Text(
+                      'Add 100 TODO',
+                      style: textTheme.button,
+                    ),
                     onPressed: _add100Todos,
                   ),
                   MaterialButton(
-                    child: Text('Add 10000 TODO'),
+                    child: Text(
+                      'Add 10000 TODO',
+                      style: textTheme.button,
+                    ),
                     onPressed: _add10000Todos,
                   ),
                   MaterialButton(
-                    child: Text('Add 1000000 TODO'),
+                    child: Text(
+                      'Add 1000000 TODO',
+                      style: textTheme.button,
+                    ),
                     onPressed: _add1000000Todos,
                   ),
                   MaterialButton(
-                    child: Text('clear db'),
+                    child: Text(
+                      'clear db',
+                      style: textTheme.button,
+                    ),
                     onPressed: _clearDb,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: TextField(
-                      onChanged: _onTextFieldChanged,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Container(
+                      color: theme.inputDecorationTheme.fillColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        child: TextField(
+                          decoration: InputDecoration(hintText: 'Enter TODO'),
+                          onChanged: _onTextFieldChanged,
+                        ),
+                      ),
                     ),
-                  )
+                  ),
+                  SizedBox(height: 72),
                 ],
               ),
             ],

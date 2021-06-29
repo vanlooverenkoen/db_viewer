@@ -6,6 +6,7 @@ import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
 import 'package:moor_db_viewer/src/viewmodel/moor_table_content_list_viewer_viewmodel.dart';
+import 'package:moor_db_viewer/src/widget/error_widget.dart';
 import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,7 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ProviderWidget<MoorTableContentListViewerViewModel>(
       consumer: (context, viewModel, child) => Scaffold(
         key: _key,
@@ -64,19 +66,18 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
         body: LayoutBuilder(
           builder: (context, constraints) {
             if (viewModel.error != null)
-              return Center(child: Text(viewModel.error!));
+              return ErrorTextWidget(text: viewModel.error!);
             if (!viewModel.hasColumns && viewModel.hasData)
-              return Center(
-                  child: Text(
-                      'No columns selected for the`${viewModel.tableName}` table'));
+              return ErrorTextWidget(
+                  text:
+                      'No columns selected for the`${viewModel.tableName}` table');
             if (!viewModel.hasData && viewModel.hasCustomQuery)
-              return Center(
-                  child: Text(
-                      'No data found for your current filter on the `${viewModel.tableName}` table'));
+              return ErrorTextWidget(
+                  text:
+                      'No data found for your current filter on the `${viewModel.tableName}` table');
             if (!viewModel.hasData)
-              return Center(
-                  child: Text(
-                      'No data added to the `${viewModel.tableName}` table'));
+              return ErrorTextWidget(
+                  text: 'No data added to the `${viewModel.tableName}` table');
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SingleChildScrollView(
@@ -86,7 +87,10 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
                   columns: [
                     for (final item in viewModel.data[0].keys)
                       DataColumn(
-                        label: Text(item),
+                        label: Text(
+                          item,
+                          style: theme.textTheme.headline6,
+                        ),
                       ),
                   ],
                   rows: [
@@ -106,6 +110,7 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         item[key].toString(),
+                                        style: theme.textTheme.bodyText1,
                                       ),
                                     ),
                                   ),

@@ -11,6 +11,7 @@ class LimitWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,7 +23,10 @@ class LimitWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('LIMIT'),
+              Text(
+                'LIMIT',
+                style: theme.textTheme.bodyText1,
+              ),
               Center(
                 child: SelectableAction(
                   selected: true,

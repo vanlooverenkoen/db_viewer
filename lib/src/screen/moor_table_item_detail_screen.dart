@@ -26,6 +26,7 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ProviderWidget<MoorTableItemDetailViewerViewModel>(
       consumer: (context, viewModel, child) => Scaffold(
         key: _key,
@@ -58,16 +59,16 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
                     children: [
                       Text(
                         viewModel.getKey(index),
-                        style: ThemeTextStyles.itemDetailTitle,
+                        style: theme.textTheme.headline6,
                       ),
                       Text(
                         viewModel.getValue(index),
-                        style: ThemeTextStyles.itemDetailContent,
+                        style: theme.textTheme.bodyText1,
                       ),
                       Container(height: ThemeDimens.padding16),
                       Container(
                         height: 1,
-                        color: ThemeColors.lightGrey,
+                        color: theme.dividerColor,
                         width: double.infinity,
                       ),
                     ],
