@@ -1,3 +1,7 @@
+## [4.0.1] - 29-06-2021
+### Fixed
+- Filter button that was broken after the breaking change of moor 4.3.0
+
 ## [4.0.0] - 17-05-2021
 ### Fixed breaking change
 - moor 4.3.0 is required

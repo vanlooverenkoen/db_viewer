@@ -76,7 +76,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
             settings: settings);
       case MoorTableFilterScreen.routeName:
         final tuple = settings.arguments
-            as Tuple<TableInfo<moor.Table, DataClass>, FilterData>;
+            as Tuple<TableInfo<moor.Table, dynamic>, FilterData>;
         return MaterialPageRoute<FilterData>(
             builder: (context) =>
                 MoorTableFilterScreen(db, tuple.first, tuple.second),

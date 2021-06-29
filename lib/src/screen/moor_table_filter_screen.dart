@@ -21,7 +21,7 @@ import 'package:provider/provider.dart';
 class MoorTableFilterScreen extends StatefulWidget {
   static const routeName = 'moor-table-filter';
 
-  final TableInfo<moor.Table, DataClass> table;
+  final TableInfo<moor.Table, dynamic> table;
   final GeneratedDatabase db;
   final FilterData filterData;
 
@@ -109,7 +109,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
 
   @override
   Future<void> showAddWhereClause(
-      TableInfo<moor.Table, DataClass> table) async {
+      TableInfo<moor.Table, dynamic> table) async {
     final columnNames = table.columnsByName.keys.toList();
     final result = await showDialog(
       context: context,

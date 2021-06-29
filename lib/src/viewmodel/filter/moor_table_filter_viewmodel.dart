@@ -9,7 +9,7 @@ class MoorTableFilterViewModel with ChangeNotifier {
   final GeneratedDatabase _db;
   final MoorTableFilterNavigator _navigator;
   late FilterData _filterData;
-  TableInfo<moor.Table, DataClass> _table;
+  TableInfo<moor.Table, dynamic> _table;
 
   String get title => '$tableName Filter';
 
@@ -109,7 +109,7 @@ class MoorTableFilterViewModel with ChangeNotifier {
 abstract class MoorTableFilterNavigator {
   void goBack(FilterData? filterData);
 
-  void showAddWhereClause(TableInfo<moor.Table, DataClass> table) {}
+  void showAddWhereClause(TableInfo<moor.Table, dynamic> table);
 
   void showEdit(String selectQuery);
 }
