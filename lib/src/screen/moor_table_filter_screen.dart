@@ -108,8 +108,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
       DbViewerNavigator.of(context).goBack(result: filterData);
 
   @override
-  Future<void> showAddWhereClause(
-      TableInfo<moor.Table, dynamic> table) async {
+  Future<void> showAddWhereClause(TableInfo<moor.Table, dynamic> table) async {
     final columnNames = table.columnsByName.keys.toList();
     final result = await showDialog(
       context: context,
