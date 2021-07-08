@@ -11,6 +11,7 @@ class FromWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,7 +20,10 @@ class FromWidget extends StatelessWidget {
             horizontal: ThemeDimens.padding16,
             vertical: ThemeDimens.padding8,
           ),
-          child: Text('FROM'),
+          child: Text(
+            'FROM',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         SelectableAction(text: tableName, selected: true),
       ],

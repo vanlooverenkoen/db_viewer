@@ -13,15 +13,19 @@ class SelectQueryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onEditClicked,
       child: Stack(
         children: [
           Container(
             width: double.infinity,
-            color: ThemeColors.lightGrey,
+            color: theme.dialogBackgroundColor,
             padding: EdgeInsets.all(ThemeDimens.padding16),
-            child: Text(query),
+            child: Text(
+              query,
+              style: theme.textTheme.bodyText1,
+            ),
           ),
           Positioned(
             right: 0,
@@ -29,6 +33,7 @@ class SelectQueryWidget extends StatelessWidget {
             child: Icon(
               Icons.edit,
               size: ThemeDimens.padding16,
+              color: theme.textTheme.bodyText1?.color,
             ),
           ),
         ],

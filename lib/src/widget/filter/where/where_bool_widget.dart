@@ -13,6 +13,7 @@ class WhereBoolWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
       children: [
@@ -20,13 +21,19 @@ class WhereBoolWidget extends StatelessWidget {
           onChanged: (value) => _onChanged(context, value),
           groupValue: whereClause.value,
           value: true,
-          title: Text('True'),
+          title: Text(
+            'True',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         RadioListTile<bool>(
           onChanged: (value) => _onChanged(context, value),
           groupValue: whereClause.value,
           value: false,
-          title: Text('False'),
+          title: Text(
+            'False',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
       ],
     );

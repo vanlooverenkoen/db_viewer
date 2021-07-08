@@ -14,6 +14,7 @@ class InputLikeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onClick,
       child: Container(
@@ -23,7 +24,7 @@ class InputLikeText extends StatelessWidget {
             topRight: Radius.circular(ThemeDimens.radius),
             topLeft: Radius.circular(ThemeDimens.radius),
           ),
-          color: ThemeColors.filledGrey,
+          color: theme.scaffoldBackgroundColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +36,8 @@ class InputLikeText extends StatelessWidget {
               ),
               child: Text(
                 text,
-                style: ThemeTextStyles.dateSelectorItem,
+                style: theme.textTheme.bodyText1 ??
+                    ThemeTextStyles.dateSelectorItem,
               ),
             ),
             Container(

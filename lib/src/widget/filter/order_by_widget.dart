@@ -13,6 +13,7 @@ class OrderByWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -21,7 +22,10 @@ class OrderByWidget extends StatelessWidget {
             horizontal: ThemeDimens.padding16,
             vertical: ThemeDimens.padding8,
           ),
-          child: Text('ORDER BY'),
+          child: Text(
+            'ORDER BY',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         Wrap(
           children: [

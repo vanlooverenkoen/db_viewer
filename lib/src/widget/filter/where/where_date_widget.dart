@@ -15,6 +15,7 @@ class WhereDateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
       children: [
@@ -22,19 +23,28 @@ class WhereDateWidget extends StatelessWidget {
           onChanged: (value) => _onChangedType(context, value),
           groupValue: whereClause.dateWhereType,
           value: DateWhereType.BEFORE,
-          title: Text('Before'),
+          title: Text(
+            'Before',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         RadioListTile<DateWhereType>(
           onChanged: (value) => _onChangedType(context, value),
           groupValue: whereClause.dateWhereType,
           value: DateWhereType.EQUALS,
-          title: Text('Equals'),
+          title: Text(
+            'Equals',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         RadioListTile<DateWhereType>(
           onChanged: (value) => _onChangedType(context, value),
           groupValue: whereClause.dateWhereType,
           value: DateWhereType.AFTER,
-          title: Text('After'),
+          title: Text(
+            'After',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         InputLikeText(
           onClick: () => _onTapDate(context),

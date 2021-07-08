@@ -13,10 +13,14 @@ class TableRowItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InkWell(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Text(table.entityName),
+        child: Text(
+          table.entityName,
+          style: theme.textTheme.button,
+        ),
       ),
       onTap: onClick,
     );

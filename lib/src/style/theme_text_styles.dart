@@ -4,13 +4,6 @@ import 'package:moor_db_viewer/src/style/theme_colors.dart';
 class ThemeTextStyles {
   ThemeTextStyles._();
 
-  static const itemDetailTitle = TextStyle(
-      color: ThemeColors.mediumGrey, fontSize: 14, fontWeight: FontWeight.bold);
-  static const itemDetailContent = TextStyle(
-      color: ThemeColors.mediumGrey,
-      fontSize: 14,
-      fontWeight: FontWeight.normal);
-
   static const textActionItemDisabled = TextStyle(
       color: ThemeColors.lightGrey, fontSize: 14, fontWeight: FontWeight.bold);
   static const textActionItemEnabled = TextStyle(

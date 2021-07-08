@@ -25,6 +25,7 @@ class WhereTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +35,12 @@ class WhereTitleWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Expanded(child: Text('WHERE')),
+              Expanded(
+                child: Text(
+                  'WHERE',
+                  style: theme.textTheme.bodyText1,
+                ),
+              ),
               IconButton(
                 icon: Icon(
                   Icons.add,

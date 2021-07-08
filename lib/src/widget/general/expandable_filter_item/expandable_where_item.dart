@@ -16,6 +16,7 @@ class ExpandableWhereItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Dismissible(
       key: ValueKey(whereClause.id),
       direction: DismissDirection.horizontal,
@@ -30,6 +31,7 @@ class ExpandableWhereItem extends StatelessWidget {
         child: ExpandableFilterItem(
           title: whereClause.columnName,
           subtitle: '(${whereClause.typeName})',
+          backgroundColor: theme.cardColor,
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.only(

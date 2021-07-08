@@ -15,6 +15,7 @@ class AscDescWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,7 +24,10 @@ class AscDescWidget extends StatelessWidget {
             horizontal: ThemeDimens.padding16,
             vertical: ThemeDimens.padding8,
           ),
-          child: Text('ASC / DESC'),
+          child: Text(
+            'ASC / DESC',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         Wrap(
           children: [

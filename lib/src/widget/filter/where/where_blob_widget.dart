@@ -11,10 +11,14 @@ class WhereBlobWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
       children: [
-        Text('Filtering on a blob is not supported'),
+        Text(
+          'Filtering on a blob is not supported',
+          style: theme.textTheme.bodyText1,
+        ),
       ],
     );
   }
