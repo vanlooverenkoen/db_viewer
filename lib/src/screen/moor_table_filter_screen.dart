@@ -31,8 +31,7 @@ class MoorTableFilterScreen extends StatefulWidget {
   _MoorTableFilterScreenState createState() => _MoorTableFilterScreenState();
 }
 
-class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
-    implements MoorTableFilterNavigator {
+class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implements MoorTableFilterNavigator {
   final _scaffoldKey = GlobalKey();
 
   @override
@@ -98,14 +97,12 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
           ],
         ),
       ),
-      create: () => MoorTableFilterViewModel(
-          this, widget.db, widget.table, widget.filterData),
+      create: () => MoorTableFilterViewModel(this, widget.db, widget.table, widget.filterData),
     );
   }
 
   @override
-  void goBack(FilterData? filterData) =>
-      DbViewerNavigator.of(context).goBack(result: filterData);
+  void goBack(FilterData? filterData) => DbViewerNavigator.of(context).goBack(result: filterData);
 
   @override
   Future<void> showAddWhereClause(TableInfo<moor.Table, dynamic> table) async {
@@ -126,8 +123,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
               final columnName = columnNames[index];
               return ListTile(
                 title: Text(columnName),
-                subtitle: Text(getType(table.$columns
-                    .firstWhere((column) => column.$name == columnName))),
+                subtitle: Text(getType(table.$columns.firstWhere((column) => column.$name == columnName))),
                 onTap: () => Navigator.of(context).pop(columnName),
               );
             },
@@ -151,17 +147,17 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
   }
 
   String getType(GeneratedColumn column) {
-    if (column is GeneratedDateTimeColumn) {
+    if (column is GeneratedColumn<DateTime> || column is GeneratedColumn<DateTime?>) {
       return 'DATE';
-    } else if (column is GeneratedBlobColumn) {
+    } else if (column is GeneratedColumn<Uint8List> || column is GeneratedColumn<Uint8List?>) {
       return 'BLOB';
-    } else if (column is GeneratedRealColumn) {
+    } else if (column is GeneratedColumn<double> || column is GeneratedColumn<double?>) {
       return 'DOUBLE';
-    } else if (column is GeneratedBoolColumn) {
+    } else if (column is GeneratedColumn<bool> || column is GeneratedColumn<bool?>) {
       return 'BOOL';
-    } else if (column is GeneratedTextColumn) {
+    } else if (column is GeneratedColumn<String> || column is GeneratedColumn<String?>) {
       return 'TEXT';
-    } else if (column is IntColumn) {
+    } else if (column is GeneratedColumn<int> || column is GeneratedColumn<int?>) {
       return 'INTEGER';
     }
     return 'UNSUPPORTED TYPE';
@@ -169,13 +165,11 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
 
   @override
   Future<void> showEdit(String selectQuery) async {
-    final result =
-        await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
+    final result = await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
 
     final scaffoldContext = _scaffoldKey.currentContext;
     if (result != null && scaffoldContext != null) {
-      Provider.of<MoorTableFilterViewModel>(scaffoldContext, listen: false)
-          .onUpdateCustomSqlQuery(result);
+      Provider.of<MoorTableFilterViewModel>(scaffoldContext, listen: false).onUpdateCustomSqlQuery(result);
     }
   }
 }
