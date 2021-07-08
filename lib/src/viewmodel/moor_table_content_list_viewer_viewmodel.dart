@@ -79,11 +79,13 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
             final columns =
                 _table.$columns.where((column) => column.$name == key);
             final column = columns.isEmpty ? null : columns.first;
-            if (column is GeneratedColumn<DateTime> || column is GeneratedColumn<DateTime?>) {
+            if (column is GeneratedColumn<DateTime> ||
+                column is GeneratedColumn<DateTime?>) {
               final value = item[key];
               final dateTime = dateTimeType.mapFromDatabaseResponse(value);
               map[key] = dateTime?.toIso8601String();
-            } else if (column is GeneratedColumn<bool> || column is GeneratedColumn<bool?>) {
+            } else if (column is GeneratedColumn<bool> ||
+                column is GeneratedColumn<bool?>) {
               final value = item[key];
               map[key] = boolType.mapFromDatabaseResponse(value).toString();
             } else {
