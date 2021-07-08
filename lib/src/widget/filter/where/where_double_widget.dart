@@ -15,6 +15,7 @@ class WhereDoubleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
       children: [
@@ -22,25 +23,37 @@ class WhereDoubleWidget extends StatelessWidget {
           onChanged: (value) => _onChangedType(context, value),
           groupValue: whereClause.intWhereType,
           value: DoubleWhereType.EQUALS,
-          title: Text('Equals'),
+          title: Text(
+            'Equals',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         RadioListTile<DoubleWhereType>(
           onChanged: (value) => _onChangedType(context, value),
           groupValue: whereClause.intWhereType,
           value: DoubleWhereType.CONTAINS,
-          title: Text('Contains'),
+          title: Text(
+            'Contains',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         RadioListTile<DoubleWhereType>(
           onChanged: (value) => _onChangedType(context, value),
           groupValue: whereClause.intWhereType,
           value: DoubleWhereType.GREATER_THAN,
-          title: Text('Greater than'),
+          title: Text(
+            'Greater than',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         RadioListTile<DoubleWhereType>(
           onChanged: (value) => _onChangedType(context, value),
           groupValue: whereClause.intWhereType,
           value: DoubleWhereType.LESS_THAN,
-          title: Text('Less than'),
+          title: Text(
+            'Less than',
+            style: theme.textTheme.bodyText1,
+          ),
         ),
         Container(height: ThemeDimens.padding4),
         StyledTextField(

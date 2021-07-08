@@ -106,6 +106,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implement
 
   @override
   Future<void> showAddWhereClause(TableInfo<moor.Table, dynamic> table) async {
+    final theme = Theme.of(context);
     final columnNames = table.columnsByName.keys.toList();
     final result = await showDialog(
       context: context,
@@ -113,6 +114,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implement
         contentPadding: EdgeInsets.symmetric(
           horizontal: ThemeDimens.padding8,
         ),
+        backgroundColor: theme.dialogBackgroundColor,
         title: Text('Select column'),
         content: Container(
           width: MediaQuery.of(context).size.width - ThemeDimens.padding32,
@@ -122,8 +124,15 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implement
             itemBuilder: (context, index) {
               final columnName = columnNames[index];
               return ListTile(
-                title: Text(columnName),
-                subtitle: Text(getType(table.$columns.firstWhere((column) => column.$name == columnName))),
+                title: Text(
+                  columnName,
+                  style: theme.textTheme.headline6,
+                ),
+                subtitle: Text(
+                  getType(table.$columns
+                      .firstWhere((column) => column.$name == columnName)),
+                  style: theme.textTheme.bodyText1,
+                ),
                 onTap: () => Navigator.of(context).pop(columnName),
               );
             },

@@ -17,7 +17,7 @@ class SelectableAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accentColor = theme.accentColor;
-    final textColor = theme.accentTextTheme.headline6?.color;
+    final textColor = theme.scaffoldBackgroundColor;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: ThemeDimens.padding4,

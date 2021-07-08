@@ -87,6 +87,7 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
   }
 
   Widget _buildChildren(BuildContext context, Widget? child) {
+    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
         color: _backgroundColor.value ?? Colors.transparent,
@@ -98,9 +99,9 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
             onClick: _handleTap,
             trailing: RotationTransition(
               turns: _iconTurns,
-              child: const Icon(
+              child: Icon(
                 Icons.expand_more,
-                color: ThemeColors.black,
+                color: theme.textTheme.bodyText1?.color ?? Colors.black,
               ),
             ),
             child: Wrap(
@@ -108,14 +109,17 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
                 AnimatedDefaultTextStyle(
                   child: Text(widget.title),
                   style: _isExpanded
-                      ? ThemeTextStyles.expandableFilterTitleOpen
-                      : ThemeTextStyles.expandableFilterTitleClose,
+                      ? theme.textTheme.bodyText1 ??
+                          ThemeTextStyles.expandableFilterTitleOpen
+                      : theme.textTheme.bodyText1 ??
+                          ThemeTextStyles.expandableFilterTitleClose,
                   duration: ThemeDurations.shortAnimationDuration(),
                 ),
                 Container(width: ThemeDimens.padding8),
                 Text(
                   widget.subtitle,
-                  style: TextStyle(color: ThemeColors.mediumGrey),
+                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 11) ??
+                      TextStyle(color: ThemeColors.mediumGrey),
                 ),
               ],
             ),

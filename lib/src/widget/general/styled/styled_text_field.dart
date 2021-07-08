@@ -18,12 +18,16 @@ class StyledTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return TextField(
       decoration: InputDecoration(
         filled: true,
-        fillColor: ThemeColors.filledGrey,
+        fillColor: theme.scaffoldBackgroundColor,
+        hintStyle: theme.textTheme.bodyText1?.copyWith(
+            color: theme.textTheme.bodyText1?.color?.withOpacity(0.5)),
         hintText: hint ?? '',
       ),
+      style: theme.textTheme.bodyText1,
       keyboardType: inputType,
       textAlign: textAlign,
       onChanged: onChanged,
