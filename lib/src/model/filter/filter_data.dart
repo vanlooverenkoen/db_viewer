@@ -172,17 +172,23 @@ class FilterData {
     if (!_tableInfo.columnsByName.containsKey(columnName)) return;
     final detail =
         _tableInfo.$columns.where((item) => item.$name == columnName).first;
-    if (detail is GeneratedTextColumn) {
+    if (detail is GeneratedColumn<String> ||
+        detail is GeneratedColumn<String?>) {
       _whereClauses.add(StringWhereClause(columnName));
-    } else if (detail is GeneratedIntColumn) {
+    } else if (detail is GeneratedColumn<int> ||
+        detail is GeneratedColumn<int?>) {
       _whereClauses.add(IntWhereClause(columnName));
-    } else if (detail is GeneratedDateTimeColumn) {
+    } else if (detail is GeneratedColumn<DateTime> ||
+        detail is GeneratedColumn<DateTime?>) {
       _whereClauses.add(DateWhereClause(columnName));
-    } else if (detail is GeneratedBoolColumn) {
+    } else if (detail is GeneratedColumn<bool> ||
+        detail is GeneratedColumn<bool?>) {
       _whereClauses.add(BoolWhereClause(columnName));
-    } else if (detail is GeneratedRealColumn) {
+    } else if (detail is GeneratedColumn<double> ||
+        detail is GeneratedColumn<double?>) {
       _whereClauses.add(DoubleWhereClause(columnName));
-    } else if (detail is GeneratedBlobColumn) {
+    } else if (detail is GeneratedColumn<Uint8List> ||
+        detail is GeneratedColumn<Uint8List?>) {
       _whereClauses.add(BlobWhereClause(columnName));
     } else {
       print('$detail is not yet supported');

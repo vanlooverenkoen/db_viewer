@@ -159,17 +159,23 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
   }
 
   String getType(GeneratedColumn column) {
-    if (column is GeneratedDateTimeColumn) {
+    if (column is GeneratedColumn<DateTime> ||
+        column is GeneratedColumn<DateTime?>) {
       return 'DATE';
-    } else if (column is GeneratedBlobColumn) {
+    } else if (column is GeneratedColumn<Uint8List> ||
+        column is GeneratedColumn<Uint8List?>) {
       return 'BLOB';
-    } else if (column is GeneratedRealColumn) {
+    } else if (column is GeneratedColumn<double> ||
+        column is GeneratedColumn<double?>) {
       return 'DOUBLE';
-    } else if (column is GeneratedBoolColumn) {
+    } else if (column is GeneratedColumn<bool> ||
+        column is GeneratedColumn<bool?>) {
       return 'BOOL';
-    } else if (column is GeneratedTextColumn) {
+    } else if (column is GeneratedColumn<String> ||
+        column is GeneratedColumn<String?>) {
       return 'TEXT';
-    } else if (column is IntColumn) {
+    } else if (column is GeneratedColumn<int> ||
+        column is GeneratedColumn<int?>) {
       return 'INTEGER';
     }
     return 'UNSUPPORTED TYPE';
