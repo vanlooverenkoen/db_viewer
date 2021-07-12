@@ -1,8 +1,11 @@
-## [4.1.0] - 08-07-2021
+## [4.2.0] - 08-07-2021
 ### Added
 - Darkmode support
 ### Fixed
 - moor 4.4.0 support (dart 2.13.0 required)
+
+## [4.1.0] - 29-06-2021
+### Incorrect build Same as 4.0.1
 
 ## [4.0.1] - 29-06-2021
 ### Fixed
