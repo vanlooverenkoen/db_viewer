@@ -65,7 +65,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
             builder: (context) => MoorTableListScreen(db, canPop),
             settings: settings);
       case MoorTableContentListScreen.routeName:
-        final table = settings.arguments as TableInfo<moor.Table, DataClass>;
+        final table = settings.arguments as TableInfo<moor.Table, dynamic>;
         return MaterialPageRoute(
             builder: (context) => MoorTableContentListScreen(table),
             settings: settings);
