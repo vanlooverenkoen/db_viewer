@@ -1,3 +1,7 @@
+## [4.3.0] - 15-07-2021
+### Fixed
+- @UserRowClass supported when going to the content page
+
 ## [4.2.0] - 08-07-2021
 ### Added
 - Darkmode support
