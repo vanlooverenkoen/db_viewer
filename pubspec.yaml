@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  moor: ^4.4.1
+  moor: ^4.5.0
   provider: ^6.0.0
 
 dev_dependencies:
