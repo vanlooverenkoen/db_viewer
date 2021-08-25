@@ -1,3 +1,9 @@
+## [4.4.0] - 25-08-2021
+### Updated
+- provider 6.0.0
+- moor 4.5.0
+- example
+
 ## [4.3.0] - 15-07-2021
 ### Fixed
 - @UserRowClass supported when going to the content page
