@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_colors.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 
 class SelectQueryWidget extends StatelessWidget {

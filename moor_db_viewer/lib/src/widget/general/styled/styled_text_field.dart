@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_colors.dart';
 
 class StyledTextField extends StatelessWidget {
   final TextEditingController controller;

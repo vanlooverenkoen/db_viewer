@@ -8,6 +8,8 @@ environment:
   flutter: ">=2.2.0"
 
 dependencies:
+  db_viewer:
+    path: ../db_viewer
   flutter:
     sdk: flutter
   moor: ^4.5.0
@@ -18,3 +20,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+
+dependency_overrides:
+  db_viewer:
+    path: ../db_viewer

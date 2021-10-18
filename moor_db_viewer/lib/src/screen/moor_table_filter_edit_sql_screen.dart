@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/widget/general/styled/styled_text_field.dart';
@@ -28,7 +29,7 @@ class _MoorTableFilterEditSqlScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Theme.of(context).primaryColorBrightness,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         title: Text('Edit SQL STATEMENT'),
         actions: [
           IconButton(

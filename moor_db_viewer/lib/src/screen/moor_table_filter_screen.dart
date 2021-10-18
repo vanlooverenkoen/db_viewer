@@ -1,3 +1,4 @@
+import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
 import 'package:moor/moor.dart';
@@ -15,7 +16,6 @@ import 'package:moor_db_viewer/src/widget/filter/select_query_widget.dart';
 import 'package:moor_db_viewer/src/widget/filter/select_widget.dart';
 import 'package:moor_db_viewer/src/widget/filter/where_widget.dart';
 import 'package:moor_db_viewer/src/widget/general/styled/styled_back_button.dart';
-import 'package:moor_db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:provider/provider.dart';
 
 class MoorTableFilterScreen extends StatefulWidget {
