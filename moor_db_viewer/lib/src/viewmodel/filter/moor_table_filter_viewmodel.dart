@@ -1,3 +1,4 @@
+import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:moor/moor.dart' as moor;
@@ -6,7 +7,7 @@ import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class MoorTableFilterViewModel with ChangeNotifier {
   // ignore: unused_field
-  final GeneratedDatabase _db;
+  final DbViewerDatabase _db;
   final MoorTableFilterNavigator _navigator;
   late FilterData _filterData;
   TableInfo<moor.Table, dynamic> _table;

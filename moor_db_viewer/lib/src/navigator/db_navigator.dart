@@ -60,8 +60,8 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
       case MoorTableListScreen.routeName:
         return MaterialPageRoute(builder: (context) => MoorTableListScreen(db, canPop), settings: settings);
       case MoorTableContentListScreen.routeName:
-        final table = settings.arguments as TableInfo<moor.Table, dynamic>;
-        return MaterialPageRoute(builder: (context) => MoorTableContentListScreen(table), settings: settings);
+        final tableName = settings.arguments as String;
+        return MaterialPageRoute(builder: (context) => MoorTableContentListScreen(tableName), settings: settings);
       case MoorTableItemDetailScreen.routeName:
         final table = settings.arguments as ItemDetailArgument;
         return MaterialPageRoute(builder: (context) => MoorTableItemDetailScreen(table), settings: settings);
@@ -80,30 +80,30 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
 
   void goToTableList() => _navigationKey.currentState!.pushNamed(MoorTableListScreen.routeName);
 
-  void goToTableContentList(TableInfo<moor.Table, dynamic> table) {
+  void goToTableContentList(String tableName) {
     _navigationKey.currentState!.pushNamed(
       MoorTableContentListScreen.routeName,
-      arguments: table,
+      arguments: tableName,
     );
   }
 
   void goToTableItemDetail(
-    TableInfo<moor.Table, dynamic> table,
+    String tableName,
     Map<String, dynamic> data,
   ) {
     _navigationKey.currentState!.pushNamed(
       MoorTableItemDetailScreen.routeName,
-      arguments: ItemDetailArgument(table, data),
+      arguments: ItemDetailArgument(tableName, data),
     );
   }
 
   Future<FilterData?>? goToTableFilter(
-    TableInfo<moor.Table, dynamic> table,
+    String tableName,
     FilterData filterData,
   ) {
     return _navigationKey.currentState!.pushNamed<FilterData>(
       MoorTableFilterScreen.routeName,
-      arguments: DbViewerTuple(table, filterData),
+      arguments: DbViewerTuple(tableName, filterData),
     );
   }
 

@@ -1,14 +1,12 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/viewmodel/moor_table_list_viewer_viewmodel.dart';
 
 class MoorTableListScreen extends StatefulWidget {
   static const routeName = 'moor-table-list';
 
-  final GeneratedDatabase db;
+  final DbViewerDatabase db;
   final bool canPop;
 
   MoorTableListScreen(this.db, this.canPop);
@@ -28,11 +26,11 @@ class _MoorTableListScreenState extends State<MoorTableListScreen> implements Mo
         ),
         body: ListView.builder(
           padding: EdgeInsets.zero,
-          itemCount: viewModel.tables.length,
+          itemCount: viewModel.tableNames.length,
           itemBuilder: (context, index) {
-            final table = viewModel.tables[index];
+            final table = viewModel.tableNames[index];
             return TableRowItem(
-              tableName: table.entityName,
+              tableName: table,
               onClick: () => viewModel.onTableClicked(table),
             );
           },
@@ -43,5 +41,5 @@ class _MoorTableListScreenState extends State<MoorTableListScreen> implements Mo
   }
 
   @override
-  void goToTableDetail(TableInfo<moor.Table, dynamic> table) => DbViewerNavigator.of(context).goToTableContentList(table);
+  void goToTableDetail(String tableName) => DbViewerNavigator.of(context).goToTableContentList(tableName);
 }

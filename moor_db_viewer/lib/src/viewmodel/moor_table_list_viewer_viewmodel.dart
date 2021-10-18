@@ -1,30 +1,30 @@
+import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
 
 class MoorTableListViewerViewModel with ChangeNotifier {
   late MoorTableListViewerNavigator _navigator;
-  late GeneratedDatabase _databaseAccessor;
+  late DbViewerDatabase database;
 
-  late List<TableInfo<moor.Table, dynamic>> tables;
+  late List<String> _tableNames;
 
-  Future<void> init(MoorTableListViewerNavigator navigator,
-      GeneratedDatabase databaseAccessor) async {
+  List<String> get tableNames => _tableNames;
+
+  Future<void> init(MoorTableListViewerNavigator navigator, DbViewerDatabase databaseAccessor) async {
     _navigator = navigator;
-    _databaseAccessor = databaseAccessor;
+    database = databaseAccessor;
     _getTables();
     notifyListeners();
   }
 
   void _getTables() {
-    tables = _databaseAccessor.allTables.map((item) => item).toList();
+    _tableNames = database.tableNames;
   }
 
-  void onTableClicked(TableInfo<moor.Table, dynamic> table) {
-    _navigator.goToTableDetail(table);
+  void onTableClicked(String tableName) {
+    _navigator.goToTableDetail(tableName);
   }
 }
 
 abstract class MoorTableListViewerNavigator {
-  void goToTableDetail(TableInfo<moor.Table, dynamic> table);
+  void goToTableDetail(String tableName);
 }

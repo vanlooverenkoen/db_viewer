@@ -1,8 +1,6 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
-import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/viewmodel/moor_table_item_detail_viewer_viewmodel.dart';
 
 class MoorTableItemDetailScreen extends StatefulWidget {
@@ -95,8 +93,8 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
 }
 
 class ItemDetailArgument {
-  TableInfo<moor.Table, dynamic> table;
+  String tableName;
   Map<String, dynamic> data;
 
-  ItemDetailArgument(this.table, this.data);
+  ItemDetailArgument(this.tableName, this.data);
 }

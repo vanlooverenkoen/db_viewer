@@ -1,17 +1,17 @@
 import 'dart:async';
 
+import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
-import 'package:moor_db_viewer/src/repo/caching/caching_repository.dart';
+import 'package:moor_db_viewer/src/repo/caching/caching_repo.dart';
 
 class MoorTableContentListViewerViewModel with ChangeNotifier {
-  late GeneratedDatabase _db;
+  late DbViewerDatabase _db;
   late MoorTableViewerNavigator _navigator;
-  late TableInfo<moor.Table, dynamic> _table;
-  final cachingRepo = CachingRepository.instance();
+  late String _tableName;
+  final cachingRepo = CachingRepo.instance();
 
   final _data = <Map<String, dynamic>>[];
 
@@ -21,8 +21,8 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 
   String? error;
 
-  StreamSubscription<List<QueryRow>>? _subscriptionList;
-  StreamSubscription<List<QueryRow>>? _subscriptionCount;
+  StreamSubscription<List<Map<String, dynamic>>>? _subscriptionList;
+  StreamSubscription<int>? _subscriptionCount;
 
   bool get hasCustomQuery => _filteredData.hasCustomQuery;
 
@@ -32,16 +32,15 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 
   bool get hasColumns => hasData && _data[0].keys.isNotEmpty;
 
-  String get title => '${_table.entityName} ($totalResults-${_data.length})';
+  String get title => '$_tableName ($totalResults-${_data.length})';
 
-  String get tableName => _table.entityName;
+  String get tableName => _tableName;
 
-  Future<void> init(MoorTableViewerNavigator navigator, GeneratedDatabase db,
-      TableInfo<moor.Table, dynamic> table) async {
+  Future<void> init(MoorTableViewerNavigator navigator, DbViewerDatabase db, String tableName) async {
     _navigator = navigator;
     _db = db;
-    _table = table;
-    _filteredData = cachingRepo.getFilterDataForTable(table);
+    _tableName = tableName;
+    _filteredData = cachingRepo.getFilterDataForTable(tableName);
     _getData();
   }
 
@@ -51,12 +50,10 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
       notifyListeners();
       // todo find a better way to acces the database for no this is fine
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-      final countStream = _db.customSelect(
-          'SELECT COUNT(*) FROM ${_table.actualTableName}',
-          readsFrom: {_table}).watch();
+      final countStream = _db.count(_tableName);
       _subscriptionCount?.cancel();
       _subscriptionCount = countStream.listen((data) {
-        totalResults = data.first.data['COUNT(*)'];
+        totalResults = data;
         notifyListeners();
       });
 
@@ -64,36 +61,10 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
       final stream =
           // todo find a better way to acces the database for no this is fine
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          _db.customSelect(sqlQuery, readsFrom: {_table}).watch();
+          _db.customSelectStream(sqlQuery, fromTableNames: {_tableName});
       _subscriptionList?.cancel();
       _subscriptionList = stream.listen((data) {
-        final newData = data.map((item) => item.data).toList();
-
-        final dateTimeType = DateTimeType();
-        final boolType = BoolType();
-
-        final correctData = <Map<String, dynamic>>[];
-        newData.forEach((item) {
-          final map = Map<String, dynamic>();
-          item.keys.forEach((key) {
-            final columns =
-                _table.$columns.where((column) => column.$name == key);
-            final column = columns.isEmpty ? null : columns.first;
-            if (column is GeneratedColumn<DateTime> ||
-                column is GeneratedColumn<DateTime?>) {
-              final value = item[key];
-              final dateTime = dateTimeType.mapFromDatabaseResponse(value);
-              map[key] = dateTime?.toIso8601String();
-            } else if (column is GeneratedColumn<bool> ||
-                column is GeneratedColumn<bool?>) {
-              final value = item[key];
-              map[key] = boolType.mapFromDatabaseResponse(value).toString();
-            } else {
-              map[key] = item[key];
-            }
-          });
-          correctData.add(map);
-        });
+        final correctData = _db.remapData(tableName, data);
         _data
           ..clear()
           ..addAll(correctData);
@@ -107,13 +78,13 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 
   void onFilterClicked() {
     final newFilterData = _filteredData.copy();
-    _navigator.goToFilter(_table, newFilterData);
+    _navigator.goToFilter(_tableName, newFilterData);
   }
 
   void updateFilter(FilterData filterData) {
     _data.clear();
     _filteredData = filterData;
-    cachingRepo.updateFilterData(_table.entityName, filterData);
+    cachingRepo.updateFilterData(_tableName, filterData);
     notifyListeners();
     _getData();
   }
@@ -125,7 +96,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
   }
 
   void onItemClicked(Map<String, dynamic> data) {
-    _navigator.goToItemDetail(_table, data);
+    _navigator.goToItemDetail(_tableName, data);
   }
 
   @override
@@ -139,11 +110,9 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 }
 
 abstract class MoorTableViewerNavigator {
-  void goToFilter(
-      TableInfo<moor.Table, dynamic> table, FilterData _filteredData);
+  void goToFilter(String table, FilterData _filteredData);
 
-  void goToItemDetail(
-      TableInfo<moor.Table, dynamic> table, Map<String, dynamic> data);
+  void goToItemDetail(String table, Map<String, dynamic> data);
 
   void showToast(String message);
 }

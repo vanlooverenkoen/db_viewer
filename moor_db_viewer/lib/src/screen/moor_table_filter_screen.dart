@@ -13,7 +13,7 @@ class MoorTableFilterScreen extends StatefulWidget {
   static const routeName = 'moor-table-filter';
 
   final TableInfo<moor.Table, dynamic> table;
-  final GeneratedDatabase db;
+  final DbViewerDatabase db;
   final FilterData filterData;
 
   MoorTableFilterScreen(this.db, this.table, this.filterData);
