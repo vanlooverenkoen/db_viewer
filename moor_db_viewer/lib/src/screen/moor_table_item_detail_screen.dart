@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
 import 'package:moor/moor.dart';
 import 'package:moor/moor.dart' as moor;
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/moor_table_item_detail_viewer_viewmodel.dart';
 
 class MoorTableItemDetailScreen extends StatefulWidget {

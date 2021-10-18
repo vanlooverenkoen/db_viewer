@@ -1,7 +1,7 @@
+import 'package:db_viewer/src/style/theme_colors.dart';
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/style/theme_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_colors.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
-import 'package:moor_db_viewer/src/style/theme_text_styles.dart';
 
 class InputLikeText extends StatelessWidget {
   final VoidCallback onClick;
@@ -10,7 +10,8 @@ class InputLikeText extends StatelessWidget {
   const InputLikeText({
     required this.onClick,
     required this.text,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class InputLikeText extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topRight: Radius.circular(ThemeDimens.radius),
             topLeft: Radius.circular(ThemeDimens.radius),
           ),
@@ -30,14 +31,13 @@ class InputLikeText extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: ThemeDimens.padding12,
                 vertical: ThemeDimens.padding16,
               ),
               child: Text(
                 text,
-                style: theme.textTheme.bodyText1 ??
-                    ThemeTextStyles.dateSelectorItem,
+                style: theme.textTheme.bodyText1 ?? ThemeTextStyles.dateSelectorItem,
               ),
             ),
             Container(

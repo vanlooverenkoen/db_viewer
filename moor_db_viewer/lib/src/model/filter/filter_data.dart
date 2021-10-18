@@ -6,7 +6,7 @@ import 'package:moor_db_viewer/src/model/filter/where/date_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/double_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/int_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/string_where_clause.dart';
-import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class FilterData {
   final TableInfo<moor.Table, dynamic> _tableInfo;

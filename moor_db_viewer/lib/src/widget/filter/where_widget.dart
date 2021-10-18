@@ -1,3 +1,5 @@
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:db_viewer/src/style/theme_dimens.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/blob_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/bool_where_clause.dart';
@@ -5,8 +7,6 @@ import 'package:moor_db_viewer/src/model/filter/where/date_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/double_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/int_where_clause.dart';
 import 'package:moor_db_viewer/src/model/filter/where/string_where_clause.dart';
-import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/widget/filter/where/where_blob_widget.dart';
 import 'package:moor_db_viewer/src/widget/filter/where/where_bool_widget.dart';
 import 'package:moor_db_viewer/src/widget/filter/where/where_date_widget.dart';

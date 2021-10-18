@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class StringWhereClause extends WhereClause {
   StringWhereType _stringWhereType = StringWhereType.CONTAINS;

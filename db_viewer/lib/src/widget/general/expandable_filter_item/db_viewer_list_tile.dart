@@ -1,5 +1,5 @@
+import 'package:db_viewer/src/style/theme_dimens.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 
 class DbViewerListTile extends StatelessWidget {
   final Widget child;
@@ -12,7 +12,8 @@ class DbViewerListTile extends StatelessWidget {
     required this.onClick,
     this.leading,
     this.trailing,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

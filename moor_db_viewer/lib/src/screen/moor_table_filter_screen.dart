@@ -5,17 +5,8 @@ import 'package:moor/moor.dart';
 import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
-import 'package:moor_db_viewer/src/style/theme_durations.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
-import 'package:moor_db_viewer/src/widget/filter/asc_desc_widget.dart';
-import 'package:moor_db_viewer/src/widget/filter/from_widget.dart';
-import 'package:moor_db_viewer/src/widget/filter/limit_widget.dart';
-import 'package:moor_db_viewer/src/widget/filter/order_by_widget.dart';
-import 'package:moor_db_viewer/src/widget/filter/select_query_widget.dart';
-import 'package:moor_db_viewer/src/widget/filter/select_widget.dart';
 import 'package:moor_db_viewer/src/widget/filter/where_widget.dart';
-import 'package:moor_db_viewer/src/widget/general/styled/styled_back_button.dart';
 import 'package:provider/provider.dart';
 
 class MoorTableFilterScreen extends StatefulWidget {

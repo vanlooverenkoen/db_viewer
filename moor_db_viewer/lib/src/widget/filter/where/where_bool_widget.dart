@@ -1,7 +1,7 @@
+import 'package:db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/bool_where_clause.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
-import 'package:moor_db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
 import 'package:provider/provider.dart';
 
 class WhereBoolWidget extends StatelessWidget {
@@ -16,6 +16,7 @@ class WhereBoolWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
+      onDismissed: () => Provider.of<MoorTableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
       children: [
         RadioListTile<bool>(
           onChanged: (value) => _onChanged(context, value),

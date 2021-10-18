@@ -1,9 +1,9 @@
+import 'package:db_viewer/db_viewer.dart';
+import 'package:db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
+import 'package:db_viewer/src/widget/general/styled/styled_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/string_where_clause.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
-import 'package:moor_db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
-import 'package:moor_db_viewer/src/widget/general/styled/styled_text_field.dart';
 import 'package:provider/provider.dart';
 
 class WhereStringWidget extends StatelessWidget {
@@ -18,6 +18,7 @@ class WhereStringWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
+      onDismissed: () => Provider.of<MoorTableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
       children: [
         RadioListTile<StringWhereType>(
           onChanged: (value) => _onChangedType(context, value),
@@ -67,14 +68,12 @@ class WhereStringWidget extends StatelessWidget {
 
   void _onChange(BuildContext context, String value) {
     whereClause.updateQuery(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false)
-        .onUpdatedWhereClause();
+    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
   }
 
   void _onChangedType(BuildContext context, StringWhereType? value) {
     if (value == null) return;
     whereClause.onSelectedType(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false)
-        .onUpdatedWhereClause();
+    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
   }
 }

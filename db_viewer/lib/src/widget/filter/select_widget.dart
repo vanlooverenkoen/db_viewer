@@ -1,6 +1,6 @@
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/widget/filter/selectable_action.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
-import 'package:moor_db_viewer/src/widget/filter/selectable_action.dart';
 
 class SelectWidget extends StatelessWidget {
   final bool areAllColumnsSelected;
@@ -13,7 +13,8 @@ class SelectWidget extends StatelessWidget {
     required this.columns,
     required this.onSelectAll,
     required this.onToggleColumn,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

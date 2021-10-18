@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:moor/moor.dart' as moor;
 import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
-import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class MoorTableFilterViewModel with ChangeNotifier {
   // ignore: unused_field

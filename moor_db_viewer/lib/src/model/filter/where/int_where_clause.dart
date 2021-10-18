@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class IntWhereClause extends WhereClause {
   IntWhereType _intWhereType = IntWhereType.EQUALS;

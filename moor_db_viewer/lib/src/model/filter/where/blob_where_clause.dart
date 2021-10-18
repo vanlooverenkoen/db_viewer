@@ -1,4 +1,4 @@
-import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class BlobWhereClause extends WhereClause {
   @override

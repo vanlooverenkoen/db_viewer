@@ -1,6 +1,6 @@
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/style/theme_durations.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
-import 'package:moor_db_viewer/src/style/theme_durations.dart';
 
 class SelectableAction extends StatelessWidget {
   final String text;
@@ -11,7 +11,8 @@ class SelectableAction extends StatelessWidget {
     required this.text,
     required this.selected,
     this.onClick,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +47,7 @@ class SelectableAction extends StatelessWidget {
                 child: Text(text),
               ),
               duration: ThemeDurations.shortAnimationDuration(),
-              style: selected
-                  ? TextStyle(color: textColor)
-                  : TextStyle(color: accentColor),
+              style: selected ? TextStyle(color: textColor) : TextStyle(color: accentColor),
             ),
           ),
         ),

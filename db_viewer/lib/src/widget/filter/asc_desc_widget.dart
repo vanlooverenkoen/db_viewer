@@ -1,17 +1,18 @@
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/widget/filter/selectable_action.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
-import 'package:moor_db_viewer/src/widget/filter/selectable_action.dart';
 
 class AscDescWidget extends StatelessWidget {
   final bool asc;
   final VoidCallback onDescClicked;
   final VoidCallback onAscClicked;
 
-  AscDescWidget({
+  const AscDescWidget({
     required this.asc,
     required this.onAscClicked,
     required this.onDescClicked,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

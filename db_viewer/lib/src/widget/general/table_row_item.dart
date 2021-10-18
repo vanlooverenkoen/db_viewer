@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
 
 class TableRowItem extends StatelessWidget {
-  final TableInfo<moor.Table, dynamic> table;
+  final String tableName;
   final VoidCallback onClick;
 
   const TableRowItem({
-    required this.table,
+    required this.tableName,
     required this.onClick,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class TableRowItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Text(
-          table.entityName,
+          tableName,
           style: theme.textTheme.button,
         ),
       ),

@@ -1,5 +1,5 @@
+import 'package:db_viewer/src/style/theme_dimens.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 
 class SelectQueryWidget extends StatelessWidget {
   final String query;
@@ -8,7 +8,8 @@ class SelectQueryWidget extends StatelessWidget {
   const SelectQueryWidget({
     required this.query,
     required this.onEditClicked,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class SelectQueryWidget extends StatelessWidget {
           Container(
             width: double.infinity,
             color: theme.dialogBackgroundColor,
-            padding: EdgeInsets.all(ThemeDimens.padding16),
+            padding: const EdgeInsets.all(ThemeDimens.padding16),
             child: Text(
               query,
               style: theme.textTheme.bodyText1,

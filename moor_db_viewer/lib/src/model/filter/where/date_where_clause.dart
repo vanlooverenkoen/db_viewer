@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
-import 'package:moor_db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class DateWhereClause extends WhereClause {
   DateWhereType _dateWhereType = DateWhereType.EQUALS;

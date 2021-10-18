@@ -1,9 +1,9 @@
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
+import 'package:db_viewer/src/widget/general/styled/input_like_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/date_where_clause.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
-import 'package:moor_db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
-import 'package:moor_db_viewer/src/widget/general/styled/input_like_text_field.dart';
 import 'package:provider/provider.dart';
 
 class WhereDateWidget extends StatelessWidget {
@@ -18,6 +18,7 @@ class WhereDateWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
+      onDismissed: () => Provider.of<MoorTableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
       children: [
         RadioListTile<DateWhereType>(
           onChanged: (value) => _onChangedType(context, value),
@@ -62,8 +63,7 @@ class WhereDateWidget extends StatelessWidget {
   void _onChangedType(BuildContext context, DateWhereType? value) {
     if (value == null) return null;
     whereClause.onSelectedType(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false)
-        .onUpdatedWhereClause();
+    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
   }
 
   Future<void> _onTapDate(BuildContext context) async {
@@ -75,8 +75,7 @@ class WhereDateWidget extends StatelessWidget {
     );
     if (picked != null && picked != whereClause.date) {
       whereClause.updateSelectedDate(picked);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false)
-          .onUpdatedWhereClause();
+      Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
     }
   }
 
@@ -87,8 +86,7 @@ class WhereDateWidget extends StatelessWidget {
     );
     if (picked != null && picked != whereClause.time) {
       whereClause.updateSelectedTime(picked);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false)
-          .onUpdatedWhereClause();
+      Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
     }
   }
 }

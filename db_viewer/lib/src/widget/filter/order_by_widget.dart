@@ -1,6 +1,6 @@
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/widget/filter/selectable_action.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/style/theme_dimens.dart';
-import 'package:moor_db_viewer/src/widget/filter/selectable_action.dart';
 
 class OrderByWidget extends StatelessWidget {
   final Map<String, bool> columns;
@@ -9,7 +9,8 @@ class OrderByWidget extends StatelessWidget {
   const OrderByWidget({
     required this.columns,
     required this.onToggleColumn,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
