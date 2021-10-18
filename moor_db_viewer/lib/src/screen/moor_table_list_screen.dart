@@ -23,7 +23,6 @@ class _MoorTableListScreenState extends State<MoorTableListScreen> implements Mo
     return ProviderWidget<MoorTableListViewerViewModel>(
       consumer: (context, viewModel, child) => Scaffold(
         appBar: AppBar(
-          brightness: Theme.of(context).primaryColorBrightness,
           leading: widget.canPop ? StyledBackButton(onBackClicked: DbViewerNavigator.of(context).goBack) : Container(),
           title: Text('Tables'),
         ),

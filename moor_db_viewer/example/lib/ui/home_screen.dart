@@ -24,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Scaffold(
           appBar: AppBar(
-            brightness: Brightness.dark,
             title: Text('Home Screen'),
           ),
           body: Stack(
