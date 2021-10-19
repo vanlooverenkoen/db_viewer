@@ -1,4 +1,4 @@
-import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
 
 abstract class CachingRepo {
   static CachingRepo? _instance;

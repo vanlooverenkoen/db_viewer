@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/repo/caching/caching_repo.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_item_detail_screen.dart';
 

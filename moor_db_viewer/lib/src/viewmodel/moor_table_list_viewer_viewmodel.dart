@@ -16,13 +16,9 @@ class MoorTableListViewerViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void _getTables() {
-    _tableNames = database.tableNames;
-  }
+  void _getTables() => _tableNames = database.tableNames;
 
-  void onTableClicked(String tableName) {
-    _navigator.goToTableDetail(tableName);
-  }
+  void onTableClicked(String tableName) => _navigator.goToTableDetail(tableName);
 }
 
 abstract class MoorTableListViewerNavigator {

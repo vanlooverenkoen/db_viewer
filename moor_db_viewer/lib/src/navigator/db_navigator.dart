@@ -1,8 +1,6 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
-import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_content_list_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_filter_edit_sql_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_filter_screen.dart';
@@ -66,7 +64,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
         final table = settings.arguments as ItemDetailArgument;
         return MaterialPageRoute(builder: (context) => MoorTableItemDetailScreen(table), settings: settings);
       case MoorTableFilterScreen.routeName:
-        final tuple = settings.arguments as DbViewerTuple<TableInfo<moor.Table, dynamic>, FilterData>;
+        final tuple = settings.arguments as DbViewerTuple<String, FilterData>;
         return MaterialPageRoute<FilterData>(builder: (context) => MoorTableFilterScreen(db, tuple.first, tuple.second), settings: settings);
       case MoorTableFilterEditSqlScreen.routeName:
         final query = settings.arguments as String;

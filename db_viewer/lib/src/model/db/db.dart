@@ -1,3 +1,5 @@
+import 'package:db_viewer/src/model/filter/filter_data.dart';
+
 abstract class DbViewerDatabase {
   List<String> get tableNames;
 
@@ -10,4 +12,6 @@ abstract class DbViewerDatabase {
   Stream<int> count(String tableName);
 
   List<Map<String, dynamic>> remapData(String tableName, List<Map<String, dynamic>> data);
+
+  FilterData getFilterData(String tableName);
 }

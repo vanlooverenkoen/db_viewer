@@ -1,6 +1,6 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
 import 'package:moor_db_viewer/src/viewmodel/moor_table_content_list_viewer_viewmodel.dart';

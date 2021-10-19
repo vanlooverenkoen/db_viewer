@@ -1,5 +1,7 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:moor/moor.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
+import 'package:moor_db_viewer/src/model/filter/moor_filter_data.dart';
 
 class MoorDbViewerDatabase implements DbViewerDatabase {
   final GeneratedDatabase db;
@@ -63,5 +65,12 @@ class MoorDbViewerDatabase implements DbViewerDatabase {
       correctData.add(map);
     });
     return correctData;
+  }
+
+  @override
+  FilterData getFilterData(String tableName) {
+    final table = getTable(tableName);
+    if (table == null) throw ArgumentError('$tableName is not available');
+    return MoorFilterData(table);
   }
 }

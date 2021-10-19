@@ -1,16 +1,13 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
-import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class MoorTableFilterViewModel with ChangeNotifier {
-  // ignore: unused_field
   final DbViewerDatabase _db;
   final MoorTableFilterNavigator _navigator;
   late FilterData _filterData;
-  TableInfo<moor.Table, dynamic> _table;
+  String _tableName;
 
   String get title => '$tableName Filter';
 
@@ -18,7 +15,7 @@ class MoorTableFilterViewModel with ChangeNotifier {
 
   bool get isEditedQuery => _filterData.isEditedQuery;
 
-  String get tableName => _table.entityName;
+  String get tableName => _tableName;
 
   bool get areAllColumnsSelected => _filterData.areAllColumnsSelected;
 
@@ -35,11 +32,11 @@ class MoorTableFilterViewModel with ChangeNotifier {
   MoorTableFilterViewModel(
     this._navigator,
     this._db,
-    this._table,
+    this._tableName,
     FilterData? filterData,
   ) {
     if (filterData == null) {
-      _filterData = FilterData(_table);
+      _filterData = _db.getFilterData(_tableName);
     } else {
       _filterData = filterData;
     }
@@ -76,10 +73,10 @@ class MoorTableFilterViewModel with ChangeNotifier {
   }
 
   void onAddClicked() {
-    _navigator.showAddWhereClause(_table);
+    _navigator.showAddWhereClause(_tableName);
   }
 
-  void onWhereColumnSelected(result) {
+  void onWhereColumnSelected(String result) {
     _filterData.onWhereColumnSelected(result);
     notifyListeners();
   }
@@ -110,7 +107,7 @@ class MoorTableFilterViewModel with ChangeNotifier {
 abstract class MoorTableFilterNavigator {
   void goBack(FilterData? filterData);
 
-  void showAddWhereClause(TableInfo<moor.Table, dynamic> table);
+  void showAddWhereClause(String entityName);
 
   void showEdit(String selectQuery);
 }

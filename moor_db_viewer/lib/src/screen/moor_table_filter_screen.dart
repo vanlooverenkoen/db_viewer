@@ -2,8 +2,7 @@ import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
 import 'package:moor/moor.dart';
-import 'package:moor/moor.dart' as moor;
-import 'package:moor_db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
 import 'package:moor_db_viewer/src/widget/filter/where_widget.dart';
@@ -12,11 +11,11 @@ import 'package:provider/provider.dart';
 class MoorTableFilterScreen extends StatefulWidget {
   static const routeName = 'moor-table-filter';
 
-  final TableInfo<moor.Table, dynamic> table;
+  final String tableName;
   final DbViewerDatabase db;
   final FilterData filterData;
 
-  MoorTableFilterScreen(this.db, this.table, this.filterData);
+  MoorTableFilterScreen(this.db, this.tableName, this.filterData);
 
   @override
   _MoorTableFilterScreenState createState() => _MoorTableFilterScreenState();
@@ -89,7 +88,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
         ),
       ),
       create: () => MoorTableFilterViewModel(
-          this, widget.db, widget.table, widget.filterData),
+          this, widget.db, widget.tableName, widget.filterData),
     );
   }
 
@@ -98,47 +97,48 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
       DbViewerNavigator.of(context).goBack(result: filterData);
 
   @override
-  Future<void> showAddWhereClause(TableInfo<moor.Table, dynamic> table) async {
-    final theme = Theme.of(context);
-    final columnNames = table.columnsByName.keys.toList();
-    final result = await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: ThemeDimens.padding8,
-        ),
-        backgroundColor: theme.dialogBackgroundColor,
-        title: Text('Select column'),
-        content: Container(
-          width: MediaQuery.of(context).size.width - ThemeDimens.padding32,
-          child: ListView.builder(
-            itemCount: columnNames.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              final columnName = columnNames[index];
-              return ListTile(
-                title: Text(
-                  columnName,
-                  style: theme.textTheme.headline6,
-                ),
-                subtitle: Text(
-                  getType(table.$columns
-                      .firstWhere((column) => column.$name == columnName)),
-                  style: theme.textTheme.bodyText1,
-                ),
-                onTap: () => Navigator.of(context).pop(columnName),
-              );
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            child: const Text('Cancel'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
-      ),
-    );
+  Future<void> showAddWhereClause(String entityName) async {
+    // final theme = Theme.of(context);
+    // final columnNames = entityName.columnsByName.keys.toList();
+    // final result = await showDialog(
+    //   context: context,
+    //   builder: (context) => AlertDialog(
+    //     contentPadding: EdgeInsets.symmetric(
+    //       horizontal: ThemeDimens.padding8,
+    //     ),
+    //     backgroundColor: theme.dialogBackgroundColor,
+    //     title: Text('Select column'),
+    //     content: Container(
+    //       width: MediaQuery.of(context).size.width - ThemeDimens.padding32,
+    //       child: ListView.builder(
+    //         itemCount: columnNames.length,
+    //         shrinkWrap: true,
+    //         itemBuilder: (context, index) {
+    //           final columnName = columnNames[index];
+    //           return ListTile(
+    //             title: Text(
+    //               columnName,
+    //               style: theme.textTheme.headline6,
+    //             ),
+    //             subtitle: Text(
+    //               getType(entityName.$columns
+    //                   .firstWhere((column) => column.$name == columnName)),
+    //               style: theme.textTheme.bodyText1,
+    //             ),
+    //             onTap: () => Navigator.of(context).pop(columnName),
+    //           );
+    //         },
+    //       ),
+    //     ),
+    //     actions: [
+    //       TextButton(
+    //         child: const Text('Cancel'),
+    //         onPressed: () => Navigator.of(context).pop(),
+    //       ),
+    //     ],
+    //   ),
+    // );
+    final result = '';
     final scaffoldContext = _scaffoldKey.currentContext;
     if (result != null && scaffoldContext != null) {
       Provider.of<MoorTableFilterViewModel>(
