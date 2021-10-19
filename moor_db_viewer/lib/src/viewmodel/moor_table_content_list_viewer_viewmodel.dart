@@ -37,7 +37,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
   Future<void> init(MoorTableViewerNavigator navigator, String tableName) async {
     _navigator = navigator;
     _tableName = tableName;
-    _filteredData = _db.getFilterData(tableName);
+    _filteredData = _db.getCachedFilterData(tableName);
     _getData();
   }
 
@@ -58,7 +58,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
       final stream =
           // todo find a better way to acces the database for no this is fine
           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-          _db.customSelectStream(sqlQuery, fromTableNames: {_tableName});
+          _db.customSelectStream(sqlQuery, fromEntityNames: {_tableName});
       _subscriptionList?.cancel();
       _subscriptionList = stream.listen((data) {
         final correctData = _db.remapData(tableName, data);

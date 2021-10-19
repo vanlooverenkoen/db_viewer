@@ -3,23 +3,32 @@ import 'package:db_viewer/src/model/filter/filter_data.dart';
 abstract class DbViewerDatabase {
   static DbViewerDatabase? _instance;
 
+  DbViewerDatabase._();
+
   static DbViewerDatabase instance() => _instance!;
 
   static void initDb(DbViewerDatabase db) => _instance = db;
 
-  List<String> get tableNames;
+  //EntityInfo
+  List<String> get entityNames;
 
-  Future<List<Map<String, dynamic>>> customSelect(String query, {Set<String>? fromTableNames});
+  List<String> getColumnNamesByEntityName(String entityName);
 
-  Stream<List<Map<String, dynamic>>> customSelectStream(String query, {Set<String>? fromTableNames});
+  List<Map<String, dynamic>> remapData(String entityName, List<Map<String, dynamic>> data);
+
+  String getType(String entityName, String columnName);
+
+  //Queries
+  Future<List<Map<String, dynamic>>> customSelect(String query, {Set<String>? fromEntityNames});
+
+  Stream<List<Map<String, dynamic>>> customSelectStream(String query, {Set<String>? fromEntityNames});
 
   Future<void> runCustomStatement(String query);
 
-  Stream<int> count(String tableName);
+  Stream<int> count(String entityName);
 
-  List<Map<String, dynamic>> remapData(String tableName, List<Map<String, dynamic>> data);
-
-  FilterData getFilterData(String tableName);
+  //Filter
+  FilterData getFilterData(String entityName);
 
   FilterData getCachedFilterData(String entityName);
 

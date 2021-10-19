@@ -145,6 +145,7 @@ abstract class FilterData {
   void onWhereColumnSelected(String columnName) {
     final whereClause = getWhereClause(columnName);
     if (whereClause == null) return;
+    _whereClauses.add(whereClause);
     createQuery();
   }
 

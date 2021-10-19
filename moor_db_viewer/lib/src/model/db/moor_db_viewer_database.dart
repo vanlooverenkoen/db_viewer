@@ -11,21 +11,7 @@ class MoorDbViewerDatabase implements DbViewerDatabase {
 
   static init(GeneratedDatabase db) => DbViewerDatabase.initDb(MoorDbViewerDatabase._(db));
 
-  @override
-  Future<List<Map<String, dynamic>>> customSelect(String query, {Set<String>? fromTableNames}) async {
-    final result = await db.customSelect(query).get();
-    return result.map((e) => e.data).toList();
-  }
-
-  @override
-  Stream<List<Map<String, dynamic>>> customSelectStream(String query, {Set<String>? fromTableNames}) => db.customSelect(query).map((item) => item.data).watch();
-
-  @override
-  Future<void> runCustomStatement(String query) async => await db.customStatement(query);
-
-  @override
-  List<String> get tableNames => db.allTables.map((e) => e.entityName).toList();
-
+  //Entity Info
   Iterable<TableInfo<Table, dynamic>> get tables => db.allTables;
 
   TableInfo<Table, dynamic>? getTable(String tableName) {
@@ -34,13 +20,10 @@ class MoorDbViewerDatabase implements DbViewerDatabase {
     return tables.first;
   }
 
+  List<String> get entityNames => db.allTables.map((e) => e.entityName).toList();
+
   @override
-  Stream<int> count(String tableName) {
-    final table = getTable(tableName);
-    if (table == null) return Stream.value(0);
-    final countStream = db.customSelect('SELECT COUNT(*) FROM ${tableName}', readsFrom: {table}).watch();
-    return countStream.map((data) => data.first.data['COUNT(*)']);
-  }
+  List<String> getColumnNamesByEntityName(String tableName) => getTable(tableName)?.columnsByName.keys.toList() ?? [];
 
   @override
   List<Map<String, dynamic>> remapData(String tableName, List<Map<String, dynamic>> data) {
@@ -70,6 +53,49 @@ class MoorDbViewerDatabase implements DbViewerDatabase {
     return correctData;
   }
 
+  @override
+  String getType(String entityName, String columnName) {
+    final entity = getTable(entityName);
+    if (entity == null) throw ArgumentError('Entity $entityName is not found');
+    final column = entity.$columns.firstWhere((column) => column.$name == columnName);
+    if (column is GeneratedColumn<DateTime> || column is GeneratedColumn<DateTime?>) {
+      return 'DATE';
+    } else if (column is GeneratedColumn<Uint8List> || column is GeneratedColumn<Uint8List?>) {
+      return 'BLOB';
+    } else if (column is GeneratedColumn<double> || column is GeneratedColumn<double?>) {
+      return 'DOUBLE';
+    } else if (column is GeneratedColumn<bool> || column is GeneratedColumn<bool?>) {
+      return 'BOOL';
+    } else if (column is GeneratedColumn<String> || column is GeneratedColumn<String?>) {
+      return 'TEXT';
+    } else if (column is GeneratedColumn<int> || column is GeneratedColumn<int?>) {
+      return 'INTEGER';
+    }
+    return 'UNSUPPORTED TYPE';
+  }
+
+  //Queries
+  @override
+  Future<List<Map<String, dynamic>>> customSelect(String query, {Set<String>? fromEntityNames}) async {
+    final result = await db.customSelect(query).get();
+    return result.map((e) => e.data).toList();
+  }
+
+  @override
+  Stream<List<Map<String, dynamic>>> customSelectStream(String query, {Set<String>? fromEntityNames}) => db.customSelect(query).map((item) => item.data).watch();
+
+  @override
+  Future<void> runCustomStatement(String query) async => await db.customStatement(query);
+
+  @override
+  Stream<int> count(String tableName) {
+    final table = getTable(tableName);
+    if (table == null) return Stream.value(0);
+    final countStream = db.customSelect('SELECT COUNT(*) FROM ${tableName}', readsFrom: {table}).watch();
+    return countStream.map((data) => data.first.data['COUNT(*)']);
+  }
+
+  //Filter Data
   @override
   FilterData getFilterData(String tableName) {
     final table = getTable(tableName);

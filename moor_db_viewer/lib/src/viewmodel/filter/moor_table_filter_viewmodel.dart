@@ -36,7 +36,7 @@ class MoorTableFilterViewModel with ChangeNotifier {
     FilterData? filterData,
   ) {
     if (filterData == null) {
-      _filterData = _db.getFilterData(_tableName);
+      _filterData = _db.getCachedFilterData(_tableName);
     } else {
       _filterData = filterData;
     }

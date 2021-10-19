@@ -1,7 +1,6 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
-import 'package:moor/moor.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
@@ -20,8 +19,7 @@ class MoorTableFilterScreen extends StatefulWidget {
   _MoorTableFilterScreenState createState() => _MoorTableFilterScreenState();
 }
 
-class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
-    implements MoorTableFilterNavigator {
+class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implements MoorTableFilterNavigator {
   final _scaffoldKey = GlobalKey();
 
   @override
@@ -86,58 +84,55 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
           ],
         ),
       ),
-      create: () => MoorTableFilterViewModel(
-          this, widget.tableName, widget.filterData),
+      create: () => MoorTableFilterViewModel(this, widget.tableName, widget.filterData),
     );
   }
 
   @override
-  void goBack(FilterData? filterData) =>
-      DbViewerNavigator.of(context).goBack(result: filterData);
+  void goBack(FilterData? filterData) => DbViewerNavigator.of(context).goBack(result: filterData);
 
   @override
   Future<void> showAddWhereClause(String entityName) async {
-    // final theme = Theme.of(context);
-    // final columnNames = entityName.columnsByName.keys.toList();
-    // final result = await showDialog(
-    //   context: context,
-    //   builder: (context) => AlertDialog(
-    //     contentPadding: EdgeInsets.symmetric(
-    //       horizontal: ThemeDimens.padding8,
-    //     ),
-    //     backgroundColor: theme.dialogBackgroundColor,
-    //     title: Text('Select column'),
-    //     content: Container(
-    //       width: MediaQuery.of(context).size.width - ThemeDimens.padding32,
-    //       child: ListView.builder(
-    //         itemCount: columnNames.length,
-    //         shrinkWrap: true,
-    //         itemBuilder: (context, index) {
-    //           final columnName = columnNames[index];
-    //           return ListTile(
-    //             title: Text(
-    //               columnName,
-    //               style: theme.textTheme.headline6,
-    //             ),
-    //             subtitle: Text(
-    //               getType(entityName.$columns
-    //                   .firstWhere((column) => column.$name == columnName)),
-    //               style: theme.textTheme.bodyText1,
-    //             ),
-    //             onTap: () => Navigator.of(context).pop(columnName),
-    //           );
-    //         },
-    //       ),
-    //     ),
-    //     actions: [
-    //       TextButton(
-    //         child: const Text('Cancel'),
-    //         onPressed: () => Navigator.of(context).pop(),
-    //       ),
-    //     ],
-    //   ),
-    // );
-    final result = '';
+    final theme = Theme.of(context);
+    final db = DbViewerDatabase.instance();
+    final columnNames = db.getColumnNamesByEntityName(entityName);
+    final result = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: ThemeDimens.padding8,
+        ),
+        backgroundColor: theme.dialogBackgroundColor,
+        title: Text('Select column'),
+        content: Container(
+          width: MediaQuery.of(context).size.width - ThemeDimens.padding32,
+          child: ListView.builder(
+            itemCount: columnNames.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final columnName = columnNames[index];
+              return ListTile(
+                title: Text(
+                  columnName,
+                  style: theme.textTheme.headline6,
+                ),
+                subtitle: Text(
+                  db.getType(entityName, columnName),
+                  style: theme.textTheme.bodyText1,
+                ),
+                onTap: () => Navigator.of(context).pop(columnName),
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
     final scaffoldContext = _scaffoldKey.currentContext;
     if (result != null && scaffoldContext != null) {
       Provider.of<MoorTableFilterViewModel>(
@@ -147,38 +142,13 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
     }
   }
 
-  String getType(GeneratedColumn column) {
-    if (column is GeneratedColumn<DateTime> ||
-        column is GeneratedColumn<DateTime?>) {
-      return 'DATE';
-    } else if (column is GeneratedColumn<Uint8List> ||
-        column is GeneratedColumn<Uint8List?>) {
-      return 'BLOB';
-    } else if (column is GeneratedColumn<double> ||
-        column is GeneratedColumn<double?>) {
-      return 'DOUBLE';
-    } else if (column is GeneratedColumn<bool> ||
-        column is GeneratedColumn<bool?>) {
-      return 'BOOL';
-    } else if (column is GeneratedColumn<String> ||
-        column is GeneratedColumn<String?>) {
-      return 'TEXT';
-    } else if (column is GeneratedColumn<int> ||
-        column is GeneratedColumn<int?>) {
-      return 'INTEGER';
-    }
-    return 'UNSUPPORTED TYPE';
-  }
-
   @override
   Future<void> showEdit(String selectQuery) async {
-    final result =
-        await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
+    final result = await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
 
     final scaffoldContext = _scaffoldKey.currentContext;
     if (result != null && scaffoldContext != null) {
-      Provider.of<MoorTableFilterViewModel>(scaffoldContext, listen: false)
-          .onUpdateCustomSqlQuery(result);
+      Provider.of<MoorTableFilterViewModel>(scaffoldContext, listen: false).onUpdateCustomSqlQuery(result);
     }
   }
 }
