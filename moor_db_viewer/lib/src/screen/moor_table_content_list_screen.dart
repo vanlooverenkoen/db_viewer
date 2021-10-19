@@ -2,7 +2,6 @@ import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
-import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
 import 'package:moor_db_viewer/src/viewmodel/moor_table_content_list_viewer_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -127,7 +126,7 @@ class _MoorTableContentListScreenState extends State<MoorTableContentListScreen>
         ),
       ),
       create: () => MoorTableContentListViewerViewModel()
-        ..init(this, Provider.of<GlobalViewModel>(context).db, widget.tableName),
+        ..init(this, widget.tableName),
     );
   }
 

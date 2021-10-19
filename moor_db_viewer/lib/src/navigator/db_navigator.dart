@@ -6,8 +6,6 @@ import 'package:moor_db_viewer/src/screen/moor_table_filter_edit_sql_screen.dart
 import 'package:moor_db_viewer/src/screen/moor_table_filter_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_item_detail_screen.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_list_screen.dart';
-import 'package:moor_db_viewer/src/viewmodel/global_viewmodel.dart';
-import 'package:provider/provider.dart';
 
 class DbViewerNavigator extends StatefulWidget {
   const DbViewerNavigator({Key? key}) : super(key: key);
@@ -52,11 +50,9 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
 
   Route? onGenerateRoute(RouteSettings settings) {
     final canPop = Navigator.of(context).canPop();
-    final globalViewModel = Provider.of<GlobalViewModel>(context, listen: false);
-    final db = globalViewModel.db;
     switch (settings.name) {
       case MoorTableListScreen.routeName:
-        return MaterialPageRoute(builder: (context) => MoorTableListScreen(db, canPop), settings: settings);
+        return MaterialPageRoute(builder: (context) => MoorTableListScreen(canPop), settings: settings);
       case MoorTableContentListScreen.routeName:
         final tableName = settings.arguments as String;
         return MaterialPageRoute(builder: (context) => MoorTableContentListScreen(tableName), settings: settings);
@@ -65,7 +61,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
         return MaterialPageRoute(builder: (context) => MoorTableItemDetailScreen(table), settings: settings);
       case MoorTableFilterScreen.routeName:
         final tuple = settings.arguments as DbViewerTuple<String, FilterData>;
-        return MaterialPageRoute<FilterData>(builder: (context) => MoorTableFilterScreen(db, tuple.first, tuple.second), settings: settings);
+        return MaterialPageRoute<FilterData>(builder: (context) => MoorTableFilterScreen(tuple.first, tuple.second), settings: settings);
       case MoorTableFilterEditSqlScreen.routeName:
         final query = settings.arguments as String;
         return MaterialPageRoute<String>(builder: (context) => MoorTableFilterEditSqlScreen(query), settings: settings);

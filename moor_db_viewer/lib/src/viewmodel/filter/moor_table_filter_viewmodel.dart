@@ -4,7 +4,6 @@ import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class MoorTableFilterViewModel with ChangeNotifier {
-  final DbViewerDatabase _db;
   final MoorTableFilterNavigator _navigator;
   late FilterData _filterData;
   String _tableName;
@@ -29,9 +28,10 @@ class MoorTableFilterViewModel with ChangeNotifier {
 
   int get limit => _filterData.limit;
 
+  DbViewerDatabase get _db => DbViewerDatabase.instance();
+
   MoorTableFilterViewModel(
     this._navigator,
-    this._db,
     this._tableName,
     FilterData? filterData,
   ) {

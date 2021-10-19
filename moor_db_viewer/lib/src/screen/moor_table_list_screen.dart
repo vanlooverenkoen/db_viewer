@@ -6,10 +6,9 @@ import 'package:moor_db_viewer/src/viewmodel/moor_table_list_viewer_viewmodel.da
 class MoorTableListScreen extends StatefulWidget {
   static const routeName = 'moor-table-list';
 
-  final DbViewerDatabase db;
   final bool canPop;
 
-  MoorTableListScreen(this.db, this.canPop);
+  MoorTableListScreen(this.canPop);
 
   @override
   _MoorTableListScreenState createState() => _MoorTableListScreenState();
@@ -36,7 +35,7 @@ class _MoorTableListScreenState extends State<MoorTableListScreen> implements Mo
           },
         ),
       ),
-      create: () => MoorTableListViewerViewModel()..init(this, widget.db),
+      create: () => MoorTableListViewerViewModel()..init(this),
     );
   }
 

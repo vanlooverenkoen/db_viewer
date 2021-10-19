@@ -4,13 +4,10 @@ import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
-import 'package:moor_db_viewer/src/repo/caching/caching_repo.dart';
 
 class MoorTableContentListViewerViewModel with ChangeNotifier {
-  late DbViewerDatabase _db;
   late MoorTableViewerNavigator _navigator;
   late String _tableName;
-  final cachingRepo = CachingRepo.instance();
 
   final _data = <Map<String, dynamic>>[];
 
@@ -35,11 +32,12 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
 
   String get tableName => _tableName;
 
-  Future<void> init(MoorTableViewerNavigator navigator, DbViewerDatabase db, String tableName) async {
+  DbViewerDatabase get _db => DbViewerDatabase.instance();
+
+  Future<void> init(MoorTableViewerNavigator navigator, String tableName) async {
     _navigator = navigator;
-    _db = db;
     _tableName = tableName;
-    _filteredData = cachingRepo.getFilterDataForTable(tableName);
+    _filteredData = _db.getFilterData(tableName);
     _getData();
   }
 
@@ -83,7 +81,7 @@ class MoorTableContentListViewerViewModel with ChangeNotifier {
   void updateFilter(FilterData filterData) {
     _data.clear();
     _filteredData = filterData;
-    cachingRepo.updateFilterData(_tableName, filterData);
+    _db.updateFilterData(_tableName, filterData);
     notifyListeners();
     _getData();
   }

@@ -5,8 +5,11 @@ import 'package:moor_db_viewer/src/model/filter/moor_filter_data.dart';
 
 class MoorDbViewerDatabase implements DbViewerDatabase {
   final GeneratedDatabase db;
+  final _filterData = <String, FilterData>{};
 
-  MoorDbViewerDatabase(this.db);
+  MoorDbViewerDatabase._(this.db);
+
+  static init(GeneratedDatabase db) => DbViewerDatabase.initDb(MoorDbViewerDatabase._(db));
 
   @override
   Future<List<Map<String, dynamic>>> customSelect(String query, {Set<String>? fromTableNames}) async {
@@ -72,5 +75,16 @@ class MoorDbViewerDatabase implements DbViewerDatabase {
     final table = getTable(tableName);
     if (table == null) throw ArgumentError('$tableName is not available');
     return MoorFilterData(table);
+  }
+
+  FilterData getCachedFilterData(String entityName) {
+    if (!_filterData.containsKey(entityName)) {
+      _filterData[entityName] = getFilterData(entityName);
+    }
+    return _filterData[entityName]!;
+  }
+
+  void updateFilterData(String entityName, FilterData filterData) {
+    _filterData[entityName] = filterData;
   }
 }

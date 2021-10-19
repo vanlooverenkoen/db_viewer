@@ -1,13 +1,12 @@
+import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
-import 'package:moor_db_viewer/src/repo/caching/caching_repo.dart';
 import 'package:moor_db_viewer/src/screen/moor_table_item_detail_screen.dart';
 
 class MoorTableItemDetailViewerViewModel with ChangeNotifier {
   late MoorTableItemDetailViewerNavigator _navigator;
   late String _tableName;
-  final cachingRepo = CachingRepo.instance();
 
   Map<String, dynamic> _data = Map();
   late FilterData _filteredData;
@@ -28,12 +27,14 @@ class MoorTableItemDetailViewerViewModel with ChangeNotifier {
 
   int get amountOfColumns => _data.keys.length;
 
+  DbViewerDatabase get _db => DbViewerDatabase.instance();
+
   Future<void> init(MoorTableItemDetailViewerNavigator navigator,
       ItemDetailArgument arguments) async {
     _navigator = navigator;
     _data = arguments.data;
     _tableName = arguments.tableName;
-    _filteredData = cachingRepo.getFilterDataForTable(_tableName);
+    _filteredData = _db.getCachedFilterData(_tableName);
   }
 
   void onLongPressValue(item) {

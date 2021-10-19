@@ -12,10 +12,9 @@ class MoorTableFilterScreen extends StatefulWidget {
   static const routeName = 'moor-table-filter';
 
   final String tableName;
-  final DbViewerDatabase db;
   final FilterData filterData;
 
-  MoorTableFilterScreen(this.db, this.tableName, this.filterData);
+  MoorTableFilterScreen(this.tableName, this.filterData);
 
   @override
   _MoorTableFilterScreenState createState() => _MoorTableFilterScreenState();
@@ -88,7 +87,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen>
         ),
       ),
       create: () => MoorTableFilterViewModel(
-          this, widget.db, widget.tableName, widget.filterData),
+          this, widget.tableName, widget.filterData),
     );
   }
 
