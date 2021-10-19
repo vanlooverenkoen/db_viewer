@@ -1,14 +1,19 @@
-import 'package:db_viewer/db_viewer.dart';
+import 'package:db_viewer/src/navigator/db_navigator.dart';
+import 'package:db_viewer/src/viewmodel/moor_table_list_viewer_viewmodel.dart';
+import 'package:db_viewer/src/widget/general/styled/styled_back_button.dart';
+import 'package:db_viewer/src/widget/general/table_row_item.dart';
+import 'package:db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
-import 'package:moor_db_viewer/src/viewmodel/moor_table_list_viewer_viewmodel.dart';
 
 class MoorTableListScreen extends StatefulWidget {
   static const routeName = 'moor-table-list';
 
   final bool canPop;
 
-  MoorTableListScreen(this.canPop);
+  const MoorTableListScreen(
+    this.canPop, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _MoorTableListScreenState createState() => _MoorTableListScreenState();

@@ -1,6 +1,7 @@
-import 'package:db_viewer/db_viewer.dart';
+import 'package:db_viewer/src/navigator/db_navigator.dart';
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/widget/general/styled/styled_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 
 class MoorTableFilterEditSqlScreen extends StatefulWidget {
   static const routeName = 'edit_sql';
@@ -27,10 +28,10 @@ class _MoorTableFilterEditSqlScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit SQL STATEMENT'),
+        title: const Text('Edit SQL STATEMENT'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: _onSaveClicked,
           )
         ],

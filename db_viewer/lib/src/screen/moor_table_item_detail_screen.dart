@@ -1,22 +1,24 @@
-import 'package:db_viewer/db_viewer.dart';
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/viewmodel/moor_table_item_detail_viewer_viewmodel.dart';
+import 'package:db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
-import 'package:moor_db_viewer/src/viewmodel/moor_table_item_detail_viewer_viewmodel.dart';
 
 class MoorTableItemDetailScreen extends StatefulWidget {
   static const routeName = 'moor-table-item-detail';
 
   final ItemDetailArgument arguments;
 
-  MoorTableItemDetailScreen(this.arguments);
+  const MoorTableItemDetailScreen(
+    this.arguments, {
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _MoorTableItemDetailScreenState createState() =>
-      _MoorTableItemDetailScreenState();
+  _MoorTableItemDetailScreenState createState() => _MoorTableItemDetailScreenState();
 }
 
-class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
-    implements MoorTableItemDetailViewerNavigator {
+class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen> implements MoorTableItemDetailViewerNavigator {
   final _key = GlobalKey<ScaffoldState>();
 
   @override
@@ -31,23 +33,15 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {
-            if (viewModel.error != null)
-              return Center(child: Text(viewModel.error!));
-            if (!viewModel.hasData && viewModel.hasFilter)
-              return Center(
-                  child: Text(
-                      'No data found for your current filter on the `${viewModel.tableName}` table'));
-            if (!viewModel.hasData)
-              return Center(
-                  child: Text(
-                      'No data added to the `${viewModel.tableName}` table'));
+            if (viewModel.error != null) return Center(child: Text(viewModel.error!));
+            if (!viewModel.hasData && viewModel.hasFilter) return Center(child: Text('No data found for your current filter on the `${viewModel.tableName}` table'));
+            if (!viewModel.hasData) return Center(child: Text('No data added to the `${viewModel.tableName}` table'));
             return ListView.builder(
-              padding: EdgeInsets.all(ThemeDimens.padding16),
+              padding: const EdgeInsets.all(ThemeDimens.padding16),
               itemCount: viewModel.amountOfColumns,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: ThemeDimens.padding8),
+                  padding: const EdgeInsets.symmetric(vertical: ThemeDimens.padding8),
                   child: flutter.Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -59,7 +53,7 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
                         viewModel.getValue(index),
                         style: theme.textTheme.bodyText1,
                       ),
-                      Container(height: ThemeDimens.padding16),
+                      const SizedBox(height: ThemeDimens.padding16),
                       Container(
                         height: 1,
                         color: theme.dividerColor,
@@ -73,8 +67,7 @@ class _MoorTableItemDetailScreenState extends State<MoorTableItemDetailScreen>
           },
         ),
       ),
-      create: () =>
-          MoorTableItemDetailViewerViewModel()..init(this, widget.arguments),
+      create: () => MoorTableItemDetailViewerViewModel()..init(this, widget.arguments),
     );
   }
 

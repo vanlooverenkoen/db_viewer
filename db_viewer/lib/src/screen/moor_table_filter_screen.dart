@@ -1,10 +1,19 @@
-import 'package:db_viewer/db_viewer.dart';
+import 'package:db_viewer/src/model/db/db.dart';
+import 'package:db_viewer/src/navigator/db_navigator.dart';
+import 'package:db_viewer/src/style/theme_dimens.dart';
+import 'package:db_viewer/src/style/theme_durations.dart';
+import 'package:db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
+import 'package:db_viewer/src/widget/filter/asc_desc_widget.dart';
+import 'package:db_viewer/src/widget/filter/from_widget.dart';
+import 'package:db_viewer/src/widget/filter/limit_widget.dart';
+import 'package:db_viewer/src/widget/filter/order_by_widget.dart';
+import 'package:db_viewer/src/widget/filter/select_query_widget.dart';
+import 'package:db_viewer/src/widget/filter/select_widget.dart';
+import 'package:db_viewer/src/widget/general/styled/styled_back_button.dart';
+import 'package:db_viewer/src/widget/provider/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as flutter;
 import 'package:db_viewer/src/model/filter/filter_data.dart';
-import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
-import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
-import 'package:moor_db_viewer/src/widget/filter/where_widget.dart';
 import 'package:provider/provider.dart';
 
 class MoorTableFilterScreen extends StatefulWidget {
@@ -13,7 +22,11 @@ class MoorTableFilterScreen extends StatefulWidget {
   final String tableName;
   final FilterData filterData;
 
-  MoorTableFilterScreen(this.tableName, this.filterData);
+  const MoorTableFilterScreen(
+    this.tableName,
+    this.filterData, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _MoorTableFilterScreenState createState() => _MoorTableFilterScreenState();
@@ -62,7 +75,7 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implement
                       onToggleColumn: viewModel.onToggleColumn,
                     ),
                     FromWidget(tableName: viewModel.tableName),
-                    WhereTitleWidget(
+                    DbViewerDatabase.instance().buildWhereWidget(
                       onAddClicked: viewModel.onAddClicked,
                       whereClauses: viewModel.whereClauses,
                     ),
@@ -99,12 +112,12 @@ class _MoorTableFilterScreenState extends State<MoorTableFilterScreen> implement
     final result = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: ThemeDimens.padding8,
         ),
         backgroundColor: theme.dialogBackgroundColor,
-        title: Text('Select column'),
-        content: Container(
+        title: const Text('Select column'),
+        content: SizedBox(
           width: MediaQuery.of(context).size.width - ThemeDimens.padding32,
           child: ListView.builder(
             itemCount: columnNames.length,

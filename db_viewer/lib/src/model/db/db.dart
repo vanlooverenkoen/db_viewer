@@ -1,4 +1,6 @@
 import 'package:db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/filter/where/where_clause.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class DbViewerDatabase {
   static DbViewerDatabase? _instance;
@@ -33,4 +35,9 @@ abstract class DbViewerDatabase {
   FilterData getCachedFilterData(String entityName);
 
   void updateFilterData(String entityName, FilterData filterData);
+
+  Widget buildWhereWidget({
+    required VoidCallback onAddClicked,
+    required List<WhereClause> whereClauses,
+  });
 }

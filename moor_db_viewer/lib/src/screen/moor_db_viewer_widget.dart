@@ -1,7 +1,7 @@
+import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_db_viewer/src/model/db/moor_db_viewer_database.dart';
-import 'package:moor_db_viewer/src/navigator/db_navigator.dart';
 
 class MoorDbViewer extends StatefulWidget {
   final GeneratedDatabase db;

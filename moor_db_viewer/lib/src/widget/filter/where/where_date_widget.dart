@@ -1,9 +1,6 @@
-import 'package:db_viewer/src/style/theme_dimens.dart';
-import 'package:db_viewer/src/widget/general/expandable_filter_item/expandable_where_item.dart';
-import 'package:db_viewer/src/widget/general/styled/input_like_text_field.dart';
+import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/date_where_clause.dart';
-import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class WhereDateWidget extends StatelessWidget {

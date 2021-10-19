@@ -3,7 +3,6 @@ import 'package:db_viewer/src/widget/general/expandable_filter_item/expandable_w
 import 'package:db_viewer/src/widget/general/styled/styled_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/string_where_clause.dart';
-import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class WhereStringWidget extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'package:db_viewer/db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_db_viewer/src/model/filter/where/int_where_clause.dart';
-import 'package:moor_db_viewer/src/viewmodel/filter/moor_table_filter_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class WhereIntWidget extends StatelessWidget {

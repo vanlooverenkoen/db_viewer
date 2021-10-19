@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:db_viewer/db_viewer.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:moor/moor.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:moor_db_viewer/src/model/filter/moor_filter_data.dart';
+import 'package:moor_db_viewer/src/widget/filter/where_widget.dart';
 
 class MoorDbViewerDatabase implements DbViewerDatabase {
   final GeneratedDatabase db;
@@ -113,4 +117,14 @@ class MoorDbViewerDatabase implements DbViewerDatabase {
   void updateFilterData(String entityName, FilterData filterData) {
     _filterData[entityName] = filterData;
   }
+
+  @override
+  Widget buildWhereWidget({
+    required VoidCallback onAddClicked,
+    required List<WhereClause> whereClauses,
+  }) =>
+      WhereTitleWidget(
+        onAddClicked: onAddClicked,
+        whereClauses: whereClauses,
+      );
 }
