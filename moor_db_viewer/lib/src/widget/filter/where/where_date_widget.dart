@@ -15,7 +15,7 @@ class WhereDateWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
-      onDismissed: () => Provider.of<MoorTableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
+      onDismissed: () => Provider.of<TableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
       children: [
         RadioListTile<DateWhereType>(
           onChanged: (value) => _onChangedType(context, value),
@@ -60,7 +60,7 @@ class WhereDateWidget extends StatelessWidget {
   void _onChangedType(BuildContext context, DateWhereType? value) {
     if (value == null) return null;
     whereClause.onSelectedType(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
   }
 
   Future<void> _onTapDate(BuildContext context) async {
@@ -72,7 +72,7 @@ class WhereDateWidget extends StatelessWidget {
     );
     if (picked != null && picked != whereClause.date) {
       whereClause.updateSelectedDate(picked);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+      Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
     }
   }
 
@@ -83,7 +83,7 @@ class WhereDateWidget extends StatelessWidget {
     );
     if (picked != null && picked != whereClause.time) {
       whereClause.updateSelectedTime(picked);
-      Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+      Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
     }
   }
 }

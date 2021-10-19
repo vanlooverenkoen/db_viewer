@@ -1,9 +1,9 @@
 import 'package:db_viewer/db_viewer.dart';
-import 'package:db_viewer/src/screen/moor_table_content_list_screen.dart';
-import 'package:db_viewer/src/screen/moor_table_filter_edit_sql_screen.dart';
-import 'package:db_viewer/src/screen/moor_table_filter_screen.dart';
-import 'package:db_viewer/src/screen/moor_table_item_detail_screen.dart';
-import 'package:db_viewer/src/screen/moor_table_list_screen.dart';
+import 'package:db_viewer/src/screen/table_content_list_screen.dart';
+import 'package:db_viewer/src/screen/table_filter_edit_query_screen.dart';
+import 'package:db_viewer/src/screen/table_filter_screen.dart';
+import 'package:db_viewer/src/screen/table_item_detail_screen.dart';
+import 'package:db_viewer/src/screen/table_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
 
@@ -42,7 +42,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
       onWillPop: _willPop,
       child: Navigator(
         key: _navigationKey,
-        initialRoute: MoorTableListScreen.routeName,
+        initialRoute: TableListScreen.routeName,
         onGenerateRoute: onGenerateRoute,
       ),
     );
@@ -51,20 +51,20 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
   Route? onGenerateRoute(RouteSettings settings) {
     final canPop = Navigator.of(context).canPop();
     switch (settings.name) {
-      case MoorTableListScreen.routeName:
-        return MaterialPageRoute(builder: (context) => MoorTableListScreen(canPop), settings: settings);
-      case MoorTableContentListScreen.routeName:
+      case TableListScreen.routeName:
+        return MaterialPageRoute(builder: (context) => TableListScreen(canPop), settings: settings);
+      case TableContentListScreen.routeName:
         final tableName = settings.arguments as String;
-        return MaterialPageRoute(builder: (context) => MoorTableContentListScreen(tableName), settings: settings);
-      case MoorTableItemDetailScreen.routeName:
+        return MaterialPageRoute(builder: (context) => TableContentListScreen(tableName), settings: settings);
+      case TableItemDetailScreen.routeName:
         final table = settings.arguments as ItemDetailArgument;
-        return MaterialPageRoute(builder: (context) => MoorTableItemDetailScreen(table), settings: settings);
-      case MoorTableFilterScreen.routeName:
+        return MaterialPageRoute(builder: (context) => TableItemDetailScreen(table), settings: settings);
+      case TableFilterScreen.routeName:
         final tuple = settings.arguments as DbViewerTuple<String, FilterData>;
-        return MaterialPageRoute<FilterData>(builder: (context) => MoorTableFilterScreen(tuple.first, tuple.second), settings: settings);
-      case MoorTableFilterEditSqlScreen.routeName:
+        return MaterialPageRoute<FilterData>(builder: (context) => TableFilterScreen(tuple.first, tuple.second), settings: settings);
+      case TableFilterEditQueryScreen.routeName:
         final query = settings.arguments as String;
-        return MaterialPageRoute<String>(builder: (context) => MoorTableFilterEditSqlScreen(query), settings: settings);
+        return MaterialPageRoute<String>(builder: (context) => TableFilterEditQueryScreen(query), settings: settings);
       default:
         return null;
     }
@@ -72,11 +72,11 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
 
   Future<bool> _willPop() async => !await _navigationKey.currentState!.maybePop();
 
-  void goToTableList() => _navigationKey.currentState!.pushNamed(MoorTableListScreen.routeName);
+  void goToTableList() => _navigationKey.currentState!.pushNamed(TableListScreen.routeName);
 
   void goToTableContentList(String tableName) {
     _navigationKey.currentState!.pushNamed(
-      MoorTableContentListScreen.routeName,
+      TableContentListScreen.routeName,
       arguments: tableName,
     );
   }
@@ -86,7 +86,7 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
     Map<String, dynamic> data,
   ) {
     _navigationKey.currentState!.pushNamed(
-      MoorTableItemDetailScreen.routeName,
+      TableItemDetailScreen.routeName,
       arguments: ItemDetailArgument(tableName, data),
     );
   }
@@ -96,14 +96,14 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
     FilterData filterData,
   ) {
     return _navigationKey.currentState!.pushNamed<FilterData>(
-      MoorTableFilterScreen.routeName,
+      TableFilterScreen.routeName,
       arguments: DbViewerTuple(tableName, filterData),
     );
   }
 
   Future<String?>? goToTableFilterEditSql(String query) {
     return _navigationKey.currentState!.pushNamed(
-      MoorTableFilterEditSqlScreen.routeName,
+      TableFilterEditQueryScreen.routeName,
       arguments: query,
     );
   }

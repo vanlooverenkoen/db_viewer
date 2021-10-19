@@ -118,6 +118,7 @@ class MoorDbViewerDatabase implements DbViewerDatabase {
     _filterData[entityName] = filterData;
   }
 
+  //UI
   @override
   Widget buildWhereWidget({
     required VoidCallback onAddClicked,

@@ -1,0 +1,27 @@
+name: drift_db_viewer_example
+description: A new Flutter application.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  drift: ^1.0.1
+  drift_db_viewer:
+    path: ../
+  flutter:
+    sdk: flutter
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.0.2
+  path: ^1.8.0
+
+
+dev_dependencies:
+  build_runner: ^2.1.1
+  drift_dev: ^1.0.2
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

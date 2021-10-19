@@ -44,7 +44,7 @@ class WhereTitleWidget extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.add,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: onAddClicked,
               ),

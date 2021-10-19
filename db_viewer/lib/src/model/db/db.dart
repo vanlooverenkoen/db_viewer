@@ -36,6 +36,7 @@ abstract class DbViewerDatabase {
 
   void updateFilterData(String entityName, FilterData filterData);
 
+  //UI
   Widget buildWhereWidget({
     required VoidCallback onAddClicked,
     required List<WhereClause> whereClauses,

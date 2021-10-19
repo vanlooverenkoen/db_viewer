@@ -17,7 +17,7 @@ class WhereStringWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
-      onDismissed: () => Provider.of<MoorTableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
+      onDismissed: () => Provider.of<TableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
       children: [
         RadioListTile<StringWhereType>(
           onChanged: (value) => _onChangedType(context, value),
@@ -67,12 +67,12 @@ class WhereStringWidget extends StatelessWidget {
 
   void _onChange(BuildContext context, String value) {
     whereClause.updateQuery(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
   }
 
   void _onChangedType(BuildContext context, StringWhereType? value) {
     if (value == null) return;
     whereClause.onSelectedType(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
   }
 }

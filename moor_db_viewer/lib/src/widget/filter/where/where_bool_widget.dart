@@ -16,7 +16,7 @@ class WhereBoolWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
-      onDismissed: () => Provider.of<MoorTableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
+      onDismissed: () => Provider.of<TableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
       children: [
         RadioListTile<bool>(
           onChanged: (value) => _onChanged(context, value),
@@ -43,7 +43,7 @@ class WhereBoolWidget extends StatelessWidget {
   void _onChanged(BuildContext context, bool? value) {
     if (value == null) return;
     whereClause.onSelectedChanged(value);
-    Provider.of<MoorTableFilterViewModel>(context, listen: false)
+    Provider.of<TableFilterViewModel>(context, listen: false)
         .onUpdatedWhereClause();
   }
 }
