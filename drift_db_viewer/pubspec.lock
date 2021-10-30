@@ -56,7 +56,7 @@ packages:
       path: "../db_viewer"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "1.0.0"
   drift:
     dependency: "direct main"
     description:
