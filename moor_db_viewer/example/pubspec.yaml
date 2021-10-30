@@ -1,0 +1,27 @@
+name: moor_db_viewer_example
+description: A new Flutter application.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  moor: ^4.5.0
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.0.2
+  path: ^1.8.0
+  moor_db_viewer:
+    path: ../
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  moor_generator: ^4.4.1
+  build_runner: ^2.1.1
+
+flutter:
+  uses-material-design: true
