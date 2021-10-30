@@ -1,3 +1,10 @@
+## [5.0.0] - 30-10-2021
+### Full refactor
+- Refactored to a new hybrid db_viewer architecture. -> `db_viewer` is now used
+### Deprecated
+- Because of the new drift package moor_db_viewer is deprecated. It will still be maintained when updating drift_db_viewer
+- New package to support drift -> drift_db_viewer
+
 ## [4.4.0] - 25-08-2021
 ### Updated
 - provider 6.0.0
