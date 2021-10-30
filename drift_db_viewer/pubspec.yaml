@@ -8,8 +8,7 @@ environment:
   flutter: ">=2.2.0"
 
 dependencies:
-  db_viewer:
-    path: ../db_viewer
+  db_viewer: 1.0.0
   drift: ^1.0.1
   flutter:
     sdk: flutter

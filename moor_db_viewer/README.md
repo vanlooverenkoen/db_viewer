@@ -7,7 +7,7 @@ Filtering is done at database level
 
 ## Example
 
-<img src="https://github.com/vanlooverenkoen/moor_db_viewer/blob/master/assets/example.gif?raw=true" alt="Example" width="300"/>
+<img src="https://github.com/vanlooverenkoen/db_viewer/blob/master/moor_db_viewer/assets/example.gif?raw=true" alt="Example" width="300"/>
 
 ## Setup
 

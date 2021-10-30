@@ -1,6 +1,6 @@
 name: db_viewer
 description: A new Flutter project.
-version: 0.0.1
+version: 1.0.0
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
