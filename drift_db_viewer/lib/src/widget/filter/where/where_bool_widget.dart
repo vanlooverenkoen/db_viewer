@@ -16,7 +16,9 @@ class WhereBoolWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
-      onDismissed: () => Provider.of<TableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
+      onDismissed: () =>
+          Provider.of<TableFilterViewModel>(context, listen: false)
+              .onDismissWhereClause(whereClause),
       children: [
         RadioListTile<bool>(
           onChanged: (value) => _onChanged(context, value),

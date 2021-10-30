@@ -15,8 +15,7 @@ class TableContentListScreen extends StatefulWidget {
   TableContentListScreen(this.tableName);
 
   @override
-  _TableContentListScreenState createState() =>
-      _TableContentListScreenState();
+  _TableContentListScreenState createState() => _TableContentListScreenState();
 }
 
 class _TableContentListScreenState extends State<TableContentListScreen>
@@ -127,8 +126,8 @@ class _TableContentListScreenState extends State<TableContentListScreen>
           },
         ),
       ),
-      create: () => TableContentListViewerViewModel()
-        ..init(this, widget.tableName),
+      create: () =>
+          TableContentListViewerViewModel()..init(this, widget.tableName),
     );
   }
 

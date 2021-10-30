@@ -37,7 +37,8 @@ class InputLikeText extends StatelessWidget {
               ),
               child: Text(
                 text,
-                style: theme.textTheme.bodyText1 ?? ThemeTextStyles.dateSelectorItem,
+                style: theme.textTheme.bodyText1 ??
+                    ThemeTextStyles.dateSelectorItem,
               ),
             ),
             Container(

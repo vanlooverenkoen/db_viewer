@@ -22,7 +22,8 @@ class ExpandableWhereItem extends StatelessWidget {
       key: ValueKey(whereClause.id),
       direction: DismissDirection.horizontal,
       onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart || direction == DismissDirection.startToEnd) {
+        if (direction == DismissDirection.endToStart ||
+            direction == DismissDirection.startToEnd) {
           onDismissed();
         }
       },

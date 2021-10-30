@@ -16,7 +16,9 @@ class WhereBlobWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
-      onDismissed: () => Provider.of<TableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
+      onDismissed: () =>
+          Provider.of<TableFilterViewModel>(context, listen: false)
+              .onDismissWhereClause(whereClause),
       children: [
         Text(
           'Filtering on a blob is not supported',

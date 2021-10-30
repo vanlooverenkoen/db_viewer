@@ -18,7 +18,8 @@ class TableListViewerViewModel with ChangeNotifier {
 
   void _getTables() => _tableNames = _db.entityNames;
 
-  void onTableClicked(String tableName) => _navigator.goToTableDetail(tableName);
+  void onTableClicked(String tableName) =>
+      _navigator.goToTableDetail(tableName);
 }
 
 abstract class TableListViewerNavigator {

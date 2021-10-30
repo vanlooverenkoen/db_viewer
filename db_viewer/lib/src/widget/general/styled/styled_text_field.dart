@@ -23,7 +23,8 @@ class StyledTextField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: theme.scaffoldBackgroundColor,
-        hintStyle: theme.textTheme.bodyText1?.copyWith(color: theme.textTheme.bodyText1?.color?.withOpacity(0.5)),
+        hintStyle: theme.textTheme.bodyText1?.copyWith(
+            color: theme.textTheme.bodyText1?.color?.withOpacity(0.5)),
         hintText: hint ?? '',
       ),
       style: theme.textTheme.bodyText1,

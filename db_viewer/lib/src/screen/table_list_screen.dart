@@ -19,13 +19,17 @@ class TableListScreen extends StatefulWidget {
   _TableListScreenState createState() => _TableListScreenState();
 }
 
-class _TableListScreenState extends State<TableListScreen> implements TableListViewerNavigator {
+class _TableListScreenState extends State<TableListScreen>
+    implements TableListViewerNavigator {
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<TableListViewerViewModel>(
       consumer: (context, viewModel, child) => Scaffold(
         appBar: AppBar(
-          leading: widget.canPop ? StyledBackButton(onBackClicked: DbViewerNavigator.of(context).goBack) : Container(),
+          leading: widget.canPop
+              ? StyledBackButton(
+                  onBackClicked: DbViewerNavigator.of(context).goBack)
+              : Container(),
           title: Text('Tables'),
         ),
         body: ListView.builder(
@@ -45,5 +49,6 @@ class _TableListScreenState extends State<TableListScreen> implements TableListV
   }
 
   @override
-  void goToTableDetail(String tableName) => DbViewerNavigator.of(context).goToTableContentList(tableName);
+  void goToTableDetail(String tableName) =>
+      DbViewerNavigator.of(context).goToTableContentList(tableName);
 }

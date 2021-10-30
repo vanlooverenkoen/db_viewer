@@ -32,7 +32,8 @@ class TableFilterScreen extends StatefulWidget {
   _TableFilterScreenState createState() => _TableFilterScreenState();
 }
 
-class _TableFilterScreenState extends State<TableFilterScreen> implements TableFilterNavigator {
+class _TableFilterScreenState extends State<TableFilterScreen>
+    implements TableFilterNavigator {
   final _scaffoldKey = GlobalKey();
 
   @override
@@ -97,12 +98,14 @@ class _TableFilterScreenState extends State<TableFilterScreen> implements TableF
           ],
         ),
       ),
-      create: () => TableFilterViewModel(this, widget.tableName, widget.filterData),
+      create: () =>
+          TableFilterViewModel(this, widget.tableName, widget.filterData),
     );
   }
 
   @override
-  void goBack(FilterData? filterData) => DbViewerNavigator.of(context).goBack(result: filterData);
+  void goBack(FilterData? filterData) =>
+      DbViewerNavigator.of(context).goBack(result: filterData);
 
   @override
   Future<void> showAddWhereClause(String entityName) async {
@@ -157,11 +160,13 @@ class _TableFilterScreenState extends State<TableFilterScreen> implements TableF
 
   @override
   Future<void> showEdit(String selectQuery) async {
-    final result = await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
+    final result =
+        await DbViewerNavigator.of(context).goToTableFilterEditSql(selectQuery);
 
     final scaffoldContext = _scaffoldKey.currentContext;
     if (result != null && scaffoldContext != null) {
-      Provider.of<TableFilterViewModel>(scaffoldContext, listen: false).onUpdateCustomSqlQuery(result);
+      Provider.of<TableFilterViewModel>(scaffoldContext, listen: false)
+          .onUpdateCustomSqlQuery(result);
     }
   }
 }

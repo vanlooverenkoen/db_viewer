@@ -18,7 +18,8 @@ class TableItemDetailScreen extends StatefulWidget {
   _TableItemDetailScreenState createState() => _TableItemDetailScreenState();
 }
 
-class _TableItemDetailScreenState extends State<TableItemDetailScreen> implements TableItemDetailViewerNavigator {
+class _TableItemDetailScreenState extends State<TableItemDetailScreen>
+    implements TableItemDetailViewerNavigator {
   final _key = GlobalKey<ScaffoldState>();
 
   @override
@@ -33,15 +34,23 @@ class _TableItemDetailScreenState extends State<TableItemDetailScreen> implement
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {
-            if (viewModel.error != null) return Center(child: Text(viewModel.error!));
-            if (!viewModel.hasData && viewModel.hasFilter) return Center(child: Text('No data found for your current filter on the `${viewModel.tableName}` table'));
-            if (!viewModel.hasData) return Center(child: Text('No data added to the `${viewModel.tableName}` table'));
+            if (viewModel.error != null)
+              return Center(child: Text(viewModel.error!));
+            if (!viewModel.hasData && viewModel.hasFilter)
+              return Center(
+                  child: Text(
+                      'No data found for your current filter on the `${viewModel.tableName}` table'));
+            if (!viewModel.hasData)
+              return Center(
+                  child: Text(
+                      'No data added to the `${viewModel.tableName}` table'));
             return ListView.builder(
               padding: const EdgeInsets.all(ThemeDimens.padding16),
               itemCount: viewModel.amountOfColumns,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: ThemeDimens.padding8),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: ThemeDimens.padding8),
                   child: flutter.Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -67,7 +76,8 @@ class _TableItemDetailScreenState extends State<TableItemDetailScreen> implement
           },
         ),
       ),
-      create: () => TableItemDetailViewerViewModel()..init(this, widget.arguments),
+      create: () =>
+          TableItemDetailViewerViewModel()..init(this, widget.arguments),
     );
   }
 

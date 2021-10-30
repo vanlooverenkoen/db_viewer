@@ -16,7 +16,8 @@ abstract class FilterData {
 
   bool get asc => _asc;
 
-  bool get hasCustomQuery => _selectQuery != 'SELECT * FROM $tableName LIMIT 20';
+  bool get hasCustomQuery =>
+      _selectQuery != 'SELECT * FROM $tableName LIMIT 20';
 
   bool get isEditedQuery => _customSqlQuery != null;
 
@@ -77,7 +78,10 @@ abstract class FilterData {
 
     sb.write(' FROM $tableName');
 
-    final sqlWhereClauses = whereClauses.map((item) => item.getSqlWhereClause()).where((item) => item.isNotEmpty).toList();
+    final sqlWhereClauses = whereClauses
+        .map((item) => item.getSqlWhereClause())
+        .where((item) => item.isNotEmpty)
+        .toList();
 
     if (sqlWhereClauses.isNotEmpty) {
       sb.write(' WHERE');

@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
         ),
         dialogBackgroundColor: Color(0xFFD7D7D7),
         inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
         ),
       ),
       darkTheme: ThemeData(
@@ -33,7 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Colors.black,
         textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(textStyle: MaterialStateProperty.all(TextStyle(color: Colors.white))),
+          style: ButtonStyle(
+              textStyle:
+                  MaterialStateProperty.all(TextStyle(color: Colors.white))),
         ),
         cardColor: Color(0xFF2F2F2F),
         dividerColor: Colors.white12,
@@ -49,7 +52,8 @@ class MyApp extends StatelessWidget {
             color: Colors.white.withOpacity(0.5),
             fontSize: 12,
           ),
-          border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
         ),
       ),
       themeMode: ThemeMode.dark,

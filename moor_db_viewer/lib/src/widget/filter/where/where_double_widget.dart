@@ -15,7 +15,9 @@ class WhereDoubleWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
-      onDismissed: () => Provider.of<TableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
+      onDismissed: () =>
+          Provider.of<TableFilterViewModel>(context, listen: false)
+              .onDismissWhereClause(whereClause),
       children: [
         RadioListTile<DoubleWhereType>(
           onChanged: (value) => _onChangedType(context, value),
@@ -66,12 +68,14 @@ class WhereDoubleWidget extends StatelessWidget {
 
   void _onChange(BuildContext context, String value) {
     whereClause.updateQuery(value);
-    Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<TableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 
   void _onChangedType(BuildContext context, DoubleWhereType? value) {
     if (value == null) return;
     whereClause.onSelectedType(value);
-    Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<TableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 }

@@ -16,14 +16,17 @@ abstract class DbViewerDatabase {
 
   List<String> getColumnNamesByEntityName(String entityName);
 
-  List<Map<String, dynamic>> remapData(String entityName, List<Map<String, dynamic>> data);
+  List<Map<String, dynamic>> remapData(
+      String entityName, List<Map<String, dynamic>> data);
 
   String getType(String entityName, String columnName);
 
   //Queries
-  Future<List<Map<String, dynamic>>> customSelect(String query, {Set<String>? fromEntityNames});
+  Future<List<Map<String, dynamic>>> customSelect(String query,
+      {Set<String>? fromEntityNames});
 
-  Stream<List<Map<String, dynamic>>> customSelectStream(String query, {Set<String>? fromEntityNames});
+  Stream<List<Map<String, dynamic>>> customSelectStream(String query,
+      {Set<String>? fromEntityNames});
 
   Future<void> runCustomStatement(String query);
 

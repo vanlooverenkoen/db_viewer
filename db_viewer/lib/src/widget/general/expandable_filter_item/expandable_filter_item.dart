@@ -24,10 +24,14 @@ class ExpandableFilterItem extends StatefulWidget {
   _ExpandableFilterItemState createState() => _ExpandableFilterItemState();
 }
 
-class _ExpandableFilterItemState extends State<ExpandableFilterItem> with SingleTickerProviderStateMixin {
-  static final Animatable<double> _easeOutTween = CurveTween(curve: Curves.easeOut);
-  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeIn);
-  static final Animatable<double> _halfTween = Tween<double>(begin: 0, end: 0.5);
+class _ExpandableFilterItemState extends State<ExpandableFilterItem>
+    with SingleTickerProviderStateMixin {
+  static final Animatable<double> _easeOutTween =
+      CurveTween(curve: Curves.easeOut);
+  static final Animatable<double> _easeInTween =
+      CurveTween(curve: Curves.easeIn);
+  static final Animatable<double> _halfTween =
+      Tween<double>(begin: 0, end: 0.5);
 
   final ColorTween _headerColorTween = ColorTween();
   final ColorTween _iconColorTween = ColorTween();
@@ -43,10 +47,12 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem> with Single
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: ThemeDurations.shortAnimationDuration(), vsync: this);
+    _controller = AnimationController(
+        duration: ThemeDurations.shortAnimationDuration(), vsync: this);
     _heightFactor = _controller.drive(_easeInTween);
     _iconTurns = _controller.drive(_halfTween.chain(_easeInTween));
-    _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
+    _backgroundColor =
+        _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
     _isExpanded = PageStorage.of(context)?.readState(context) ?? false;
     if (_isExpanded) _controller.value = 1.0;
@@ -103,14 +109,17 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem> with Single
                 AnimatedDefaultTextStyle(
                   child: Text(widget.title),
                   style: _isExpanded
-                      ? theme.textTheme.bodyText1 ?? ThemeTextStyles.expandableFilterTitleOpen
-                      : theme.textTheme.bodyText1 ?? ThemeTextStyles.expandableFilterTitleClose,
+                      ? theme.textTheme.bodyText1 ??
+                          ThemeTextStyles.expandableFilterTitleOpen
+                      : theme.textTheme.bodyText1 ??
+                          ThemeTextStyles.expandableFilterTitleClose,
                   duration: ThemeDurations.shortAnimationDuration(),
                 ),
                 Container(width: ThemeDimens.padding8),
                 Text(
                   widget.subtitle,
-                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 11) ?? const TextStyle(color: ThemeColors.mediumGrey),
+                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 11) ??
+                      const TextStyle(color: ThemeColors.mediumGrey),
                 ),
               ],
             ),

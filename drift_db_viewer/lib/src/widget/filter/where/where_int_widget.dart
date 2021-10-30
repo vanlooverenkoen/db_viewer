@@ -15,7 +15,9 @@ class WhereIntWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return ExpandableWhereItem(
       whereClause: whereClause,
-      onDismissed: () => Provider.of<TableFilterViewModel>(context, listen: false).onDismissWhereClause(whereClause),
+      onDismissed: () =>
+          Provider.of<TableFilterViewModel>(context, listen: false)
+              .onDismissWhereClause(whereClause),
       children: [
         RadioListTile<IntWhereType>(
           onChanged: (value) => _onChangedType(context, value),
@@ -66,12 +68,14 @@ class WhereIntWidget extends StatelessWidget {
 
   void _onChange(BuildContext context, String value) {
     whereClause.updateQuery(value);
-    Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<TableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 
   void _onChangedType(BuildContext context, IntWhereType? value) {
     if (value == null) return;
     whereClause.onSelectedType(value);
-    Provider.of<TableFilterViewModel>(context, listen: false).onUpdatedWhereClause();
+    Provider.of<TableFilterViewModel>(context, listen: false)
+        .onUpdatedWhereClause();
   }
 }

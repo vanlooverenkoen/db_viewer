@@ -17,12 +17,14 @@ class DbViewerNavigator extends StatefulWidget {
     BuildContext context, {
     rootNavigator = false,
   }) {
-    final DbViewerNavigatorState? navigator =
-        rootNavigator ? context.findRootAncestorStateOfType<DbViewerNavigatorState>() : context.findAncestorStateOfType<DbViewerNavigatorState>();
+    final DbViewerNavigatorState? navigator = rootNavigator
+        ? context.findRootAncestorStateOfType<DbViewerNavigatorState>()
+        : context.findAncestorStateOfType<DbViewerNavigatorState>();
 
     assert(() {
       if (navigator == null) {
-        throw FlutterError('DbViewerNavigator operation requested with a context that does not include a DbViewerNavigator.\n'
+        throw FlutterError(
+            'DbViewerNavigator operation requested with a context that does not include a DbViewerNavigator.\n'
             'The context used to push or pop routes from the DbViewerNavigator must be that of a '
             'widget that is a descendant of a DbViewerNavigator widget.');
       }
@@ -52,27 +54,38 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
     final canPop = Navigator.of(context).canPop();
     switch (settings.name) {
       case TableListScreen.routeName:
-        return MaterialPageRoute(builder: (context) => TableListScreen(canPop), settings: settings);
+        return MaterialPageRoute(
+            builder: (context) => TableListScreen(canPop), settings: settings);
       case TableContentListScreen.routeName:
         final tableName = settings.arguments as String;
-        return MaterialPageRoute(builder: (context) => TableContentListScreen(tableName), settings: settings);
+        return MaterialPageRoute(
+            builder: (context) => TableContentListScreen(tableName),
+            settings: settings);
       case TableItemDetailScreen.routeName:
         final table = settings.arguments as ItemDetailArgument;
-        return MaterialPageRoute(builder: (context) => TableItemDetailScreen(table), settings: settings);
+        return MaterialPageRoute(
+            builder: (context) => TableItemDetailScreen(table),
+            settings: settings);
       case TableFilterScreen.routeName:
         final tuple = settings.arguments as DbViewerTuple<String, FilterData>;
-        return MaterialPageRoute<FilterData>(builder: (context) => TableFilterScreen(tuple.first, tuple.second), settings: settings);
+        return MaterialPageRoute<FilterData>(
+            builder: (context) => TableFilterScreen(tuple.first, tuple.second),
+            settings: settings);
       case TableFilterEditQueryScreen.routeName:
         final query = settings.arguments as String;
-        return MaterialPageRoute<String>(builder: (context) => TableFilterEditQueryScreen(query), settings: settings);
+        return MaterialPageRoute<String>(
+            builder: (context) => TableFilterEditQueryScreen(query),
+            settings: settings);
       default:
         return null;
     }
   }
 
-  Future<bool> _willPop() async => !await _navigationKey.currentState!.maybePop();
+  Future<bool> _willPop() async =>
+      !await _navigationKey.currentState!.maybePop();
 
-  void goToTableList() => _navigationKey.currentState!.pushNamed(TableListScreen.routeName);
+  void goToTableList() =>
+      _navigationKey.currentState!.pushNamed(TableListScreen.routeName);
 
   void goToTableContentList(String tableName) {
     _navigationKey.currentState!.pushNamed(
