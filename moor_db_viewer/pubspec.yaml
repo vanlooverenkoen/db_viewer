@@ -8,7 +8,7 @@ environment:
   flutter: ">=2.2.0"
 
 dependencies:
-  db_viewer: 1.0.0
+  db_viewer: ^1.0.0
   flutter:
     sdk: flutter
   moor: ^4.5.0
