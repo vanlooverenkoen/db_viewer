@@ -399,6 +399,178 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   }
 }
 
+class EmptyTableData extends DataClass implements Insertable<EmptyTableData> {
+  final int todoA;
+  final int todoB;
+  EmptyTableData({required this.todoA, required this.todoB});
+  factory EmptyTableData.fromData(Map<String, dynamic> data, {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return EmptyTableData(
+      todoA: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}todo_a'])!,
+      todoB: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}todo_b'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['todo_a'] = Variable<int>(todoA);
+    map['todo_b'] = Variable<int>(todoB);
+    return map;
+  }
+
+  EmptyTableCompanion toCompanion(bool nullToAbsent) {
+    return EmptyTableCompanion(
+      todoA: Value(todoA),
+      todoB: Value(todoB),
+    );
+  }
+
+  factory EmptyTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EmptyTableData(
+      todoA: serializer.fromJson<int>(json['todoA']),
+      todoB: serializer.fromJson<int>(json['todoB']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'todoA': serializer.toJson<int>(todoA),
+      'todoB': serializer.toJson<int>(todoB),
+    };
+  }
+
+  EmptyTableData copyWith({int? todoA, int? todoB}) => EmptyTableData(
+        todoA: todoA ?? this.todoA,
+        todoB: todoB ?? this.todoB,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('EmptyTableData(')
+          ..write('todoA: $todoA, ')
+          ..write('todoB: $todoB')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(todoA, todoB);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EmptyTableData &&
+          other.todoA == this.todoA &&
+          other.todoB == this.todoB);
+}
+
+class EmptyTableCompanion extends UpdateCompanion<EmptyTableData> {
+  final Value<int> todoA;
+  final Value<int> todoB;
+  const EmptyTableCompanion({
+    this.todoA = const Value.absent(),
+    this.todoB = const Value.absent(),
+  });
+  EmptyTableCompanion.insert({
+    required int todoA,
+    required int todoB,
+  })  : todoA = Value(todoA),
+        todoB = Value(todoB);
+  static Insertable<EmptyTableData> custom({
+    Expression<int>? todoA,
+    Expression<int>? todoB,
+  }) {
+    return RawValuesInsertable({
+      if (todoA != null) 'todo_a': todoA,
+      if (todoB != null) 'todo_b': todoB,
+    });
+  }
+
+  EmptyTableCompanion copyWith({Value<int>? todoA, Value<int>? todoB}) {
+    return EmptyTableCompanion(
+      todoA: todoA ?? this.todoA,
+      todoB: todoB ?? this.todoB,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (todoA.present) {
+      map['todo_a'] = Variable<int>(todoA.value);
+    }
+    if (todoB.present) {
+      map['todo_b'] = Variable<int>(todoB.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EmptyTableCompanion(')
+          ..write('todoA: $todoA, ')
+          ..write('todoB: $todoB')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EmptyTableTable extends EmptyTable
+    with TableInfo<$EmptyTableTable, EmptyTableData> {
+  final GeneratedDatabase _db;
+  final String? _alias;
+  $EmptyTableTable(this._db, [this._alias]);
+  final VerificationMeta _todoAMeta = const VerificationMeta('todoA');
+  late final GeneratedColumn<int?> todoA = GeneratedColumn<int?>(
+      'todo_a', aliasedName, false,
+      typeName: 'INTEGER', requiredDuringInsert: true);
+  final VerificationMeta _todoBMeta = const VerificationMeta('todoB');
+  late final GeneratedColumn<int?> todoB = GeneratedColumn<int?>(
+      'todo_b', aliasedName, false,
+      typeName: 'INTEGER', requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [todoA, todoB];
+  @override
+  String get aliasedName => _alias ?? 'empty_table';
+  @override
+  String get actualTableName => 'empty_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<EmptyTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('todo_a')) {
+      context.handle(
+          _todoAMeta, todoA.isAcceptableOrUnknown(data['todo_a']!, _todoAMeta));
+    } else if (isInserting) {
+      context.missing(_todoAMeta);
+    }
+    if (data.containsKey('todo_b')) {
+      context.handle(
+          _todoBMeta, todoB.isAcceptableOrUnknown(data['todo_b']!, _todoBMeta));
+    } else if (isInserting) {
+      context.missing(_todoBMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {todoA, todoB};
+  @override
+  EmptyTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return EmptyTableData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $EmptyTableTable createAlias(String alias) {
+    return $EmptyTableTable(_db, alias);
+  }
+}
+
 class User extends DataClass implements Insertable<User> {
   final int id;
   final String firstName;
@@ -897,9 +1069,11 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $TodosTable todos = $TodosTable(this);
+  late final $EmptyTableTable emptyTable = $EmptyTableTable(this);
   late final $UsersTable users = $UsersTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [todos, users];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [todos, emptyTable, users];
 }

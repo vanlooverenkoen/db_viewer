@@ -52,16 +52,34 @@ class Users extends Table {
   TextColumn get email => text()();
 }
 
+class EmptyTable extends Table {
+  IntColumn get todoA => integer()();
+  IntColumn get todoB => integer()();
+
+  @override
+  Set<Column> get primaryKey => {todoA, todoB};
+
+  @override
+  List<String> get customConstraints => [
+        'FOREIGN KEY(todo_a) REFERENCES todos(id)',
+        'FOREIGN KEY(todo_a) REFERENCES todos(id)',
+      ];
+}
+
 LazyDatabase _openConnection() => LazyDatabase(() async {
       final dbFolder = await getApplicationDocumentsDirectory();
       final file = File(join(dbFolder.path, 'db.sqlite'));
-//      if (file.existsSync()) {
-//        file.deleteSync();
-//      }
+      if (file.existsSync()) {
+        file.deleteSync();
+      }
       return NativeDatabase(file, logStatements: true);
     });
 
-@DriftDatabase(tables: [Todos, Users])
+@DriftDatabase(tables: [
+  Todos,
+  EmptyTable,
+  Users,
+])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 

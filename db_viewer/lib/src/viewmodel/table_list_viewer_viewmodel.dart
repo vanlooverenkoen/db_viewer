@@ -16,7 +16,10 @@ class TableListViewerViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void _getTables() => _tableNames = _db.entityNames;
+  void _getTables() {
+    _tableNames = _db.entityNames;
+    _tableNames.sort((a1, a2) => a1.compareTo(a2));
+  }
 
   void onTableClicked(String tableName) =>
       _navigator.goToTableDetail(tableName);
