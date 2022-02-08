@@ -1,11 +1,11 @@
-import 'package:db_viewer/db_viewer.dart';
+import 'package:db_viewer/src/model/filter/filter_data.dart';
+import 'package:db_viewer/src/model/tuple.dart';
 import 'package:db_viewer/src/screen/table_content_list_screen.dart';
 import 'package:db_viewer/src/screen/table_filter_edit_query_screen.dart';
 import 'package:db_viewer/src/screen/table_filter_screen.dart';
 import 'package:db_viewer/src/screen/table_item_detail_screen.dart';
 import 'package:db_viewer/src/screen/table_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:db_viewer/src/model/filter/filter_data.dart';
 
 class DbViewerNavigator extends StatefulWidget {
   const DbViewerNavigator({Key? key}) : super(key: key);

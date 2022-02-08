@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:db_viewer/db_viewer.dart';
+import 'package:db_viewer/src/model/db/db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';

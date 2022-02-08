@@ -4,7 +4,6 @@ import 'package:db_viewer/src/style/theme_durations.dart';
 import 'package:db_viewer/src/style/theme_text_styles.dart';
 import 'package:db_viewer/src/widget/general/expandable_filter_item/db_viewer_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ExpandableFilterItem extends StatefulWidget {
   final Color backgroundColor;

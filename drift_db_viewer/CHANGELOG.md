@@ -1,3 +1,10 @@
+## [1.0.2] - 08-02-2022
+### Fixed
+- Imports
+### Version bump db_viewer
+Including:
+- [1.0.3](https://pub.dev/packages/db_viewer/changelog#103---08-02-2022)
+
 ## [1.0.1] - 08-02-2022
 ### Version bump db_viewer
 Including:

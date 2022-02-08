@@ -1,9 +1,7 @@
-import 'dart:ui';
 import 'package:db_viewer/db_viewer.dart';
 import 'package:drift/drift.dart';
 import 'package:drift_db_viewer/src/model/filter/drift_filter_data.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:drift_db_viewer/src/widget/filter/where_widget.dart';
 
 class DriftDbViewerDatabase implements DbViewerDatabase {
