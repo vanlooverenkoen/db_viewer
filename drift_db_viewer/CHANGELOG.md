@@ -1,3 +1,7 @@
+## [1.0.3] - 08-02-2022
+### Version bump
+- Updated drift to 1.3.0
+
 ## [1.0.2] - 08-02-2022
 ### Fixed
 - Imports

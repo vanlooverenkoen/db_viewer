@@ -285,44 +285,52 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   final String? _alias;
   $TodosTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
       'id', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _contentMeta = const VerificationMeta('content');
+  @override
   late final GeneratedColumn<String?> content = GeneratedColumn<String?>(
       'body', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  @override
   late final GeneratedColumn<int?> category = GeneratedColumn<int?>(
       'category', aliasedName, true,
-      typeName: 'INTEGER', requiredDuringInsert: false);
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
   late final GeneratedColumn<DateTime?> date = GeneratedColumn<DateTime?>(
       'date', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _completedMeta = const VerificationMeta('completed');
+  @override
   late final GeneratedColumn<bool?> completed = GeneratedColumn<bool?>(
       'completed', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const BoolType(),
       requiredDuringInsert: true,
       defaultConstraints: 'CHECK (completed IN (0, 1))');
   final VerificationMeta _realColumnMeta = const VerificationMeta('realColumn');
+  @override
   late final GeneratedColumn<double?> realColumn = GeneratedColumn<double?>(
       'real_column', aliasedName, false,
-      typeName: 'REAL', requiredDuringInsert: true);
+      type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _blobColumnMeta = const VerificationMeta('blobColumn');
+  @override
   late final GeneratedColumn<Uint8List?> blobColumn =
       GeneratedColumn<Uint8List?>('blob_column', aliasedName, false,
-          typeName: 'BLOB', requiredDuringInsert: true);
+          type: const BlobType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
       [id, title, content, category, date, completed, realColumn, blobColumn];
@@ -524,13 +532,15 @@ class $EmptyTableTable extends EmptyTable
   final String? _alias;
   $EmptyTableTable(this._db, [this._alias]);
   final VerificationMeta _todoAMeta = const VerificationMeta('todoA');
+  @override
   late final GeneratedColumn<int?> todoA = GeneratedColumn<int?>(
       'todo_a', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _todoBMeta = const VerificationMeta('todoB');
+  @override
   late final GeneratedColumn<int?> todoB = GeneratedColumn<int?>(
       'todo_b', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [todoA, todoB];
   @override
@@ -918,51 +928,62 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   final String? _alias;
   $UsersTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
       'id', aliasedName, false,
-      typeName: 'INTEGER',
+      type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _firstNameMeta = const VerificationMeta('firstName');
+  @override
   late final GeneratedColumn<String?> firstName = GeneratedColumn<String?>(
       'first_name', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _lastNameMeta = const VerificationMeta('lastName');
+  @override
   late final GeneratedColumn<String?> lastName = GeneratedColumn<String?>(
       'last_name', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _ageMeta = const VerificationMeta('age');
+  @override
   late final GeneratedColumn<int?> age = GeneratedColumn<int?>(
       'age', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _zipcodeMeta = const VerificationMeta('zipcode');
+  @override
   late final GeneratedColumn<String?> zipcode = GeneratedColumn<String?>(
       'zipcode', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _cityMeta = const VerificationMeta('city');
+  @override
   late final GeneratedColumn<String?> city = GeneratedColumn<String?>(
       'city', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _adress1Meta = const VerificationMeta('adress1');
+  @override
   late final GeneratedColumn<String?> adress1 = GeneratedColumn<String?>(
       'adress1', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _adress2Meta = const VerificationMeta('adress2');
+  @override
   late final GeneratedColumn<String?> adress2 = GeneratedColumn<String?>(
       'adress2', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _countryMeta = const VerificationMeta('country');
+  @override
   late final GeneratedColumn<String?> country = GeneratedColumn<String?>(
       'country', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
   late final GeneratedColumn<String?> phone = GeneratedColumn<String?>(
       'phone', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
   late final GeneratedColumn<String?> email = GeneratedColumn<String?>(
       'email', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
         id,
