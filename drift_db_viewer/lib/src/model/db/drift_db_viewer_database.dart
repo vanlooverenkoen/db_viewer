@@ -33,8 +33,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   @override
   List<Map<String, dynamic>> remapData(
       String tableName, List<Map<String, dynamic>> data) {
-    final dateTimeType = DateTimeType();
-    final boolType = BoolType();
+    final SqlTypes types = db.options.types;
     final table = getTable(tableName);
     if (table == null) return data;
     final correctData = <Map<String, dynamic>>[];
@@ -43,15 +42,13 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
       item.keys.forEach((key) {
         final columns = table.$columns.where((column) => column.$name == key);
         final column = columns.isEmpty ? null : columns.first;
-        if (column is GeneratedColumn<DateTime> ||
-            column is GeneratedColumn<DateTime?>) {
+        if (column is GeneratedColumn<DateTime>) {
           final value = item[key];
-          final dateTime = dateTimeType.mapFromDatabaseResponse(value);
+          final dateTime = types.read(DriftSqlType.dateTime, value);
           map[key] = dateTime?.toIso8601String();
-        } else if (column is GeneratedColumn<bool> ||
-            column is GeneratedColumn<bool?>) {
+        } else if (column is GeneratedColumn<bool>) {
           final value = item[key];
-          map[key] = boolType.mapFromDatabaseResponse(value).toString();
+          map[key] = types.read(DriftSqlType.bool, value);
         } else {
           map[key] = item[key];
         }
@@ -67,23 +64,17 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
     if (entity == null) throw ArgumentError('Entity $entityName is not found');
     final column =
         entity.$columns.firstWhere((column) => column.$name == columnName);
-    if (column is GeneratedColumn<DateTime> ||
-        column is GeneratedColumn<DateTime?>) {
+    if (column is GeneratedColumn<DateTime>) {
       return 'DATE';
-    } else if (column is GeneratedColumn<Uint8List> ||
-        column is GeneratedColumn<Uint8List?>) {
+    } else if (column is GeneratedColumn<Uint8List>) {
       return 'BLOB';
-    } else if (column is GeneratedColumn<double> ||
-        column is GeneratedColumn<double?>) {
+    } else if (column is GeneratedColumn<double>) {
       return 'DOUBLE';
-    } else if (column is GeneratedColumn<bool> ||
-        column is GeneratedColumn<bool?>) {
+    } else if (column is GeneratedColumn<bool>) {
       return 'BOOL';
-    } else if (column is GeneratedColumn<String> ||
-        column is GeneratedColumn<String?>) {
+    } else if (column is GeneratedColumn<String>) {
       return 'TEXT';
-    } else if (column is GeneratedColumn<int> ||
-        column is GeneratedColumn<int?>) {
+    } else if (column is GeneratedColumn<int>) {
       return 'INTEGER';
     }
     return 'UNSUPPORTED TYPE';
@@ -120,7 +111,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   FilterData getFilterData(String tableName) {
     final table = getTable(tableName);
     if (table == null) throw ArgumentError('$tableName is not available');
-    return DriftFilterData(table);
+    return DriftFilterData(table, db.options.types);
   }
 
   FilterData getCachedFilterData(String entityName) {

@@ -10,8 +10,9 @@ import 'package:db_viewer/db_viewer.dart';
 
 class DriftFilterData extends FilterData {
   final TableInfo<drift.Table, dynamic> _table;
+  final SqlTypes _types;
 
-  DriftFilterData(this._table) : super();
+  DriftFilterData(this._table, this._types) : super();
 
   @override
   Map<String, bool> getSelectedColumns() {
@@ -30,23 +31,17 @@ class DriftFilterData extends FilterData {
     if (!_table.columnsByName.containsKey(columnName)) return null;
     final detail =
         _table.$columns.where((item) => item.$name == columnName).first;
-    if (detail is GeneratedColumn<String> ||
-        detail is GeneratedColumn<String?>) {
+    if (detail is GeneratedColumn<String>) {
       return StringWhereClause(columnName);
-    } else if (detail is GeneratedColumn<int> ||
-        detail is GeneratedColumn<int?>) {
+    } else if (detail is GeneratedColumn<int>) {
       return IntWhereClause(columnName);
-    } else if (detail is GeneratedColumn<DateTime> ||
-        detail is GeneratedColumn<DateTime?>) {
-      return DateWhereClause(columnName);
-    } else if (detail is GeneratedColumn<bool> ||
-        detail is GeneratedColumn<bool?>) {
-      return BoolWhereClause(columnName);
-    } else if (detail is GeneratedColumn<double> ||
-        detail is GeneratedColumn<double?>) {
+    } else if (detail is GeneratedColumn<DateTime>) {
+      return DateWhereClause(columnName, _types);
+    } else if (detail is GeneratedColumn<bool>) {
+      return BoolWhereClause(columnName, _types);
+    } else if (detail is GeneratedColumn<double>) {
       return DoubleWhereClause(columnName);
-    } else if (detail is GeneratedColumn<Uint8List> ||
-        detail is GeneratedColumn<Uint8List?>) {
+    } else if (detail is GeneratedColumn<Uint8List>) {
       return BlobWhereClause(columnName);
     } else {
       print('$detail is not yet supported');
@@ -54,5 +49,5 @@ class DriftFilterData extends FilterData {
   }
 
   @override
-  FilterData copy() => copyTo(DriftFilterData(_table));
+  FilterData copy() => copyTo(DriftFilterData(_table, _types));
 }

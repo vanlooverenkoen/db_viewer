@@ -5,6 +5,7 @@ import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 class DateWhereClause extends WhereClause {
   DateWhereType _dateWhereType = DateWhereType.EQUALS;
 
+  final SqlTypes _types;
   late DateTime _date;
   late TimeOfDay _time;
 
@@ -22,7 +23,7 @@ class DateWhereClause extends WhereClause {
 
   DateWhereType get dateWhereType => _dateWhereType;
 
-  DateWhereClause(String columnName) : super(columnName: columnName) {
+  DateWhereClause(String columnName, this._types) : super(columnName: columnName) {
     final now = DateTime.now();
     _date = DateTime(now.year, now.month, now.day);
     _time = TimeOfDay(hour: now.hour, minute: now.minute);
@@ -32,8 +33,7 @@ class DateWhereClause extends WhereClause {
   String getSqlWhereClause() {
     final sqlDate =
         DateTime(date.year, date.month, date.day, time.hour, time.minute);
-    final dateTimeParser = DateTimeType();
-    final sqlValue = dateTimeParser.mapToSqlVariable(sqlDate);
+    final sqlValue = _types.mapToSqlVariable(sqlDate);
     if (dateWhereType == DateWhereType.BEFORE) {
       return ' $columnName < $sqlValue';
     } else if (dateWhereType == DateWhereType.EQUALS) {
@@ -46,7 +46,7 @@ class DateWhereClause extends WhereClause {
 
   @override
   WhereClause copy() {
-    final whereClause = DateWhereClause(columnName);
+    final whereClause = DateWhereClause(columnName, _types);
     whereClause._dateWhereType = _dateWhereType;
     whereClause._date = _date;
     whereClause._time = _time;
