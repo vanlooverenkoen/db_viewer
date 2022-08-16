@@ -45,6 +45,7 @@ class DriftFilterData extends FilterData {
       return BlobWhereClause(columnName);
     } else {
       print('$detail is not yet supported');
+      return null;
     }
   }
 
