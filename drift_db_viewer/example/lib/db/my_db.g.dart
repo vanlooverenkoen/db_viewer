@@ -3,10 +3,10 @@
 part of 'my_db.dart';
 
 // **************************************************************************
-// MoorGenerator
+// DriftDatabaseGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
+// ignore_for_file: type=lint
 class Todo extends DataClass implements Insertable<Todo> {
   final int id;
   final String title;
@@ -16,7 +16,7 @@ class Todo extends DataClass implements Insertable<Todo> {
   final bool completed;
   final double realColumn;
   final Uint8List blobColumn;
-  Todo(
+  const Todo(
       {required this.id,
       required this.title,
       required this.content,
@@ -25,27 +25,6 @@ class Todo extends DataClass implements Insertable<Todo> {
       required this.completed,
       required this.realColumn,
       required this.blobColumn});
-  factory Todo.fromData(Map<String, dynamic> data, {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return Todo(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      title: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
-      content: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}body'])!,
-      category: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}category']),
-      date: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
-      completed: const BoolType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}completed'])!,
-      realColumn: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}real_column'])!,
-      blobColumn: const BlobType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}blob_column'])!,
-    );
-  }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -53,7 +32,7 @@ class Todo extends DataClass implements Insertable<Todo> {
     map['title'] = Variable<String>(title);
     map['body'] = Variable<String>(content);
     if (!nullToAbsent || category != null) {
-      map['category'] = Variable<int?>(category);
+      map['category'] = Variable<int>(category);
     }
     map['date'] = Variable<DateTime>(date);
     map['completed'] = Variable<bool>(completed);
@@ -110,7 +89,7 @@ class Todo extends DataClass implements Insertable<Todo> {
           {int? id,
           String? title,
           String? content,
-          int? category,
+          Value<int?> category = const Value.absent(),
           DateTime? date,
           bool? completed,
           double? realColumn,
@@ -119,7 +98,7 @@ class Todo extends DataClass implements Insertable<Todo> {
         id: id ?? this.id,
         title: title ?? this.title,
         content: content ?? this.content,
-        category: category ?? this.category,
+        category: category.present ? category.value : this.category,
         date: date ?? this.date,
         completed: completed ?? this.completed,
         realColumn: realColumn ?? this.realColumn,
@@ -195,7 +174,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? content,
-    Expression<int?>? category,
+    Expression<int>? category,
     Expression<DateTime>? date,
     Expression<bool>? completed,
     Expression<double>? realColumn,
@@ -247,7 +226,7 @@ class TodosCompanion extends UpdateCompanion<Todo> {
       map['body'] = Variable<String>(content.value);
     }
     if (category.present) {
-      map['category'] = Variable<int?>(category.value);
+      map['category'] = Variable<int>(category.value);
     }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
@@ -281,56 +260,57 @@ class TodosCompanion extends UpdateCompanion<Todo> {
 }
 
 class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TodosTable(this._db, [this._alias]);
+  $TodosTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: const IntType(),
+      type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
-  late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
-      type: const StringType(),
+      type: DriftSqlType.string,
       requiredDuringInsert: true);
   final VerificationMeta _contentMeta = const VerificationMeta('content');
   @override
-  late final GeneratedColumn<String?> content = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
       'body', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _categoryMeta = const VerificationMeta('category');
   @override
-  late final GeneratedColumn<int?> category = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> category = GeneratedColumn<int>(
       'category', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      type: DriftSqlType.int, requiredDuringInsert: false);
   final VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
-  late final GeneratedColumn<DateTime?> date = GeneratedColumn<DateTime?>(
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
       'date', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
   final VerificationMeta _completedMeta = const VerificationMeta('completed');
   @override
-  late final GeneratedColumn<bool?> completed = GeneratedColumn<bool?>(
+  late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
       'completed', aliasedName, false,
-      type: const BoolType(),
+      type: DriftSqlType.bool,
       requiredDuringInsert: true,
       defaultConstraints: 'CHECK (completed IN (0, 1))');
   final VerificationMeta _realColumnMeta = const VerificationMeta('realColumn');
   @override
-  late final GeneratedColumn<double?> realColumn = GeneratedColumn<double?>(
+  late final GeneratedColumn<double> realColumn = GeneratedColumn<double>(
       'real_column', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
+      type: DriftSqlType.double, requiredDuringInsert: true);
   final VerificationMeta _blobColumnMeta = const VerificationMeta('blobColumn');
   @override
-  late final GeneratedColumn<Uint8List?> blobColumn =
-      GeneratedColumn<Uint8List?>('blob_column', aliasedName, false,
-          type: const BlobType(), requiredDuringInsert: true);
+  late final GeneratedColumn<Uint8List> blobColumn = GeneratedColumn<Uint8List>(
+      'blob_column', aliasedName, false,
+      type: DriftSqlType.blob, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
       [id, title, content, category, date, completed, realColumn, blobColumn];
@@ -397,29 +377,37 @@ class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Todo map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return Todo.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Todo(
+      id: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      content: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
+      category: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}category']),
+      date: attachedDatabase.options.types
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      completed: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
+      realColumn: attachedDatabase.options.types
+          .read(DriftSqlType.double, data['${effectivePrefix}real_column'])!,
+      blobColumn: attachedDatabase.options.types
+          .read(DriftSqlType.blob, data['${effectivePrefix}blob_column'])!,
+    );
   }
 
   @override
   $TodosTable createAlias(String alias) {
-    return $TodosTable(_db, alias);
+    return $TodosTable(attachedDatabase, alias);
   }
 }
 
 class EmptyTableData extends DataClass implements Insertable<EmptyTableData> {
   final int todoA;
   final int todoB;
-  EmptyTableData({required this.todoA, required this.todoB});
-  factory EmptyTableData.fromData(Map<String, dynamic> data, {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return EmptyTableData(
-      todoA: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}todo_a'])!,
-      todoB: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}todo_b'])!,
-    );
-  }
+  const EmptyTableData({required this.todoA, required this.todoB});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -528,19 +516,20 @@ class EmptyTableCompanion extends UpdateCompanion<EmptyTableData> {
 
 class $EmptyTableTable extends EmptyTable
     with TableInfo<$EmptyTableTable, EmptyTableData> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $EmptyTableTable(this._db, [this._alias]);
+  $EmptyTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _todoAMeta = const VerificationMeta('todoA');
   @override
-  late final GeneratedColumn<int?> todoA = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> todoA = GeneratedColumn<int>(
       'todo_a', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      type: DriftSqlType.int, requiredDuringInsert: true);
   final VerificationMeta _todoBMeta = const VerificationMeta('todoB');
   @override
-  late final GeneratedColumn<int?> todoB = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> todoB = GeneratedColumn<int>(
       'todo_b', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      type: DriftSqlType.int, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [todoA, todoB];
   @override
@@ -571,13 +560,18 @@ class $EmptyTableTable extends EmptyTable
   Set<GeneratedColumn> get $primaryKey => {todoA, todoB};
   @override
   EmptyTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return EmptyTableData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EmptyTableData(
+      todoA: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}todo_a'])!,
+      todoB: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}todo_b'])!,
+    );
   }
 
   @override
   $EmptyTableTable createAlias(String alias) {
-    return $EmptyTableTable(_db, alias);
+    return $EmptyTableTable(attachedDatabase, alias);
   }
 }
 
@@ -593,7 +587,7 @@ class User extends DataClass implements Insertable<User> {
   final String country;
   final String phone;
   final String email;
-  User(
+  const User(
       {required this.id,
       required this.firstName,
       required this.lastName,
@@ -605,33 +599,6 @@ class User extends DataClass implements Insertable<User> {
       required this.country,
       required this.phone,
       required this.email});
-  factory User.fromData(Map<String, dynamic> data, {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return User(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      firstName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}first_name'])!,
-      lastName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}last_name'])!,
-      age: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}age'])!,
-      zipcode: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}zipcode'])!,
-      city: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}city'])!,
-      adress1: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}adress1'])!,
-      adress2: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}adress2'])!,
-      country: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}country'])!,
-      phone: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}phone'])!,
-      email: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}email'])!,
-    );
-  }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -924,66 +891,67 @@ class UsersCompanion extends UpdateCompanion<User> {
 }
 
 class $UsersTable extends Users with TableInfo<$UsersTable, User> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $UsersTable(this._db, [this._alias]);
+  $UsersTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: const IntType(),
+      type: DriftSqlType.int,
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _firstNameMeta = const VerificationMeta('firstName');
   @override
-  late final GeneratedColumn<String?> firstName = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> firstName = GeneratedColumn<String>(
       'first_name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _lastNameMeta = const VerificationMeta('lastName');
   @override
-  late final GeneratedColumn<String?> lastName = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> lastName = GeneratedColumn<String>(
       'last_name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _ageMeta = const VerificationMeta('age');
   @override
-  late final GeneratedColumn<int?> age = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> age = GeneratedColumn<int>(
       'age', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      type: DriftSqlType.int, requiredDuringInsert: true);
   final VerificationMeta _zipcodeMeta = const VerificationMeta('zipcode');
   @override
-  late final GeneratedColumn<String?> zipcode = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> zipcode = GeneratedColumn<String>(
       'zipcode', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _cityMeta = const VerificationMeta('city');
   @override
-  late final GeneratedColumn<String?> city = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> city = GeneratedColumn<String>(
       'city', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _adress1Meta = const VerificationMeta('adress1');
   @override
-  late final GeneratedColumn<String?> adress1 = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> adress1 = GeneratedColumn<String>(
       'adress1', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _adress2Meta = const VerificationMeta('adress2');
   @override
-  late final GeneratedColumn<String?> adress2 = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> adress2 = GeneratedColumn<String>(
       'adress2', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _countryMeta = const VerificationMeta('country');
   @override
-  late final GeneratedColumn<String?> country = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> country = GeneratedColumn<String>(
       'country', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _phoneMeta = const VerificationMeta('phone');
   @override
-  late final GeneratedColumn<String?> phone = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
       'phone', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   final VerificationMeta _emailMeta = const VerificationMeta('email');
   @override
-  late final GeneratedColumn<String?> email = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
       'email', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1077,23 +1045,47 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   User map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return User.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return User(
+      id: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      firstName: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}first_name'])!,
+      lastName: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}last_name'])!,
+      age: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}age'])!,
+      zipcode: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}zipcode'])!,
+      city: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}city'])!,
+      adress1: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}adress1'])!,
+      adress2: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}adress2'])!,
+      country: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}country'])!,
+      phone: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}phone'])!,
+      email: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}email'])!,
+    );
   }
 
   @override
   $UsersTable createAlias(String alias) {
-    return $UsersTable(_db, alias);
+    return $UsersTable(attachedDatabase, alias);
   }
 }
 
 abstract class _$MyDatabase extends GeneratedDatabase {
-  _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+  _$MyDatabase(QueryExecutor e) : super(e);
   late final $TodosTable todos = $TodosTable(this);
   late final $EmptyTableTable emptyTable = $EmptyTableTable(this);
   late final $UsersTable users = $UsersTable(this);
   @override
-  Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
+  Iterable<TableInfo<Table, dynamic>> get allTables =>
+      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [todos, emptyTable, users];
