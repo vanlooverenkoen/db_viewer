@@ -10,7 +10,8 @@ class BoolWhereClause extends WhereClause {
 
   bool get value => _value;
 
-  BoolWhereClause(String columnName, this._types) : super(columnName: columnName);
+  BoolWhereClause(String columnName, this._types)
+      : super(columnName: columnName);
 
   @override
   String getSqlWhereClause() {

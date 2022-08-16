@@ -23,7 +23,8 @@ class DateWhereClause extends WhereClause {
 
   DateWhereType get dateWhereType => _dateWhereType;
 
-  DateWhereClause(String columnName, this._types) : super(columnName: columnName) {
+  DateWhereClause(String columnName, this._types)
+      : super(columnName: columnName) {
     final now = DateTime.now();
     _date = DateTime(now.year, now.month, now.day);
     _time = TimeOfDay(hour: now.hour, minute: now.minute);
