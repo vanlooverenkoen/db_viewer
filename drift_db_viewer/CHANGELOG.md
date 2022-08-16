@@ -1,3 +1,7 @@
+## [2.0.0] - 16--08-2022
+### Breaking
+- Drift v2 support
+
 ## [1.0.3] - 08-02-2022
 ### Version bump
 - Updated drift to 1.3.0
