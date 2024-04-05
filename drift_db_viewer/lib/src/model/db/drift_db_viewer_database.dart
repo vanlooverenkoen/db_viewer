@@ -33,7 +33,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   @override
   List<Map<String, dynamic>> remapData(
       String tableName, List<Map<String, dynamic>> data) {
-    final SqlTypes types = db.options.types;
+    final SqlTypes types = db.typeMapping;
     final table = getTable(tableName);
     if (table == null) return data;
     final correctData = <Map<String, dynamic>>[];
@@ -111,7 +111,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   FilterData getFilterData(String tableName) {
     final table = getTable(tableName);
     if (table == null) throw ArgumentError('$tableName is not available');
-    return DriftFilterData(table, db.options.types);
+    return DriftFilterData(table, db.typeMapping);
   }
 
   FilterData getCachedFilterData(String entityName) {

@@ -53,7 +53,7 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
     _backgroundColor =
         _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
-    _isExpanded = PageStorage.of(context)?.readState(context) ?? false;
+    _isExpanded = PageStorage.of(context).readState(context) ?? false;
     if (_isExpanded) _controller.value = 1.0;
   }
 
@@ -67,7 +67,7 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
   void didChangeDependencies() {
     final theme = Theme.of(context);
     _headerColorTween
-      ..begin = theme.textTheme.subtitle1?.color
+      ..begin = theme.textTheme.titleMedium?.color
       ..end = theme.colorScheme.secondary;
     _iconColorTween
       ..begin = theme.unselectedWidgetColor
@@ -100,7 +100,7 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
               turns: _iconTurns,
               child: Icon(
                 Icons.expand_more,
-                color: theme.textTheme.bodyText1?.color ?? Colors.black,
+                color: theme.textTheme.bodyLarge?.color ?? Colors.black,
               ),
             ),
             child: Wrap(
@@ -108,16 +108,16 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
                 AnimatedDefaultTextStyle(
                   child: Text(widget.title),
                   style: _isExpanded
-                      ? theme.textTheme.bodyText1 ??
+                      ? theme.textTheme.bodyLarge ??
                           ThemeTextStyles.expandableFilterTitleOpen
-                      : theme.textTheme.bodyText1 ??
+                      : theme.textTheme.bodyLarge ??
                           ThemeTextStyles.expandableFilterTitleClose,
                   duration: ThemeDurations.shortAnimationDuration(),
                 ),
                 Container(width: ThemeDimens.padding8),
                 Text(
                   widget.subtitle,
-                  style: theme.textTheme.subtitle2?.copyWith(fontSize: 11) ??
+                  style: theme.textTheme.titleSmall?.copyWith(fontSize: 11) ??
                       const TextStyle(color: ThemeColors.mediumGrey),
                 ),
               ],
@@ -147,7 +147,7 @@ class _ExpandableFilterItemState extends State<ExpandableFilterItem>
           });
         });
       }
-      PageStorage.of(context)?.writeState(context, _isExpanded);
+      PageStorage.of(context).writeState(context, _isExpanded);
     });
   }
 }

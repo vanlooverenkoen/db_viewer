@@ -18,7 +18,7 @@ class TableRowItem extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Text(
           tableName,
-          style: theme.textTheme.button,
+          style: theme.textTheme.labelLarge,
         ),
       ),
       onTap: onClick,

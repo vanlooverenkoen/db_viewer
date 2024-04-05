@@ -25,7 +25,7 @@ class WhereStringWidget extends StatelessWidget {
           value: StringWhereType.CONTAINS,
           title: Text(
             'Contains',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<StringWhereType>(
@@ -34,7 +34,7 @@ class WhereStringWidget extends StatelessWidget {
           value: StringWhereType.EQUALS,
           title: Text(
             'Equals',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<StringWhereType>(
@@ -43,7 +43,7 @@ class WhereStringWidget extends StatelessWidget {
           value: StringWhereType.NOT_CONTAINS,
           title: Text(
             'Not contains',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<StringWhereType>(
@@ -52,7 +52,7 @@ class WhereStringWidget extends StatelessWidget {
           value: StringWhereType.NOT_EQUALS,
           title: Text(
             'Not equals',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         Container(height: ThemeDimens.padding4),

@@ -29,7 +29,7 @@ class SelectWidget extends StatelessWidget {
           ),
           child: Text(
             'SELECT',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         Wrap(

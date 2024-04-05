@@ -26,7 +26,7 @@ class LimitWidget extends StatelessWidget {
             children: [
               Text(
                 'LIMIT',
-                style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyLarge,
               ),
               Center(
                 child: SelectableAction(

@@ -56,11 +56,11 @@ class _TableItemDetailScreenState extends State<TableItemDetailScreen>
                     children: [
                       Text(
                         viewModel.getKey(index),
-                        style: theme.textTheme.headline6,
+                        style: theme.textTheme.titleLarge,
                       ),
                       Text(
                         viewModel.getValue(index),
-                        style: theme.textTheme.bodyText1,
+                        style: theme.textTheme.bodyLarge,
                       ),
                       const SizedBox(height: ThemeDimens.padding16),
                       Container(

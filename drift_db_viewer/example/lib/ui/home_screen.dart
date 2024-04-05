@@ -33,63 +33,63 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     child: Text(
                       'GO to dbviewer',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _onGoToDbViewerClicked,
                   ),
                   MaterialButton(
                     child: Text(
                       'Add User',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _addUser,
                   ),
                   MaterialButton(
                     child: Text(
                       'Remove first User',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _removeUser,
                   ),
                   MaterialButton(
                     child: Text(
                       'Add TODO',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _addTodo,
                   ),
                   MaterialButton(
                     child: Text(
                       'Remove first TODO',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _removeTodo,
                   ),
                   MaterialButton(
                     child: Text(
                       'Add 100 TODO',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _add100Todos,
                   ),
                   MaterialButton(
                     child: Text(
                       'Add 10000 TODO',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _add10000Todos,
                   ),
                   MaterialButton(
                     child: Text(
                       'Add 1000000 TODO',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _add1000000Todos,
                   ),
                   MaterialButton(
                     child: Text(
                       'clear db',
-                      style: textTheme.button,
+                      style: textTheme.labelLarge,
                     ),
                     onPressed: _clearDb,
                   ),

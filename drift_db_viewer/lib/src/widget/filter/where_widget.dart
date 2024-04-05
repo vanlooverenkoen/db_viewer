@@ -38,7 +38,7 @@ class WhereTitleWidget extends StatelessWidget {
               Expanded(
                 child: Text(
                   'WHERE',
-                  style: theme.textTheme.bodyText1,
+                  style: theme.textTheme.bodyLarge,
                 ),
               ),
               IconButton(

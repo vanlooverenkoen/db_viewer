@@ -25,7 +25,7 @@ class WhereDoubleWidget extends StatelessWidget {
           value: DoubleWhereType.EQUALS,
           title: Text(
             'Equals',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<DoubleWhereType>(
@@ -34,7 +34,7 @@ class WhereDoubleWidget extends StatelessWidget {
           value: DoubleWhereType.CONTAINS,
           title: Text(
             'Contains',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<DoubleWhereType>(
@@ -43,7 +43,7 @@ class WhereDoubleWidget extends StatelessWidget {
           value: DoubleWhereType.GREATER_THAN,
           title: Text(
             'Greater than',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<DoubleWhereType>(
@@ -52,7 +52,7 @@ class WhereDoubleWidget extends StatelessWidget {
           value: DoubleWhereType.LESS_THAN,
           title: Text(
             'Less than',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         Container(height: ThemeDimens.padding4),

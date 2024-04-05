@@ -25,7 +25,7 @@ class OrderByWidget extends StatelessWidget {
           ),
           child: Text(
             'ORDER BY',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         Wrap(

@@ -25,7 +25,7 @@ class WhereDateWidget extends StatelessWidget {
           value: DateWhereType.BEFORE,
           title: Text(
             'Before',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<DateWhereType>(
@@ -34,7 +34,7 @@ class WhereDateWidget extends StatelessWidget {
           value: DateWhereType.EQUALS,
           title: Text(
             'Equals',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<DateWhereType>(
@@ -43,7 +43,7 @@ class WhereDateWidget extends StatelessWidget {
           value: DateWhereType.AFTER,
           title: Text(
             'After',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         InputLikeText(

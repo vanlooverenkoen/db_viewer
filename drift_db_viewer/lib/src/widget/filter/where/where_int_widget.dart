@@ -25,7 +25,7 @@ class WhereIntWidget extends StatelessWidget {
           value: IntWhereType.EQUALS,
           title: Text(
             'Equals',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<IntWhereType>(
@@ -34,7 +34,7 @@ class WhereIntWidget extends StatelessWidget {
           value: IntWhereType.CONTAINS,
           title: Text(
             'Contains',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<IntWhereType>(
@@ -43,7 +43,7 @@ class WhereIntWidget extends StatelessWidget {
           value: IntWhereType.GREATER_THAN,
           title: Text(
             'Greater than',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<IntWhereType>(
@@ -52,7 +52,7 @@ class WhereIntWidget extends StatelessWidget {
           value: IntWhereType.LESS_THAN,
           title: Text(
             'Less than',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         Container(height: ThemeDimens.padding4),
