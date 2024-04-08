@@ -84,7 +84,7 @@ class _TableContentListScreenState extends State<TableContentListScreen>
                       DataColumn(
                         label: Text(
                           item,
-                          style: theme.textTheme.headline6,
+                          style: theme.textTheme.titleLarge,
                         ),
                       ),
                   ],
@@ -105,7 +105,7 @@ class _TableContentListScreenState extends State<TableContentListScreen>
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         item[key].toString(),
-                                        style: theme.textTheme.bodyText1,
+                                        style: theme.textTheme.bodyLarge,
                                       ),
                                     ),
                                   ),

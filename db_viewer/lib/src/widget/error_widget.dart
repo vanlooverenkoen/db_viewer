@@ -14,7 +14,7 @@ class ErrorTextWidget extends StatelessWidget {
     return Center(
       child: Text(
         text,
-        style: theme.textTheme.bodyText1,
+        style: theme.textTheme.bodyLarge,
       ),
     );
   }

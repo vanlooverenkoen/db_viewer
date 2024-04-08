@@ -23,7 +23,7 @@ class FromWidget extends StatelessWidget {
           ),
           child: Text(
             'FROM',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         SelectableAction(text: tableName, selected: true),

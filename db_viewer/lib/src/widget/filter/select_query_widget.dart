@@ -24,7 +24,7 @@ class SelectQueryWidget extends StatelessWidget {
             padding: const EdgeInsets.all(ThemeDimens.padding16),
             child: Text(
               query,
-              style: theme.textTheme.bodyText1,
+              style: theme.textTheme.bodyLarge,
             ),
           ),
           Positioned(
@@ -33,7 +33,7 @@ class SelectQueryWidget extends StatelessWidget {
             child: Icon(
               Icons.edit,
               size: ThemeDimens.padding16,
-              color: theme.textTheme.bodyText1?.color,
+              color: theme.textTheme.bodyLarge?.color,
             ),
           ),
         ],

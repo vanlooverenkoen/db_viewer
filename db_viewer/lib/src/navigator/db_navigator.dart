@@ -40,8 +40,12 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _willPop,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        goBack();
+      },
       child: Navigator(
         key: _navigationKey,
         initialRoute: TableListScreen.routeName,
@@ -80,9 +84,6 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
         return null;
     }
   }
-
-  Future<bool> _willPop() async =>
-      !await _navigationKey.currentState!.maybePop();
 
   void goToTableList() =>
       _navigationKey.currentState!.pushNamed(TableListScreen.routeName);

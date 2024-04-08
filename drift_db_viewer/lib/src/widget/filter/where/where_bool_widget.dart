@@ -25,7 +25,7 @@ class WhereBoolWidget extends StatelessWidget {
           value: true,
           title: Text(
             'True',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         RadioListTile<bool>(
@@ -34,7 +34,7 @@ class WhereBoolWidget extends StatelessWidget {
           value: false,
           title: Text(
             'False',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
       ],

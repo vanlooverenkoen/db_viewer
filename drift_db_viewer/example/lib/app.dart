@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         dividerColor: Colors.black12,
         textTheme: TextTheme(
-          headline6: TextStyle(color: Colors.black),
-          bodyText1: TextStyle(color: Colors.black),
-          subtitle2: TextStyle(color: Colors.black),
-          button: TextStyle(color: Colors.black),
+          titleLarge: TextStyle(color: Colors.black),
+          bodyLarge: TextStyle(color: Colors.black),
+          titleSmall: TextStyle(color: Colors.black),
+          labelLarge: TextStyle(color: Colors.black),
         ),
         dialogBackgroundColor: Color(0xFFD7D7D7),
         inputDecorationTheme: InputDecorationTheme(
@@ -41,10 +41,10 @@ class MyApp extends StatelessWidget {
         cardColor: Color(0xFF2F2F2F),
         dividerColor: Colors.white12,
         textTheme: TextTheme(
-          headline6: TextStyle(color: Colors.white),
-          bodyText1: TextStyle(color: Colors.white),
-          subtitle2: TextStyle(color: Colors.white),
-          button: TextStyle(color: Colors.white),
+          titleLarge: TextStyle(color: Colors.white),
+          bodyLarge: TextStyle(color: Colors.white),
+          titleSmall: TextStyle(color: Colors.white),
+          labelLarge: TextStyle(color: Colors.white),
         ),
         dialogBackgroundColor: Color(0xFF2F2F2F),
         inputDecorationTheme: InputDecorationTheme(

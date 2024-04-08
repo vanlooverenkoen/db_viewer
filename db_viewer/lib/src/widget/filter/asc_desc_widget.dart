@@ -27,7 +27,7 @@ class AscDescWidget extends StatelessWidget {
           ),
           child: Text(
             'ASC / DESC',
-            style: theme.textTheme.bodyText1,
+            style: theme.textTheme.bodyLarge,
           ),
         ),
         Wrap(

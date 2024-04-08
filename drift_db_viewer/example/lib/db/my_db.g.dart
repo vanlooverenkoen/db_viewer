@@ -2,11 +2,161 @@
 
 part of 'my_db.dart';
 
-// **************************************************************************
-// DriftDatabaseGenerator
-// **************************************************************************
-
 // ignore_for_file: type=lint
+class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TodosTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _contentMeta =
+      const VerificationMeta('content');
+  @override
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
+      'body', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<int> category = GeneratedColumn<int>(
+      'category', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _completedMeta =
+      const VerificationMeta('completed');
+  @override
+  late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
+      'completed', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'));
+  static const VerificationMeta _realColumnMeta =
+      const VerificationMeta('realColumn');
+  @override
+  late final GeneratedColumn<double> realColumn = GeneratedColumn<double>(
+      'real_column', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _blobColumnMeta =
+      const VerificationMeta('blobColumn');
+  @override
+  late final GeneratedColumn<Uint8List> blobColumn = GeneratedColumn<Uint8List>(
+      'blob_column', aliasedName, false,
+      type: DriftSqlType.blob, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, title, content, category, date, completed, realColumn, blobColumn];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'todos';
+  @override
+  VerificationContext validateIntegrity(Insertable<Todo> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('body')) {
+      context.handle(_contentMeta,
+          content.isAcceptableOrUnknown(data['body']!, _contentMeta));
+    } else if (isInserting) {
+      context.missing(_contentMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    }
+    if (data.containsKey('date')) {
+      context.handle(
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('completed')) {
+      context.handle(_completedMeta,
+          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
+    } else if (isInserting) {
+      context.missing(_completedMeta);
+    }
+    if (data.containsKey('real_column')) {
+      context.handle(
+          _realColumnMeta,
+          realColumn.isAcceptableOrUnknown(
+              data['real_column']!, _realColumnMeta));
+    } else if (isInserting) {
+      context.missing(_realColumnMeta);
+    }
+    if (data.containsKey('blob_column')) {
+      context.handle(
+          _blobColumnMeta,
+          blobColumn.isAcceptableOrUnknown(
+              data['blob_column']!, _blobColumnMeta));
+    } else if (isInserting) {
+      context.missing(_blobColumnMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Todo map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Todo(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      content: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}category']),
+      date: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      completed: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
+      realColumn: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}real_column'])!,
+      blobColumn: attachedDatabase.typeMapping
+          .read(DriftSqlType.blob, data['${effectivePrefix}blob_column'])!,
+    );
+  }
+
+  @override
+  $TodosTable createAlias(String alias) {
+    return $TodosTable(attachedDatabase, alias);
+  }
+}
+
 class Todo extends DataClass implements Insertable<Todo> {
   final int id;
   final String title;
@@ -120,8 +270,8 @@ class Todo extends DataClass implements Insertable<Todo> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, title, content, category, date, completed, realColumn, blobColumn);
+  int get hashCode => Object.hash(id, title, content, category, date, completed,
+      realColumn, $driftBlobEquality.hash(blobColumn));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -133,7 +283,7 @@ class Todo extends DataClass implements Insertable<Todo> {
           other.date == this.date &&
           other.completed == this.completed &&
           other.realColumn == this.realColumn &&
-          other.blobColumn == this.blobColumn);
+          $driftBlobEquality.equals(other.blobColumn, this.blobColumn));
 }
 
 class TodosCompanion extends UpdateCompanion<Todo> {
@@ -259,148 +409,65 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   }
 }
 
-class $TodosTable extends Todos with TableInfo<$TodosTable, Todo> {
+class $EmptyTableTable extends EmptyTable
+    with TableInfo<$EmptyTableTable, EmptyTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TodosTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $EmptyTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _todoAMeta = const VerificationMeta('todoA');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _titleMeta = const VerificationMeta('title');
+  late final GeneratedColumn<int> todoA = GeneratedColumn<int>(
+      'todo_a', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _todoBMeta = const VerificationMeta('todoB');
   @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  final VerificationMeta _contentMeta = const VerificationMeta('content');
+  late final GeneratedColumn<int> todoB = GeneratedColumn<int>(
+      'todo_b', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   @override
-  late final GeneratedColumn<String> content = GeneratedColumn<String>(
-      'body', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  List<GeneratedColumn> get $columns => [todoA, todoB];
   @override
-  late final GeneratedColumn<int> category = GeneratedColumn<int>(
-      'category', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
-      'date', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  final VerificationMeta _completedMeta = const VerificationMeta('completed');
+  String get actualTableName => $name;
+  static const String $name = 'empty_table';
   @override
-  late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
-      'completed', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: true,
-      defaultConstraints: 'CHECK (completed IN (0, 1))');
-  final VerificationMeta _realColumnMeta = const VerificationMeta('realColumn');
-  @override
-  late final GeneratedColumn<double> realColumn = GeneratedColumn<double>(
-      'real_column', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
-  final VerificationMeta _blobColumnMeta = const VerificationMeta('blobColumn');
-  @override
-  late final GeneratedColumn<Uint8List> blobColumn = GeneratedColumn<Uint8List>(
-      'blob_column', aliasedName, false,
-      type: DriftSqlType.blob, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, title, content, category, date, completed, realColumn, blobColumn];
-  @override
-  String get aliasedName => _alias ?? 'todos';
-  @override
-  String get actualTableName => 'todos';
-  @override
-  VerificationContext validateIntegrity(Insertable<Todo> instance,
+  VerificationContext validateIntegrity(Insertable<EmptyTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('title')) {
+    if (data.containsKey('todo_a')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+          _todoAMeta, todoA.isAcceptableOrUnknown(data['todo_a']!, _todoAMeta));
     } else if (isInserting) {
-      context.missing(_titleMeta);
+      context.missing(_todoAMeta);
     }
-    if (data.containsKey('body')) {
-      context.handle(_contentMeta,
-          content.isAcceptableOrUnknown(data['body']!, _contentMeta));
-    } else if (isInserting) {
-      context.missing(_contentMeta);
-    }
-    if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
-    }
-    if (data.containsKey('date')) {
+    if (data.containsKey('todo_b')) {
       context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+          _todoBMeta, todoB.isAcceptableOrUnknown(data['todo_b']!, _todoBMeta));
     } else if (isInserting) {
-      context.missing(_dateMeta);
-    }
-    if (data.containsKey('completed')) {
-      context.handle(_completedMeta,
-          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
-    } else if (isInserting) {
-      context.missing(_completedMeta);
-    }
-    if (data.containsKey('real_column')) {
-      context.handle(
-          _realColumnMeta,
-          realColumn.isAcceptableOrUnknown(
-              data['real_column']!, _realColumnMeta));
-    } else if (isInserting) {
-      context.missing(_realColumnMeta);
-    }
-    if (data.containsKey('blob_column')) {
-      context.handle(
-          _blobColumnMeta,
-          blobColumn.isAcceptableOrUnknown(
-              data['blob_column']!, _blobColumnMeta));
-    } else if (isInserting) {
-      context.missing(_blobColumnMeta);
+      context.missing(_todoBMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {todoA, todoB};
   @override
-  Todo map(Map<String, dynamic> data, {String? tablePrefix}) {
+  EmptyTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Todo(
-      id: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      content: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
-      category: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}category']),
-      date: attachedDatabase.options.types
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      completed: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
-      realColumn: attachedDatabase.options.types
-          .read(DriftSqlType.double, data['${effectivePrefix}real_column'])!,
-      blobColumn: attachedDatabase.options.types
-          .read(DriftSqlType.blob, data['${effectivePrefix}blob_column'])!,
+    return EmptyTableData(
+      todoA: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}todo_a'])!,
+      todoB: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}todo_b'])!,
     );
   }
 
   @override
-  $TodosTable createAlias(String alias) {
-    return $TodosTable(attachedDatabase, alias);
+  $EmptyTableTable createAlias(String alias) {
+    return $EmptyTableTable(attachedDatabase, alias);
   }
 }
 
@@ -466,29 +533,36 @@ class EmptyTableData extends DataClass implements Insertable<EmptyTableData> {
 class EmptyTableCompanion extends UpdateCompanion<EmptyTableData> {
   final Value<int> todoA;
   final Value<int> todoB;
+  final Value<int> rowid;
   const EmptyTableCompanion({
     this.todoA = const Value.absent(),
     this.todoB = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   EmptyTableCompanion.insert({
     required int todoA,
     required int todoB,
+    this.rowid = const Value.absent(),
   })  : todoA = Value(todoA),
         todoB = Value(todoB);
   static Insertable<EmptyTableData> custom({
     Expression<int>? todoA,
     Expression<int>? todoB,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (todoA != null) 'todo_a': todoA,
       if (todoB != null) 'todo_b': todoB,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
-  EmptyTableCompanion copyWith({Value<int>? todoA, Value<int>? todoB}) {
+  EmptyTableCompanion copyWith(
+      {Value<int>? todoA, Value<int>? todoB, Value<int>? rowid}) {
     return EmptyTableCompanion(
       todoA: todoA ?? this.todoA,
       todoB: todoB ?? this.todoB,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -501,6 +575,9 @@ class EmptyTableCompanion extends UpdateCompanion<EmptyTableData> {
     if (todoB.present) {
       map['todo_b'] = Variable<int>(todoB.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
@@ -508,70 +585,207 @@ class EmptyTableCompanion extends UpdateCompanion<EmptyTableData> {
   String toString() {
     return (StringBuffer('EmptyTableCompanion(')
           ..write('todoA: $todoA, ')
-          ..write('todoB: $todoB')
+          ..write('todoB: $todoB, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
 }
 
-class $EmptyTableTable extends EmptyTable
-    with TableInfo<$EmptyTableTable, EmptyTableData> {
+class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $EmptyTableTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _todoAMeta = const VerificationMeta('todoA');
+  $UsersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> todoA = GeneratedColumn<int>(
-      'todo_a', aliasedName, false,
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _firstNameMeta =
+      const VerificationMeta('firstName');
+  @override
+  late final GeneratedColumn<String> firstName = GeneratedColumn<String>(
+      'first_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _lastNameMeta =
+      const VerificationMeta('lastName');
+  @override
+  late final GeneratedColumn<String> lastName = GeneratedColumn<String>(
+      'last_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _ageMeta = const VerificationMeta('age');
+  @override
+  late final GeneratedColumn<int> age = GeneratedColumn<int>(
+      'age', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _todoBMeta = const VerificationMeta('todoB');
+  static const VerificationMeta _zipcodeMeta =
+      const VerificationMeta('zipcode');
   @override
-  late final GeneratedColumn<int> todoB = GeneratedColumn<int>(
-      'todo_b', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+  late final GeneratedColumn<String> zipcode = GeneratedColumn<String>(
+      'zipcode', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _cityMeta = const VerificationMeta('city');
   @override
-  List<GeneratedColumn> get $columns => [todoA, todoB];
+  late final GeneratedColumn<String> city = GeneratedColumn<String>(
+      'city', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _adress1Meta =
+      const VerificationMeta('adress1');
   @override
-  String get aliasedName => _alias ?? 'empty_table';
+  late final GeneratedColumn<String> adress1 = GeneratedColumn<String>(
+      'adress1', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _adress2Meta =
+      const VerificationMeta('adress2');
   @override
-  String get actualTableName => 'empty_table';
+  late final GeneratedColumn<String> adress2 = GeneratedColumn<String>(
+      'adress2', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _countryMeta =
+      const VerificationMeta('country');
   @override
-  VerificationContext validateIntegrity(Insertable<EmptyTableData> instance,
+  late final GeneratedColumn<String> country = GeneratedColumn<String>(
+      'country', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+      'phone', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+      'email', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        firstName,
+        lastName,
+        age,
+        zipcode,
+        city,
+        adress1,
+        adress2,
+        country,
+        phone,
+        email
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'users';
+  @override
+  VerificationContext validateIntegrity(Insertable<User> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('todo_a')) {
-      context.handle(
-          _todoAMeta, todoA.isAcceptableOrUnknown(data['todo_a']!, _todoAMeta));
-    } else if (isInserting) {
-      context.missing(_todoAMeta);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('todo_b')) {
-      context.handle(
-          _todoBMeta, todoB.isAcceptableOrUnknown(data['todo_b']!, _todoBMeta));
+    if (data.containsKey('first_name')) {
+      context.handle(_firstNameMeta,
+          firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta));
     } else if (isInserting) {
-      context.missing(_todoBMeta);
+      context.missing(_firstNameMeta);
+    }
+    if (data.containsKey('last_name')) {
+      context.handle(_lastNameMeta,
+          lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta));
+    } else if (isInserting) {
+      context.missing(_lastNameMeta);
+    }
+    if (data.containsKey('age')) {
+      context.handle(
+          _ageMeta, age.isAcceptableOrUnknown(data['age']!, _ageMeta));
+    } else if (isInserting) {
+      context.missing(_ageMeta);
+    }
+    if (data.containsKey('zipcode')) {
+      context.handle(_zipcodeMeta,
+          zipcode.isAcceptableOrUnknown(data['zipcode']!, _zipcodeMeta));
+    } else if (isInserting) {
+      context.missing(_zipcodeMeta);
+    }
+    if (data.containsKey('city')) {
+      context.handle(
+          _cityMeta, city.isAcceptableOrUnknown(data['city']!, _cityMeta));
+    } else if (isInserting) {
+      context.missing(_cityMeta);
+    }
+    if (data.containsKey('adress1')) {
+      context.handle(_adress1Meta,
+          adress1.isAcceptableOrUnknown(data['adress1']!, _adress1Meta));
+    } else if (isInserting) {
+      context.missing(_adress1Meta);
+    }
+    if (data.containsKey('adress2')) {
+      context.handle(_adress2Meta,
+          adress2.isAcceptableOrUnknown(data['adress2']!, _adress2Meta));
+    } else if (isInserting) {
+      context.missing(_adress2Meta);
+    }
+    if (data.containsKey('country')) {
+      context.handle(_countryMeta,
+          country.isAcceptableOrUnknown(data['country']!, _countryMeta));
+    } else if (isInserting) {
+      context.missing(_countryMeta);
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+          _phoneMeta, phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta));
+    } else if (isInserting) {
+      context.missing(_phoneMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+          _emailMeta, email.isAcceptableOrUnknown(data['email']!, _emailMeta));
+    } else if (isInserting) {
+      context.missing(_emailMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {todoA, todoB};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  EmptyTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  User map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return EmptyTableData(
-      todoA: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}todo_a'])!,
-      todoB: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}todo_b'])!,
+    return User(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      firstName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}first_name'])!,
+      lastName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}last_name'])!,
+      age: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}age'])!,
+      zipcode: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}zipcode'])!,
+      city: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}city'])!,
+      adress1: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}adress1'])!,
+      adress2: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}adress2'])!,
+      country: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}country'])!,
+      phone: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}phone'])!,
+      email: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}email'])!,
     );
   }
 
   @override
-  $EmptyTableTable createAlias(String alias) {
-    return $EmptyTableTable(attachedDatabase, alias);
+  $UsersTable createAlias(String alias) {
+    return $UsersTable(attachedDatabase, alias);
   }
 }
 
@@ -890,201 +1104,13 @@ class UsersCompanion extends UpdateCompanion<User> {
   }
 }
 
-class $UsersTable extends Users with TableInfo<$UsersTable, User> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $UsersTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _firstNameMeta = const VerificationMeta('firstName');
-  @override
-  late final GeneratedColumn<String> firstName = GeneratedColumn<String>(
-      'first_name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _lastNameMeta = const VerificationMeta('lastName');
-  @override
-  late final GeneratedColumn<String> lastName = GeneratedColumn<String>(
-      'last_name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _ageMeta = const VerificationMeta('age');
-  @override
-  late final GeneratedColumn<int> age = GeneratedColumn<int>(
-      'age', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _zipcodeMeta = const VerificationMeta('zipcode');
-  @override
-  late final GeneratedColumn<String> zipcode = GeneratedColumn<String>(
-      'zipcode', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _cityMeta = const VerificationMeta('city');
-  @override
-  late final GeneratedColumn<String> city = GeneratedColumn<String>(
-      'city', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _adress1Meta = const VerificationMeta('adress1');
-  @override
-  late final GeneratedColumn<String> adress1 = GeneratedColumn<String>(
-      'adress1', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _adress2Meta = const VerificationMeta('adress2');
-  @override
-  late final GeneratedColumn<String> adress2 = GeneratedColumn<String>(
-      'adress2', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _countryMeta = const VerificationMeta('country');
-  @override
-  late final GeneratedColumn<String> country = GeneratedColumn<String>(
-      'country', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _phoneMeta = const VerificationMeta('phone');
-  @override
-  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
-      'phone', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _emailMeta = const VerificationMeta('email');
-  @override
-  late final GeneratedColumn<String> email = GeneratedColumn<String>(
-      'email', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        firstName,
-        lastName,
-        age,
-        zipcode,
-        city,
-        adress1,
-        adress2,
-        country,
-        phone,
-        email
-      ];
-  @override
-  String get aliasedName => _alias ?? 'users';
-  @override
-  String get actualTableName => 'users';
-  @override
-  VerificationContext validateIntegrity(Insertable<User> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('first_name')) {
-      context.handle(_firstNameMeta,
-          firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta));
-    } else if (isInserting) {
-      context.missing(_firstNameMeta);
-    }
-    if (data.containsKey('last_name')) {
-      context.handle(_lastNameMeta,
-          lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta));
-    } else if (isInserting) {
-      context.missing(_lastNameMeta);
-    }
-    if (data.containsKey('age')) {
-      context.handle(
-          _ageMeta, age.isAcceptableOrUnknown(data['age']!, _ageMeta));
-    } else if (isInserting) {
-      context.missing(_ageMeta);
-    }
-    if (data.containsKey('zipcode')) {
-      context.handle(_zipcodeMeta,
-          zipcode.isAcceptableOrUnknown(data['zipcode']!, _zipcodeMeta));
-    } else if (isInserting) {
-      context.missing(_zipcodeMeta);
-    }
-    if (data.containsKey('city')) {
-      context.handle(
-          _cityMeta, city.isAcceptableOrUnknown(data['city']!, _cityMeta));
-    } else if (isInserting) {
-      context.missing(_cityMeta);
-    }
-    if (data.containsKey('adress1')) {
-      context.handle(_adress1Meta,
-          adress1.isAcceptableOrUnknown(data['adress1']!, _adress1Meta));
-    } else if (isInserting) {
-      context.missing(_adress1Meta);
-    }
-    if (data.containsKey('adress2')) {
-      context.handle(_adress2Meta,
-          adress2.isAcceptableOrUnknown(data['adress2']!, _adress2Meta));
-    } else if (isInserting) {
-      context.missing(_adress2Meta);
-    }
-    if (data.containsKey('country')) {
-      context.handle(_countryMeta,
-          country.isAcceptableOrUnknown(data['country']!, _countryMeta));
-    } else if (isInserting) {
-      context.missing(_countryMeta);
-    }
-    if (data.containsKey('phone')) {
-      context.handle(
-          _phoneMeta, phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta));
-    } else if (isInserting) {
-      context.missing(_phoneMeta);
-    }
-    if (data.containsKey('email')) {
-      context.handle(
-          _emailMeta, email.isAcceptableOrUnknown(data['email']!, _emailMeta));
-    } else if (isInserting) {
-      context.missing(_emailMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  User map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return User(
-      id: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      firstName: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}first_name'])!,
-      lastName: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}last_name'])!,
-      age: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}age'])!,
-      zipcode: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}zipcode'])!,
-      city: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}city'])!,
-      adress1: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}adress1'])!,
-      adress2: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}adress2'])!,
-      country: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}country'])!,
-      phone: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}phone'])!,
-      email: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}email'])!,
-    );
-  }
-
-  @override
-  $UsersTable createAlias(String alias) {
-    return $UsersTable(attachedDatabase, alias);
-  }
-}
-
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $TodosTable todos = $TodosTable(this);
   late final $EmptyTableTable emptyTable = $EmptyTableTable(this);
   late final $UsersTable users = $UsersTable(this);
   @override
-  Iterable<TableInfo<Table, dynamic>> get allTables =>
+  Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>

@@ -130,11 +130,11 @@ class _TableFilterScreenState extends State<TableFilterScreen>
               return ListTile(
                 title: Text(
                   columnName,
-                  style: theme.textTheme.headline6,
+                  style: theme.textTheme.titleLarge,
                 ),
                 subtitle: Text(
                   db.getType(entityName, columnName),
-                  style: theme.textTheme.bodyText1,
+                  style: theme.textTheme.bodyLarge,
                 ),
                 onTap: () => Navigator.of(context).pop(columnName),
               );

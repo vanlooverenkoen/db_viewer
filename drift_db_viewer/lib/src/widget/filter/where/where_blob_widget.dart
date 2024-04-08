@@ -21,7 +21,7 @@ class WhereBlobWidget extends StatelessWidget {
       children: [
         Text(
           'Filtering on a blob is not supported',
-          style: theme.textTheme.bodyText1,
+          style: theme.textTheme.bodyLarge,
         ),
       ],
     );

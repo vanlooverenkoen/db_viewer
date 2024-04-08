@@ -19,3 +19,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+
+dependency_overrides:
+  db_viewer:
+    path: ../db_viewer
