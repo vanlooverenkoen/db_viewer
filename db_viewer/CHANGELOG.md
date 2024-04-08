@@ -1,6 +1,6 @@
 # 1.1.0
 ## Fix
-- Deprecation warnings
+- Deprecation warnings (Thanks to [simolus3](https://github.com/simolus3))
 
 ## 1.0.3
 ### Fixed
