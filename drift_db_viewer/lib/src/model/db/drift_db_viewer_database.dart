@@ -5,26 +5,26 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:drift_db_viewer/src/widget/filter/where_widget.dart';
 
 class DriftDbViewerDatabase implements DbViewerDatabase {
-  final GeneratedDatabase db;
+  final GeneratedDatabase _db;
   final _filterData = <String, FilterData>{};
 
-  DriftDbViewerDatabase._(this.db);
+  DriftDbViewerDatabase._(this._db);
 
   static init(GeneratedDatabase db) =>
       DbViewerDatabase.initDb(DriftDbViewerDatabase._(db));
 
   //Entity Info
-  Iterable<TableInfo<Table, dynamic>> get tables => db.allTables;
+  Iterable<TableInfo<Table, dynamic>> get tables => _db.allTables;
 
   TableInfo<Table, dynamic>? getTable(String tableName) {
     final tables =
-        db.allTables.where((element) => element.actualTableName == tableName);
+        _db.allTables.where((element) => element.actualTableName == tableName);
     if (tables.isEmpty) return null;
     return tables.first;
   }
 
   List<String> get entityNames =>
-      db.allTables.map((e) => e.entityName).toList();
+      _db.allTables.map((e) => e.entityName).toList();
 
   @override
   List<String> getColumnNamesByEntityName(String tableName) =>
@@ -33,7 +33,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   @override
   List<Map<String, dynamic>> remapData(
       String tableName, List<Map<String, dynamic>> data) {
-    final SqlTypes types = db.typeMapping;
+    final SqlTypes types = _db.typeMapping;
     final table = getTable(tableName);
     if (table == null) return data;
     final correctData = <Map<String, dynamic>>[];
@@ -84,24 +84,24 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   @override
   Future<List<Map<String, dynamic>>> customSelect(String query,
       {Set<String>? fromEntityNames}) async {
-    final result = await db.customSelect(query).get();
+    final result = await _db.customSelect(query).get();
     return result.map((e) => e.data).toList();
   }
 
   @override
   Stream<List<Map<String, dynamic>>> customSelectStream(String query,
           {Set<String>? fromEntityNames}) =>
-      db.customSelect(query).map((item) => item.data).watch();
+      _db.customSelect(query).map((item) => item.data).watch();
 
   @override
   Future<void> runCustomStatement(String query) async =>
-      await db.customStatement(query);
+      await _db.customStatement(query);
 
   @override
   Stream<int> count(String tableName) {
     final table = getTable(tableName);
     if (table == null) return Stream.value(0);
-    final countStream = db.customSelect('SELECT COUNT(*) FROM ${tableName}',
+    final countStream = _db.customSelect('SELECT COUNT(*) FROM ${tableName}',
         readsFrom: {table}).watch();
     return countStream.map((data) => data.first.data['COUNT(*)']);
   }
@@ -111,7 +111,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   FilterData getFilterData(String tableName) {
     final table = getTable(tableName);
     if (table == null) throw ArgumentError('$tableName is not available');
-    return DriftFilterData(table, db.typeMapping);
+    return DriftFilterData(table, _db.typeMapping);
   }
 
   FilterData getCachedFilterData(String entityName) {
