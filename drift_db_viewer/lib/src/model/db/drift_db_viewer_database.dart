@@ -13,10 +13,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   static init(GeneratedDatabase db) =>
       DbViewerDatabase.initDb(DriftDbViewerDatabase._(db));
 
-  //Entity Info
-  Iterable<TableInfo<Table, dynamic>> get tables => _db.allTables;
-
-  TableInfo<Table, dynamic>? getTable(String tableName) {
+  TableInfo<Table, dynamic>? _getTable(String tableName) {
     final tables =
         _db.allTables.where((element) => element.actualTableName == tableName);
     if (tables.isEmpty) return null;
@@ -28,13 +25,13 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
 
   @override
   List<String> getColumnNamesByEntityName(String tableName) =>
-      getTable(tableName)?.columnsByName.keys.toList() ?? [];
+      _getTable(tableName)?.columnsByName.keys.toList() ?? [];
 
   @override
   List<Map<String, dynamic>> remapData(
       String tableName, List<Map<String, dynamic>> data) {
     final SqlTypes types = _db.typeMapping;
-    final table = getTable(tableName);
+    final table = _getTable(tableName);
     if (table == null) return data;
     final correctData = <Map<String, dynamic>>[];
     data.forEach((item) {
@@ -60,7 +57,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
 
   @override
   String getType(String entityName, String columnName) {
-    final entity = getTable(entityName);
+    final entity = _getTable(entityName);
     if (entity == null) throw ArgumentError('Entity $entityName is not found');
     final column =
         entity.$columns.firstWhere((column) => column.$name == columnName);
@@ -99,7 +96,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
 
   @override
   Stream<int> count(String tableName) {
-    final table = getTable(tableName);
+    final table = _getTable(tableName);
     if (table == null) return Stream.value(0);
     final countStream = _db.customSelect('SELECT COUNT(*) FROM ${tableName}',
         readsFrom: {table}).watch();
@@ -109,7 +106,7 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   //Filter Data
   @override
   FilterData getFilterData(String tableName) {
-    final table = getTable(tableName);
+    final table = _getTable(tableName);
     if (table == null) throw ArgumentError('$tableName is not available');
     return DriftFilterData(table, _db.typeMapping);
   }
