@@ -4,13 +4,37 @@ import 'package:drift_db_viewer/src/model/filter/drift_filter_data.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:drift_db_viewer/src/widget/filter/where_widget.dart';
 
-class DriftDbViewerDatabase implements DbViewerDatabase {
+class DBHandler {
   final GeneratedDatabase _db;
+
+  DBHandler(this._db);
+
+  Iterable<TableInfo<Table, dynamic>> get allTables => _db.allTables;
+
+  SqlTypes get typeMapping => _db.typeMapping;
+
+  Selectable<QueryRow> customSelect(
+    String query, {
+    Set<ResultSetImplementation<dynamic, dynamic>> readsFrom = const {},
+    List<Variable<Object>> variables = const [],
+  }) =>
+      _db.customSelect(
+        query,
+        readsFrom: readsFrom,
+        variables: variables,
+      );
+
+  Future<void> customStatement(String query, [List<dynamic>? args]) =>
+      _db.customStatement(query, args);
+}
+
+class DriftDbViewerDatabase implements DbViewerDatabase {
+  final DBHandler _db;
   final _filterData = <String, FilterData>{};
 
   DriftDbViewerDatabase._(this._db);
 
-  static init(GeneratedDatabase db) =>
+  static init(DBHandler db) =>
       DbViewerDatabase.initDb(DriftDbViewerDatabase._(db));
 
   TableInfo<Table, dynamic>? _getTable(String tableName) {

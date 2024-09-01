@@ -15,7 +15,7 @@ class DriftDbViewer extends StatefulWidget {
 class _DriftDbViewerState extends State<DriftDbViewer> {
   @override
   void initState() {
-    DriftDbViewerDatabase.init(widget.db);
+    DriftDbViewerDatabase.init(DBHandler(widget.db));
     super.initState();
   }
 
