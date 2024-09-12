@@ -1,3 +1,4 @@
+import 'package:db_viewer/src/model/db/db.dart';
 import 'package:db_viewer/src/style/theme_dimens.dart';
 import 'package:db_viewer/src/viewmodel/table_item_detail_viewer_viewmodel.dart';
 import 'package:db_viewer/src/widget/provider/provider_widget.dart';
@@ -76,8 +77,8 @@ class _TableItemDetailScreenState extends State<TableItemDetailScreen>
           },
         ),
       ),
-      create: () =>
-          TableItemDetailViewerViewModel()..init(this, widget.arguments),
+      create: () => TableItemDetailViewerViewModel(DbViewerDatabase.of(context))
+        ..init(this, widget.arguments),
     );
   }
 

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class TableItemDetailViewerViewModel with ChangeNotifier {
+  final DbViewerDatabase _db;
+
   late TableItemDetailViewerNavigator _navigator;
   late String _tableName;
 
@@ -14,6 +16,8 @@ class TableItemDetailViewerViewModel with ChangeNotifier {
   int totalResults = 0;
 
   String? error;
+
+  TableItemDetailViewerViewModel(this._db);
 
   bool get hasFilter => _filteredData.hasCustomQuery;
 
@@ -26,8 +30,6 @@ class TableItemDetailViewerViewModel with ChangeNotifier {
   String get tableName => _tableName;
 
   int get amountOfColumns => _data.keys.length;
-
-  DbViewerDatabase get _db => DbViewerDatabase.instance();
 
   Future<void> init(TableItemDetailViewerNavigator navigator,
       ItemDetailArgument arguments) async {

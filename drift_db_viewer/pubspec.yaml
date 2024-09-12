@@ -18,4 +18,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter:
+dependency_overrides:
+  db_viewer:
+    path: ../db_viewer

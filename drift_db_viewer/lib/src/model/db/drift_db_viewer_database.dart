@@ -32,10 +32,9 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   final DBHandler _db;
   final _filterData = <String, FilterData>{};
 
-  DriftDbViewerDatabase._(this._db);
+  DriftDbViewerDatabase(GeneratedDatabase db) : _db = DBHandler(db);
 
-  static init(DBHandler db) =>
-      DbViewerDatabase.initDb(DriftDbViewerDatabase._(db));
+  DriftDbViewerDatabase._(this._db);
 
   TableInfo<Table, dynamic>? _getTable(String tableName) {
     final tables =

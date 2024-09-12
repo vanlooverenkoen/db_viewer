@@ -6,8 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
 
 class TableContentListViewerViewModel with ChangeNotifier {
+  final DbViewerDatabase _db;
+
   late TableViewerNavigator _navigator;
   late String _tableName;
+
+  TableContentListViewerViewModel(this._db);
 
   final _data = <Map<String, dynamic>>[];
 
@@ -31,8 +35,6 @@ class TableContentListViewerViewModel with ChangeNotifier {
   String get title => '$_tableName ($totalResults-${_data.length})';
 
   String get tableName => _tableName;
-
-  DbViewerDatabase get _db => DbViewerDatabase.instance();
 
   Future<void> init(TableViewerNavigator navigator, String tableName) async {
     _navigator = navigator;

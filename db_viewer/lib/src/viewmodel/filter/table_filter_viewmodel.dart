@@ -5,6 +5,8 @@ import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 
 class TableFilterViewModel with ChangeNotifier {
   final TableFilterNavigator _navigator;
+  final DbViewerDatabase _db;
+
   late FilterData _filterData;
   String _tableName;
 
@@ -28,9 +30,8 @@ class TableFilterViewModel with ChangeNotifier {
 
   int get limit => _filterData.limit;
 
-  DbViewerDatabase get _db => DbViewerDatabase.instance();
-
   TableFilterViewModel(
+    this._db,
     this._navigator,
     this._tableName,
     FilterData? filterData,
