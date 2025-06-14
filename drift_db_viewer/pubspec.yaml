@@ -4,7 +4,7 @@ version: 2.1.0
 homepage: https://github.com/vanlooverenkoen/db_viewer/drift_db_viewer
 
 environment:
-  sdk: ">=2.13.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
   flutter: ">=2.2.0"
 
 dependencies:

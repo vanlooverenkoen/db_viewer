@@ -34,8 +34,6 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
 
   DriftDbViewerDatabase(GeneratedDatabase db) : _db = DBHandler(db);
 
-  DriftDbViewerDatabase._(this._db);
-
   TableInfo<Table, dynamic>? _getTable(String tableName) {
     final tables =
         _db.allTables.where((element) => element.actualTableName == tableName);
@@ -111,7 +109,17 @@ class DriftDbViewerDatabase implements DbViewerDatabase {
   @override
   Stream<List<Map<String, dynamic>>> customSelectStream(String query,
           {Set<String>? fromEntityNames}) =>
-      _db.customSelect(query).map((item) => item.data).watch();
+      _db
+          .customSelect(
+            query,
+            readsFrom: {
+              if (fromEntityNames != null)
+                for (final table in fromEntityNames)
+                  if (_getTable(table) case final resolved?) resolved,
+            },
+          )
+          .map((item) => item.data)
+          .watch();
 
   @override
   Future<void> runCustomStatement(String query) async =>
