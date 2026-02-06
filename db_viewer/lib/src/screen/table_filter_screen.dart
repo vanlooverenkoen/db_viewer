@@ -76,7 +76,7 @@ class _TableFilterScreenState extends State<TableFilterScreen>
                       onToggleColumn: viewModel.onToggleColumn,
                     ),
                     FromWidget(tableName: viewModel.tableName),
-                    DbViewerDatabase.instance().buildWhereWidget(
+                    DbViewerDatabase.of(context).buildWhereWidget(
                       onAddClicked: viewModel.onAddClicked,
                       whereClauses: viewModel.whereClauses,
                     ),
@@ -98,8 +98,8 @@ class _TableFilterScreenState extends State<TableFilterScreen>
           ],
         ),
       ),
-      create: () =>
-          TableFilterViewModel(this, widget.tableName, widget.filterData),
+      create: () => TableFilterViewModel(DbViewerDatabase.of(context), this,
+          widget.tableName, widget.filterData),
     );
   }
 
@@ -110,7 +110,7 @@ class _TableFilterScreenState extends State<TableFilterScreen>
   @override
   Future<void> showAddWhereClause(String entityName) async {
     final theme = Theme.of(context);
-    final db = DbViewerDatabase.instance();
+    final db = DbViewerDatabase.of(context);
     final columnNames = db.getColumnNamesByEntityName(entityName);
     final result = await showDialog(
       context: context,

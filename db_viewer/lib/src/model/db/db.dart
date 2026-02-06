@@ -1,16 +1,9 @@
 import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:db_viewer/src/model/filter/where/where_clause.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
-abstract class DbViewerDatabase {
-  static DbViewerDatabase? _instance;
-
-  DbViewerDatabase._();
-
-  static DbViewerDatabase instance() => _instance!;
-
-  static void initDb(DbViewerDatabase db) => _instance = db;
-
+abstract interface class DbViewerDatabase {
   //EntityInfo
   List<String> get entityNames;
 
@@ -44,4 +37,6 @@ abstract class DbViewerDatabase {
     required VoidCallback onAddClicked,
     required List<WhereClause> whereClauses,
   });
+
+  static DbViewerDatabase of(BuildContext context) => Provider.of(context);
 }

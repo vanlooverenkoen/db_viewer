@@ -1,3 +1,4 @@
+import 'package:db_viewer/src/model/db/db.dart';
 import 'package:db_viewer/src/navigator/db_navigator.dart';
 import 'package:db_viewer/src/style/theme_dimens.dart';
 import 'package:db_viewer/src/viewmodel/table_content_list_viewer_viewmodel.dart';
@@ -132,7 +133,8 @@ class _TableContentListScreenState extends State<TableContentListScreen>
         ),
       ),
       create: () =>
-          TableContentListViewerViewModel()..init(this, widget.tableName),
+          TableContentListViewerViewModel(DbViewerDatabase.of(context))
+            ..init(this, widget.tableName),
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:db_viewer/src/model/db/db.dart';
 import 'package:db_viewer/src/navigator/db_navigator.dart';
 import 'package:db_viewer/src/viewmodel/table_list_viewer_viewmodel.dart';
 import 'package:db_viewer/src/widget/general/styled/styled_back_button.dart';
@@ -44,7 +45,8 @@ class _TableListScreenState extends State<TableListScreen>
           },
         ),
       ),
-      create: () => TableListViewerViewModel()..init(this),
+      create: () =>
+          TableListViewerViewModel(DbViewerDatabase.of(context))..init(this),
     );
   }
 

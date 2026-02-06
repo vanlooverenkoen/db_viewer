@@ -3,22 +3,13 @@ import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:drift_db_viewer/src/model/db/drift_db_viewer_database.dart';
 
-class DriftDbViewer extends StatefulWidget {
+class DriftDbViewer extends StatelessWidget {
   final GeneratedDatabase db;
 
-  DriftDbViewer(this.db);
+  const DriftDbViewer(this.db, {Key? key}) : super(key: key);
 
   @override
-  State<DriftDbViewer> createState() => _DriftDbViewerState();
-}
-
-class _DriftDbViewerState extends State<DriftDbViewer> {
-  @override
-  void initState() {
-    DriftDbViewerDatabase.init(widget.db);
-    super.initState();
+  Widget build(BuildContext context) {
+    return DbViewerNavigator(database: DriftDbViewerDatabase(db));
   }
-
-  @override
-  Widget build(BuildContext context) => DbViewerNavigator();
 }

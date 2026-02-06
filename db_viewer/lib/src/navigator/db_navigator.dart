@@ -1,3 +1,4 @@
+import 'package:db_viewer/src/model/db/db.dart';
 import 'package:db_viewer/src/model/filter/filter_data.dart';
 import 'package:db_viewer/src/model/tuple.dart';
 import 'package:db_viewer/src/screen/table_content_list_screen.dart';
@@ -6,9 +7,15 @@ import 'package:db_viewer/src/screen/table_filter_screen.dart';
 import 'package:db_viewer/src/screen/table_item_detail_screen.dart';
 import 'package:db_viewer/src/screen/table_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DbViewerNavigator extends StatefulWidget {
-  const DbViewerNavigator({Key? key}) : super(key: key);
+  final DbViewerDatabase database;
+
+  const DbViewerNavigator({
+    Key? key,
+    required this.database,
+  }) : super(key: key);
 
   @override
   DbViewerNavigatorState createState() => DbViewerNavigatorState();
@@ -40,16 +47,19 @@ class DbViewerNavigatorState extends State<DbViewerNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) async {
-        if (didPop) return;
-        goBack();
-      },
-      child: Navigator(
-        key: _navigationKey,
-        initialRoute: TableListScreen.routeName,
-        onGenerateRoute: onGenerateRoute,
+    return Provider.value(
+      value: widget.database,
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
+          goBack();
+        },
+        child: Navigator(
+          key: _navigationKey,
+          initialRoute: TableListScreen.routeName,
+          onGenerateRoute: onGenerateRoute,
+        ),
       ),
     );
   }
