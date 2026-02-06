@@ -21,6 +21,7 @@ class TableContentListScreen extends StatefulWidget {
 class _TableContentListScreenState extends State<TableContentListScreen>
     implements TableViewerNavigator {
   final _key = GlobalKey<ScaffoldState>();
+  final _innerScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -75,51 +76,55 @@ class _TableContentListScreenState extends State<TableContentListScreen>
                   text: 'No data added to the `${viewModel.tableName}` table');
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  columnSpacing: 16,
-                  columns: [
-                    for (final item in viewModel.data[0].keys)
-                      DataColumn(
-                        label: Text(
-                          item,
-                          style: theme.textTheme.titleLarge,
+              child: Scrollbar(
+                controller: _innerScrollController,
+                child: SingleChildScrollView(
+                  controller: _innerScrollController,
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columnSpacing: 16,
+                    columns: [
+                      for (final item in viewModel.data[0].keys)
+                        DataColumn(
+                          label: Text(
+                            item,
+                            style: theme.textTheme.titleLarge,
+                          ),
                         ),
-                      ),
-                  ],
-                  rows: [
-                    ...viewModel.data.map(
-                      (item) => DataRow(
-                        cells: [
-                          ...item.keys.map(
-                            (key) => DataCell(
-                              GestureDetector(
-                                child: Container(
-                                  color: Colors.transparent,
-                                  height: ThemeDimens.padding48,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: ThemeDimens.padding32),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        item[key].toString(),
-                                        style: theme.textTheme.bodyLarge,
+                    ],
+                    rows: [
+                      ...viewModel.data.map(
+                        (item) => DataRow(
+                          cells: [
+                            ...item.keys.map(
+                              (key) => DataCell(
+                                GestureDetector(
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    height: ThemeDimens.padding48,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: ThemeDimens.padding32),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item[key].toString(),
+                                          style: theme.textTheme.bodyLarge,
+                                        ),
                                       ),
                                     ),
                                   ),
+                                  onLongPress: () =>
+                                      viewModel.onLongPressValue(item[key]),
+                                  onTap: () => viewModel.onItemClicked(item),
                                 ),
-                                onLongPress: () =>
-                                    viewModel.onLongPressValue(item[key]),
-                                onTap: () => viewModel.onItemClicked(item),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
