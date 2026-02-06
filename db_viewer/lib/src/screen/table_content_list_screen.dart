@@ -78,7 +78,7 @@ class _TableContentListScreenState extends State<TableContentListScreen>
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
-                  columnSpacing: 0,
+                  columnSpacing: 16,
                   columns: [
                     for (final item in viewModel.data[0].keys)
                       DataColumn(
